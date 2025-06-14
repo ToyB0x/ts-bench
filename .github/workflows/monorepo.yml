@@ -36,11 +36,11 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
-#      - name: Lint
-#        run: pnpm lint
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build check
+        run: pnpm build
 
       - name: Type check
         run: pnpm typecheck
-
-#      - name: Build check
-#        run: pnpm build
