@@ -3,12 +3,16 @@
   "tasks": {
     "generate": {
       "dependsOn": ["^generate"],
-      "cache": false
+      "inputs": ["prisma/**"]
     },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "dev": {
       "cache": false,
