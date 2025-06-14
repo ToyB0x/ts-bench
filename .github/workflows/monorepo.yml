@@ -1,0 +1,43 @@
+name: monorepo
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read # for checkout repository
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Setup & Restore Node cache
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+          node-version-file: 'package.json'
+
+      - name: Install all packages
+        run: pnpm install --frozen-lockfile
+
+      - name: Restore turbo cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo/cache
+          key:
+            turbo/${{ github.job }}/${{ github.ref_name }}/${{ github.sha }}
+          restore-keys: |
+            turbo/${{ github.job }}/${{ github.ref_name }}/
+            turbo/${{ github.job }}/
+
+#      - name: Lint
+#        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+#      - name: Build check
+#        run: pnpm build
