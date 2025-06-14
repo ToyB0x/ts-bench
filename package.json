@@ -1,19 +1,19 @@
 {
-	"private": true,
-	"scripts": {
-		"dev": "turbo run dev",
-		"build": "turbo run build",
-		"generate": "turbo run generate",
-		"lint": "biome check .",
-		"lint:fix": "biome check . --write",
-		"typecheck": "turbo run typecheck"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"turbo": "^2.5.4"
-	},
-	"engines": {
-		"node": ">=24"
-	},
-	"packageManager": "pnpm@10.12.1"
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "generate": "turbo run generate",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "turbo": "^2.5.4"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@10.12.1"
 }
