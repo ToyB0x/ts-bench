@@ -16,7 +16,7 @@ importers:
     dependencies:
       '@prisma/client':
         specifier: ^6.9.0
-        version: 6.9.0(prisma@6.9.0(typescript@5.5.4))(typescript@5.5.4)
+        version: 6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)
     devDependencies:
       '@tsconfig/strictest':
         specifier: ^2.0.5
@@ -26,16 +26,16 @@ importers:
         version: 24.0.1
       prisma:
         specifier: ^6.9.0
-        version: 6.9.0(typescript@5.5.4)
+        version: 6.9.0(typescript@5.8.3)
       tsup:
         specifier: ^8.0.2
-        version: 8.5.0(jiti@2.4.2)(postcss@8.4.31)(tsx@4.19.1)(typescript@5.5.4)
+        version: 8.5.0(jiti@2.4.2)(postcss@8.4.31)(tsx@4.19.1)(typescript@5.8.3)
       tsx:
         specifier: 4.19.1
         version: 4.19.1
       typescript:
-        specifier: 5.5.4
-        version: 5.5.4
+        specifier: 5.8.3
+        version: 5.8.3
 
 packages:
 
@@ -886,8 +886,8 @@ packages:
     resolution: {integrity: sha512-kc8ZibdRcuWUG1pbYSBFWqmIjynlD8Lp7IB6U3vIzvOv9VG+6Sp8bzyeBWE3Oi8XV5KsQrznyRTBPvrf99E4mA==}
     hasBin: true
 
-  typescript@5.5.4:
-    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1094,10 +1094,10 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prisma/client@6.9.0(prisma@6.9.0(typescript@5.5.4))(typescript@5.5.4)':
+  '@prisma/client@6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)':
     optionalDependencies:
-      prisma: 6.9.0(typescript@5.5.4)
-      typescript: 5.5.4
+      prisma: 6.9.0(typescript@5.8.3)
+      typescript: 5.8.3
 
   '@prisma/config@6.9.0':
     dependencies:
@@ -1429,12 +1429,12 @@ snapshots:
       source-map-js: 1.2.1
     optional: true
 
-  prisma@6.9.0(typescript@5.5.4):
+  prisma@6.9.0(typescript@5.8.3):
     dependencies:
       '@prisma/config': 6.9.0
       '@prisma/engines': 6.9.0
     optionalDependencies:
-      typescript: 5.5.4
+      typescript: 5.8.3
 
   punycode@2.3.1: {}
 
@@ -1538,7 +1538,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsup@8.5.0(jiti@2.4.2)(postcss@8.4.31)(tsx@4.19.1)(typescript@5.5.4):
+  tsup@8.5.0(jiti@2.4.2)(postcss@8.4.31)(tsx@4.19.1)(typescript@5.8.3):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.25.5)
       cac: 6.7.14
@@ -1559,7 +1559,7 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       postcss: 8.4.31
-      typescript: 5.5.4
+      typescript: 5.8.3
     transitivePeerDependencies:
       - jiti
       - supports-color
@@ -1600,7 +1600,7 @@ snapshots:
       turbo-windows-64: 2.5.4
       turbo-windows-arm64: 2.5.4
 
-  typescript@5.5.4: {}
+  typescript@5.8.3: {}
 
   ufo@1.6.1: {}
 
