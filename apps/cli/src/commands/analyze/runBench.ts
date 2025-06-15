@@ -15,7 +15,7 @@ export const runBench = async (): Promise<void> => {
   const totalCPUs = os.cpus().length;
   const maxConcurrency = Math.max(1, Math.floor(totalCPUs * 0.8));
   console.log(
-    `Tsc benchmark: Using ${maxConcurrency} / ${totalCPUs} CPUs (80%)`,
+    `**Tsc benchmark: Using ${maxConcurrency} / ${totalCPUs} CPUs (80%)**`,
   );
 
   // Step 3: Run tsc for each package with multicore support
