@@ -8,15 +8,15 @@ export const calculateDuration = (startTime: bigint): number => {
 export const calculateHotSpotMetrics = (
   parsedAnalyzeData: ReturnType<typeof parseTraceAnalyzeResult> | null,
 ) => {
-  if (!parsedAnalyzeData) return { numHotSpots: 0, durationMsHotSpots: 0 };
+  if (!parsedAnalyzeData) return { numHotSpot: 0, durationMsHotSpot: 0 };
 
-  const allHotSpots = parsedAnalyzeData.results.flatMap(
+  const allHotSpot = parsedAnalyzeData.results.flatMap(
     (result) => result.highlights.hotSpots,
   );
 
   return {
-    numHotSpots: allHotSpots.length,
-    durationMsHotSpots: allHotSpots.reduce(
+    numHotSpot: allHotSpot.length,
+    durationMsHotSpot: allHotSpot.reduce(
       (acc: number, hotSpot) => acc + hotSpot.timeMs,
       0,
     ),

@@ -5,7 +5,7 @@ CREATE TABLE "Scan" (
     "commitSha" TEXT NOT NULL,
     "commitMessage" TEXT NOT NULL,
     "commitDate" DATETIME NOT NULL,
-    "createdAt" DATETIME NOT NULL
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
@@ -18,7 +18,7 @@ CREATE TABLE "Result" (
     "numHotSpot" INTEGER NOT NULL,
     "durationMs" INTEGER NOT NULL,
     "durationMsHotSpot" INTEGER NOT NULL,
-    "createdAt" DATETIME NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "scanId" TEXT NOT NULL,
     CONSTRAINT "Result_scanId_fkey" FOREIGN KEY ("scanId") REFERENCES "Scan" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

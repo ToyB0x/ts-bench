@@ -9,9 +9,9 @@ export type TscResult =
       package: Awaited<ReturnType<typeof listPackages>>[number];
       numTrace: number;
       numType: number;
-      numHotSpots: number;
+      numHotSpot: number;
       durationMs: number;
-      durationMsHotSpots: number;
+      durationMsHotSpot: number;
     }
   | {
       status: "FAILURE";
@@ -39,9 +39,9 @@ export const tscAndAnalyze = async (
       status: "SUCCESS",
       numTrace: trace.length,
       numType: types.length,
-      numHotSpots: calculateHotSpotMetrics(analyze).numHotSpots,
+      numHotSpot: calculateHotSpotMetrics(analyze).numHotSpot,
       durationMs: calculateDuration(startTime),
-      durationMsHotSpots: calculateHotSpotMetrics(analyze).durationMsHotSpots,
+      durationMsHotSpot: calculateHotSpotMetrics(analyze).durationMsHotSpot,
     };
   } catch (error) {
     return {

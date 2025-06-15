@@ -18,7 +18,7 @@ model Scan {
   commitSha     String
   commitMessage String
   commitDate    DateTime
-  createdAt     DateTime
+  createdAt     DateTime @default(now())
 
   results Result[]
 }
@@ -37,7 +37,7 @@ model Result {
   numHotSpot        Int
   durationMs        Int
   durationMsHotSpot Int
-  createdAt         DateTime
+  createdAt         DateTime @default(now())
 
   scanId String
   scan   Scan   @relation(fields: [scanId], references: [id])

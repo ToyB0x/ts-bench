@@ -55,7 +55,7 @@ describe("parseTraceAnalyzeResult", () => {
     const result = parseTraceAnalyzeResult(fixtureData);
     const hotSpots = result.results[0]?.highlights.hotSpots;
 
-    const expectedHotSpots = [
+    const expectedHotSpot = [
       {
         description:
           "Check file repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
@@ -92,9 +92,9 @@ describe("parseTraceAnalyzeResult", () => {
       },
     ];
 
-    expect(hotSpots).toHaveLength(expectedHotSpots.length);
+    expect(hotSpots).toHaveLength(expectedHotSpot.length);
 
-    expectedHotSpots.forEach((expected, index) => {
+    expectedHotSpot.forEach((expected, index) => {
       expect(hotSpots?.[index]?.description).toBe(expected.description);
       expect(hotSpots?.[index]?.timeMs).toBe(expected.timeMs);
       expect(hotSpots?.[index]?.path).toBeDefined();
