@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Scan" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "repository" TEXT NOT NULL,
     "commitSha" TEXT NOT NULL,
     "commitMessage" TEXT NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE "Result" (
     "durationMsHotSpot" INTEGER NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "error" TEXT,
-    "scanId" TEXT NOT NULL,
+    "scanId" INTEGER NOT NULL,
     CONSTRAINT "Result_scanId_fkey" FOREIGN KEY ("scanId") REFERENCES "Scan" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

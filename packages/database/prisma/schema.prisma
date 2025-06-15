@@ -13,7 +13,7 @@ generator client {
 }
 
 model Scan {
-  id            String   @id @default(cuid())
+  id            Int      @id @default(autoincrement()) // Github action の並列数を1にしなければならない
   repository    String
   commitSha     String
   commitMessage String
@@ -35,8 +35,8 @@ model Result {
   createdAt         DateTime @default(now())
   error             String?
 
-  scanId String
-  scan   Scan   @relation(fields: [scanId], references: [id])
+  scanId Int
+  scan   Scan @relation(fields: [scanId], references: [id])
 
   @@unique([scanId, package])
 }
