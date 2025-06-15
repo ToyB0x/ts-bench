@@ -40,11 +40,9 @@ jobs:
       - name: Upload report
         run: ls
 
-      - name: Upload report
-        run: ls sqlite
-
-      - name: Upload report
-        run: ls ${{ github.workspace }}
-
-      - name: Upload report
-        run: ls ${{ github.workspace }}/sqlite
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-performance-report
+          path: repo.sqlite
+          compression-level: 0 # no compression

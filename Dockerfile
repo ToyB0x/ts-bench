@@ -27,6 +27,6 @@ RUN pnpm --dir /repo-monitor/packages/database db:migrate:deploy
 
 CMD pnpm --dir /repo-monitor/apps/cli analyze > /github/workspace/report.md \
     && ls /repo-monitor/sqlite \
-    && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.db
+    && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.sqlite
 
 # docker build --progress=plain -t repo-monitor . && docker run --volume .:/target repo-monitor analyze
