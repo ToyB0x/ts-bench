@@ -1,6 +1,6 @@
-import type { TscResult } from "./types";
+import type { TscResult } from "../runTscBench/types";
 
-export const analyzeResults = (results: TscResult[]): void => {
+export const showTable = (results: TscResult[]): void => {
   console.table(
       results.map((result) => ({
         ...result,

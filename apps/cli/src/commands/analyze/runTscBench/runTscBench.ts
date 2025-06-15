@@ -1,7 +1,6 @@
 import * as os from "node:os";
 import { PromisePool } from "@supercharge/promise-pool";
-import { listPackages } from "../libs";
-import { analyzeResults } from "./analyzer";
+import {listPackages, showTable} from "../libs";
 import { runTscForPackage } from "./tscRunner";
 
 export const runTscBench = async (): Promise<void> => {
@@ -24,7 +23,7 @@ export const runTscBench = async (): Promise<void> => {
     .process((pkg) => runTscForPackage(pkg));
 
   // Step 4: Analyze the results and output to stdout
-  analyzeResults(results);
+  showTable(results);
 
   // Step 4: Write result to sqlite (with multicore support)
   // TODO: Implement database storage
