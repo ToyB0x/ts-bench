@@ -13,7 +13,9 @@ RUN apk add --no-cache github-cli
 WORKDIR /action
 
 # Clone repo-monitor repository
-RUN git clone https://github.com/ToyB0x/repo-monitor.git .
+RUN git clone --depth 1 https://github.com/ToyB0x/repo-monitor.git .
+
+WORKDIR repo-monitor
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
