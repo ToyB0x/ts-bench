@@ -18,6 +18,7 @@
 - **Imports**: Named imports for libraries (e.g., `import { Command } from "commander"`)
 - **Imports**: Organize imports automatically via Biome
 - **Error Handling**: Use try-catch blocks with `console.error` and `process.exit(1)`
+- **Functions**: Prefer arrow function syntax (`const func = () => {}`) over function declarations
 - **Testing**: Uses Vitest with `describe`, `it`, `expect` patterns
 - **Types**: Prefer TypeScript with strict typing (@tsconfig/strictest)
 - **Naming**: Use camelCase for variables/functions, PascalCase for classes/types
