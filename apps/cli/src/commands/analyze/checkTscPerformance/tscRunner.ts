@@ -23,19 +23,19 @@ type TscResult =
 
 export const runTscForPackage = async (
   pkg: Awaited<ReturnType<typeof listPackages>>[number],
-  command: string,
 ): Promise<TscResult> => {
   console.log(`[START] ${pkg.name}`);
 
   const startTime = process.hrtime.bigint();
 
   try {
-    const { stdout, stderr } = await execPromise(command, {
+    const commandTscTrace = `npx tsc --noEmit --incremental false --generateTrace ${TRACE_FILES_DIR}`;
+    const { stdout, stderr } = await execPromise(commandTscTrace, {
       cwd: pkg.absolutePath,
     });
 
     // 完了後に標準出力を表示
-    console.log("[Main Process] Command successful!");
+    console.log("[Main Process] commandTsc successful!");
     console.log("--- stdout ---");
     console.log(stdout);
 
@@ -44,6 +44,26 @@ export const runTscForPackage = async (
       console.log("--- stderr ---");
       console.error(stderr);
     }
+    const durationMs = calculateDuration(startTime);
+
+    const commandAnalyzeTrace = `npx analyze-trace ${TRACE_FILES_DIR}`;
+    const { stdout: analyzeStdout, stderr: analyzeStderr } = await execPromise(
+      commandAnalyzeTrace,
+      {
+        cwd: pkg.absolutePath,
+      },
+    );
+
+    // 完了後に標準出力を表示
+    console.log("[Analyze Process] commandAnalyzeTrace successful!");
+    console.log("--- analyzeStdout ---");
+    console.log(analyzeStdout);
+    // 標準エラー出力があれば表示
+    if (analyzeStderr) {
+      console.log("--- analyzeStderr ---");
+      console.error(analyzeStderr);
+    }
+
     // Read the ./trace/trace.json as Json with fs
     const traceFilePath = `${pkg.absolutePath}/${TRACE_FILES_DIR}/trace.json`;
     const traceData = await readFile(traceFilePath, "utf8");
@@ -51,8 +71,6 @@ export const runTscForPackage = async (
     // Read the ./trace/types.json as Json
     const typesFilePath = `${pkg.absolutePath}/${TRACE_FILES_DIR}/types.json`;
     const typesData = await readFile(typesFilePath, "utf8");
-
-    const durationMs = calculateDuration(startTime);
 
     console.log(`[SUCCESS] ${pkg.name} in ${durationMs.toFixed(2)}ms`);
     return {
