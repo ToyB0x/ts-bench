@@ -1,8 +1,6 @@
-import type { runTscForPackage } from "./tscRunner";
+import type { TscResult } from "./types";
 
-export const analyzeResults = (
-  results: Awaited<ReturnType<typeof runTscForPackage>>[],
-): void => {
+export const analyzeResults = (results: TscResult[]): void => {
   const successCount = results.filter((r) => r.status === "SUCCESS").length;
   const failureCount = results.length - successCount;
   const totalTime = results.reduce((sum, r) => sum + r.durationMs, 0);
