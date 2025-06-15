@@ -1,0 +1,16 @@
+name: 'repo-monitor'
+author: 'ToyB0x'
+description: 'Analyze repository metrics'
+branding:
+  color: 'blue'
+  icon: 'activity'
+inputs:
+  GITHUB_TOKEN:
+    description: "for PR comments and managing artifacts"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+    INPUT_PR_NUMBER: ${{ github.event.number }}
