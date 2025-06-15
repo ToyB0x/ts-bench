@@ -1,14 +1,19 @@
 {
   "name": "@repo/db",
+  "type": "module",
   "exports": {
-    ".": "./src/client.ts"
+    ".": {
+      "types": "./src/client.ts",
+      "default": "./dist/client.js"
+    }
   },
   "scripts": {
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx src/seed.ts",
-    "dev": "tsup src/* --watch",
+    "dev": "tsup --watch",
+    "build": "tsup",
     "format": "prisma format",
     "generate": "prisma generate",
     "prebuild": "npm run generate",

@@ -7,8 +7,9 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/client"
+  provider     = "prisma-client"
+  moduleFormat = "esm"
+  output       = "../generated/client"
 }
 
 model Scan {
