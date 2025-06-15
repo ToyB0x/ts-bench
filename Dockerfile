@@ -25,16 +25,6 @@ RUN pnpm --filter=@repo/db db:migrate:deploy
 
 WORKDIR /target
 WORKDIR /github/workspace
-CMD [
-  "git",
-  "config",
-  "--global",
-  "--add",
-  "safe.directory",
-  "/github/workspace",
-  "&&",
-  "node",
-  "/action/apps/cli/dist/index.js"
- ]
+CMD git config --global --add safe.directory /github/workspace && node /action/apps/cli/dist/index.js
 
 # docker build --progress=plain -t repo-monitor . && docker run --volume .:/target repo-monitor analyze
