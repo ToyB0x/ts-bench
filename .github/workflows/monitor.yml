@@ -45,4 +45,10 @@ jobs:
 
       - name: Analyze
         working-directory: apps/cli
-        run: node . analyze
+        run: node . analyze > report.txt
+
+      - name: Create PR comment
+        working-directory: apps/cli
+        run: gh pr comment ${{ github.event.number }} --body-file report.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
