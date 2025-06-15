@@ -39,6 +39,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload report
+        run: ls
+
+      - name: Upload report
         run: ls ${{ github.workspace }}
 
       - name: Upload report
