@@ -2,6 +2,7 @@
   "$schema": "https://turborepo.com/schema.json",
   "tasks": {
     "generate": {
+      "cache": false, // Disable caching for generate code in node_modules
       "dependsOn": ["^generate"],
       "inputs": ["prisma/**"]
     },
