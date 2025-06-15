@@ -1,7 +1,7 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 
-const excludedDirs = new Set(["node_modules", "dist", ".git", "generated"]);
+const EXCLUDED_DIRS = new Set(["node_modules", "dist", ".git", "generated"]);
 
 type Package = {
   name: string;
@@ -10,77 +10,89 @@ type Package = {
 
 /**
  * List packages in the current git repository.
- * This function scans the repository for directories containing a package.json file,
- * excluding those in node_modules and other common directories.
- *
- * For each package found, it returns an object containing the package name and path.
- * This function is useful for analyzing or processing multiple packages in a monorepo setup.
+ * Scans the repository for directories containing a package.json file,
+ * excluding common build/dependency directories.
  */
 export const listPackages = async (): Promise<Package[]> => {
-  const gitRootDir = await findGitRoot();
-  if (!gitRootDir) {
-    throw new Error("No git root directory found.");
+  const gitRoot = await findGitRoot();
+  if (!gitRoot) {
+    throw new Error("Not in a git repository");
   }
-  return await findPackageJson(gitRootDir);
+  return await scanForPackages(gitRoot);
 };
 
-// Find git root directory
-const findGitRoot = async (): Promise<string | null> => {
+async function findGitRoot(): Promise<string | null> {
   let currentDir = process.cwd();
+
   while (currentDir !== path.dirname(currentDir)) {
-    try {
-      await fs.access(path.join(currentDir, ".git"));
+    if (await directoryExists(path.join(currentDir, ".git"))) {
       return currentDir;
-    } catch {
-      currentDir = path.dirname(currentDir);
     }
+    currentDir = path.dirname(currentDir);
   }
 
-  // Return null if no .git directory is found
-  try {
-    await fs.access(path.join(currentDir, ".git"));
+  // Check root directory
+  if (await directoryExists(path.join(currentDir, ".git"))) {
     return currentDir;
-  } catch {
-    return null;
   }
-};
 
-// Recursively search for package.json files in the directory tree
-const findPackageJson = async (
+  return null;
+}
+
+async function scanForPackages(
   dir: string,
   relativePath = "",
   packages: Package[] = [],
-) => {
+): Promise<Package[]> {
   try {
-    const items = await fs.readdir(dir, { withFileTypes: true });
+    const entries = await fs.readdir(dir, { withFileTypes: true });
 
-    for (const item of items) {
-      if (item.isDirectory() && !excludedDirs.has(item.name)) {
-        const fullPath = path.join(dir, item.name);
-        const newRelativePath = relativePath
-          ? path.join(relativePath, item.name)
-          : item.name;
-        await findPackageJson(fullPath, newRelativePath, packages);
-      } else if (item.name === "package.json" && relativePath) {
-        try {
-          const packageJsonPath = path.join(dir, "package.json");
-          const content = await fs.readFile(packageJsonPath, "utf-8");
-          const packageData = JSON.parse(content);
-
-          if (packageData.name) {
+    await Promise.all(
+      entries.map(async (entry) => {
+        if (entry.isDirectory() && !EXCLUDED_DIRS.has(entry.name)) {
+          const fullPath = path.join(dir, entry.name);
+          const newRelativePath = relativePath
+            ? path.join(relativePath, entry.name)
+            : entry.name;
+          await scanForPackages(fullPath, newRelativePath, packages);
+        } else if (entry.name === "package.json" && relativePath) {
+          const packageInfo = await parsePackageJson(
+            path.join(dir, "package.json"),
+          );
+          if (packageInfo) {
             packages.push({
-              name: packageData.name,
+              name: packageInfo.name,
               path: relativePath,
             });
           }
-        } catch (error) {
-          console.error(error);
         }
-      }
-    }
+      }),
+    );
   } catch (error) {
-    console.error(error);
+    console.error(`Error scanning directory ${dir}:`, error);
   }
 
   return packages;
-};
+}
+
+async function parsePackageJson(
+  packageJsonPath: string,
+): Promise<{ name: string } | null> {
+  try {
+    const content = await fs.readFile(packageJsonPath, "utf-8");
+    const packageData = JSON.parse(content);
+    return packageData.name ? { name: packageData.name } : null;
+  } catch (error) {
+    console.error(`Error parsing package.json at ${packageJsonPath}:`, error);
+    return null;
+  }
+}
+
+async function directoryExists(dirPath: string): Promise<boolean> {
+  try {
+    await fs.access(dirPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
