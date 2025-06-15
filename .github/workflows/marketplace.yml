@@ -45,10 +45,8 @@ jobs:
         run: ls ${{ github.workspace }}/sqlite
 
       - name: Upload report
-        run: ls ${{ github.workspace }}/action
+        run: ls ${{ github.workspace }}/../
 
       - name: Upload report
-        run: ls ${{ github.workspace }}/action/packages
+        run: ls ${{ github.workspace }}/../sqlite
 
-      - name: Upload report
-        run: ls ${{ github.workspace }}/action/sqlite
