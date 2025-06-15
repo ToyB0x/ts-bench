@@ -1,6 +1,6 @@
 import { listPackages } from "../libs";
 
-export const tsc = async () => {
+export const checkTscPerformance = async () => {
   console.log("Running tsc performance check...");
 
   // Step 1: list packages in the git repository

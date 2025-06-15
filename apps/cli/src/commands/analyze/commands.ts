@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { tsc } from "./tsc";
+import { checkTscPerformance } from "./checkTscPerformance";
 
 export const makeAnalyzeCommand = () => {
   const analyze = new Command("analyze");
@@ -8,7 +8,7 @@ export const makeAnalyzeCommand = () => {
   analyze
     .command("tsc", { isDefault: true })
     .description("check tsc performance")
-    .action(tsc);
+    .action(checkTscPerformance);
 
   return analyze;
 };
