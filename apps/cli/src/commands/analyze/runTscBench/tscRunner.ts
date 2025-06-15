@@ -1,17 +1,15 @@
-import { runAnalyzeTrace, runTscTrace } from "./commands";
+import { npxAnalyzeTrace, npxTscWithTrace } from "../libs";
 import { readAnalyzeData, readTraceFiles } from "./fileOperations";
 import { calculateDuration, calculateHotSpotMetrics } from "./metrics";
 import type { Package, TscResult } from "./types";
 
 export const runTscForPackage = async (pkg: Package): Promise<TscResult> => {
-  // console.log(`[START] ${pkg.name}`);
   const startTime = process.hrtime.bigint();
 
   try {
-    await runTscTrace(pkg);
-    const { trace, types } = await readTraceFiles(pkg);
+    await npxTscWithTrace(pkg);
 
-    const analyzeResult = await runAnalyzeTrace(pkg);
+    const analyzeResult = await npxAnalyzeTrace(pkg);
     const parsedAnalyzeData = await readAnalyzeData(pkg, analyzeResult);
 
     const { numHotSpots, durationMsHotSpots } = parsedAnalyzeData
@@ -22,7 +20,8 @@ export const runTscForPackage = async (pkg: Package): Promise<TscResult> => {
         };
     const durationMs = calculateDuration(startTime);
 
-    // console.log(`[SUCCESS] ${pkg.name} in ${durationMs.toFixed(2)}ms`);
+    // read results from files
+    const { trace, types } = await readTraceFiles(pkg);
 
     return {
       package: pkg,

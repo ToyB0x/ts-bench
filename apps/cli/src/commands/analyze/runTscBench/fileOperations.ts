@@ -4,7 +4,11 @@ import { TRACE_FILES_DIR } from "../../../constants";
 import { parseTraceAnalyzeResult } from "../libs";
 import type { AnalyzeResult, Package } from "./types";
 
-export const readTraceFiles = async (pkg: Package) => {
+
+export const readTraceFiles = async (pkg: Package): Promise<{
+  trace: string,
+  types: string,
+}> => {
   const basePath = path.join(pkg.absolutePath, TRACE_FILES_DIR);
 
   const [traceData, typesData] = await Promise.all([
