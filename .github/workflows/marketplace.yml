@@ -45,4 +45,3 @@ jobs:
         with:
           name: repo-performance-report
           path: repo.sqlite
-          compression-level: 0 # no compression
