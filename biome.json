@@ -14,7 +14,8 @@
       "**/prisma/**",
       "**/node_modules/**",
       "**/.turbo/**",
-      "**/.cache/**"
+      "**/.cache/**",
+      "**/.react-router/**"
     ]
   },
   "formatter": {
