@@ -12,8 +12,8 @@ const SEED_SCAN: Scan = {
 
 const SEED_RESULTS = [
   {
-    packageName: "@repo/cli",
-    status: "SUCCESS",
+    package: "@repo/cli",
+    isSuccess: true,
     numTrace: 1247,
     numType: 4778,
     numHotSpot: 0,
@@ -21,10 +21,11 @@ const SEED_RESULTS = [
     durationMsHotSpot: 0,
     createdAt: new Date(),
     scanId: SEED_SCAN.id,
+    error: null,
   },
   {
-    packageName: "@repo/db",
-    status: "SUCCESS",
+    package: "@repo/db",
+    isSuccess: true,
     numTrace: 711,
     numType: 3898,
     numHotSpot: 0,
@@ -32,6 +33,7 @@ const SEED_RESULTS = [
     durationMsHotSpot: 0,
     createdAt: new Date(),
     scanId: SEED_SCAN.id,
+    error: null,
   },
 ] satisfies Omit<Result, "id">[];
 
@@ -49,9 +51,9 @@ const SEED_RESULTS = [
       SEED_RESULTS.map((result) =>
         prisma.result.upsert({
           where: {
-            scanId_packageName: {
+            scanId_package: {
               scanId: SEED_SCAN.id,
-              packageName: result.packageName,
+              package: result.package,
             },
           },
           create: result,
