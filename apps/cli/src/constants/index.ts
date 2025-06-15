@@ -1,1 +1,1 @@
-export const TRACE_FILES_DIR = "./trace";
+export const TRACE_FILES_DIR = "trace";

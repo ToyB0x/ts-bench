@@ -11,7 +11,8 @@
   "dependencies": {
     "@supercharge/promise-pool": "^3.2.0",
     "@typescript/analyze-trace": "^0.10.1",
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "valibot": "^1.1.0"
   },
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.5",
