@@ -16,9 +16,9 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - "--volume"
-    - ".:/target"
-    - "analyze"
+    - --volume
+    - .:/target
+    - analyze
   env:
     GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
     PR_NUMBER: ${{ inputs.PR_NUMBER }}
