@@ -25,8 +25,8 @@ WORKDIR /github/workspace
 
 RUN pnpm --dir /repo-monitor/packages/database db:migrate:deploy
 
-CMD node /repo-monitor/apps/cli analyze > /github/workspace/report.md \
-    && ls /repo-monitor/sqlite \
+CMD git config --global --add safe.directory /github/workspace \
+    && node /repo-monitor/apps/cli analyze > /github/workspace/report.md \
     && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.sqlite
 
 # docker build --progress=plain -t repo-monitor . && docker run --volume .:/target repo-monitor analyze
