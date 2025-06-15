@@ -49,6 +49,9 @@ jobs:
 
       - name: Create PR comment
         working-directory: apps/cli
-        run: gh pr comment ${{ github.event.number }} --body-file report.txt
+        run: | 
+          gh pr comment ${{ github.event.number }} 
+          --body-file report.txt
+          --edit-last # upsert the last comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
