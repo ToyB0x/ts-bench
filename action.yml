@@ -4,14 +4,6 @@ description: 'Analyze repository metrics'
 branding:
   color: 'blue'
   icon: 'activity'
-inputs:
-  GITHUB_TOKEN:
-    description: "for PR comments and managing artifacts"
-    required: true
-  PR_NUMBER:
-    description: "The pull request number to analyze"
-    required: false
-    default: ${{ github.event.number }}
 runs:
   using: "docker"
   image: "Dockerfile"

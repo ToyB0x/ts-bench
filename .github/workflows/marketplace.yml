@@ -31,11 +31,12 @@ jobs:
 
       - id: analyze
         uses: './' # Uses an action in the root directory
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create PR comment
         working-directory: apps/cli
-        run: gh pr comment ${{ github.event.number }} --body ${{ steps.analyze.outputs.report }} --edit-last --create-if-none # upsert the last comment
+        # upsert the last comment
+        run: |
+          cat ${{ steps.analyze.outputs.report }} > report.md
+          gh pr comment ${{ github.event.number }} --body-file report.md --edit-last --create-if-none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
