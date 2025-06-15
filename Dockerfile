@@ -14,7 +14,7 @@ WORKDIR /action
 
 # Clone repo-monitor repository
 RUN git clone --depth 1 https://github.com/ToyB0x/repo-monitor.git .
-RUN rm -rf ./.git
+
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
@@ -23,6 +23,7 @@ RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
 RUN pnpm --filter=@repo/db db:migrate:deploy
 
-ENTRYPOINT ["node", "apps/cli/dist/index.js"]
+WORKDIR /target
+ENTRYPOINT ["node", "/action/apps/cli/dist/index.js"]
 
-# docker build --progress=plain -t repo-monitor . && docker run repo-monitor
+# docker build --progress=plain -t repo-monitor . && docker run --volume .:/target repo-monitor analyze
