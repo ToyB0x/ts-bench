@@ -4,6 +4,7 @@ on:
 
 permissions:
   contents: read # for checkout repository
+  pull-requests: write # for creating/updating PR comments
 
 jobs:
   analyze:
