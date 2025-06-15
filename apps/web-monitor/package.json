@@ -21,7 +21,7 @@
     "@react-router/dev": "^7.5.3",
     "@tsconfig/strictest": "^2.0.5",
     "@tailwindcss/vite": "^4.1.4",
-    "@types/node": "^20",
+    "@types/node": "^22.0.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "tailwindcss": "^4.1.4",
