@@ -32,6 +32,17 @@ jobs:
       - name: Build (include dts generation)
         run: pnpm build
 
+      - name: Download previous main branch report
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          branch: main
+          workflow: marketplace.yml
+          workflow_conclusion: success
+          name: repo-performance-report
+
+      - name: ls dir
+        run: ls
+
       - id: analyze
         uses: './' # Uses an action in the root directory
 
