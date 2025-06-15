@@ -1,5 +1,6 @@
 import * as os from "node:os";
 import { PromisePool } from "@supercharge/promise-pool";
+import { TRACE_FILES_DIR } from "../../../constants";
 import { listPackages } from "../libs";
 import { analyzeResults } from "./analyzer";
 import { runTscForPackage } from "./tscRunner";
@@ -13,7 +14,7 @@ export const checkTscPerformance = async (): Promise<void> => {
   console.log("Packages:", packages);
 
   // Step 2: Run tsc for each package with multicore support
-  const command = "npx tsc --noEmit --incremental false";
+  const command = `npx tsc --noEmit --incremental false --generateTrace ${TRACE_FILES_DIR}`;
 
   /*
   Use 80% of available CPUs for concurrency. (increase test accuracy)
