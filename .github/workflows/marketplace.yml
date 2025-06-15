@@ -29,7 +29,13 @@ jobs:
       - name: Build (include dts generation)
         run: pnpm build
 
-      - name: run marketplace action test
+      - id: analyze
         uses: './' # Uses an action in the root directory
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create PR comment
+        working-directory: apps/cli
+        run: gh pr comment ${{ github.event.number }} --body ${{ steps.analyze.outputs }} --edit-last --create-if-none # upsert the last comment
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
