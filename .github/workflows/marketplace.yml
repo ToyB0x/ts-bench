@@ -1,5 +1,8 @@
 name: marketplace
 on:
+  push:
+    branches:
+      - main
   pull_request:
 
 permissions:
@@ -33,14 +36,13 @@ jobs:
         uses: './' # Uses an action in the root directory
 
       - name: Create PR comment
+        if: github.event_name == 'pull_request' # Only create comment on pull requests
         run: gh pr comment ${{ github.event.number }} --body-file ${{ github.workspace }}/report.md --edit-last --create-if-none # upsert the last comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload report
-        run: ls
-
       - name: Upload report artifact
+        if: github.ref == 'refs/heads/main' # Only upload on main branch
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
