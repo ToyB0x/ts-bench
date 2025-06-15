@@ -33,9 +33,9 @@ export const runTscTrace = async (
     cwd: pkg.absolutePath,
   });
 
-  logProcessResult("Main Process", stdout, true);
+  // logProcessResult("Main Process", stdout, true);
   if (stderr) {
-    logProcessResult("Main Process", stderr, false);
+    // logProcessResult("Main Process", stderr, false);
   }
 
   return { stdout, stderr };
@@ -48,10 +48,10 @@ export const runAnalyzeTrace = async (pkg: Package): Promise<AnalyzeResult> => {
 
   try {
     const result = await execPromise(command, { cwd: pkg.absolutePath });
-    logProcessResult("Analyze Process", result, true);
+    // logProcessResult("Analyze Process", result, true);
     return { ...result, success: true };
   } catch (error) {
-    logProcessResult("Analyze Process", error, false);
+    // logProcessResult("Analyze Process", error, false);
     return { success: false };
   }
 };
