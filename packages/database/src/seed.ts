@@ -2,7 +2,7 @@ import { prisma } from "./client";
 
 import type { Result, Scan } from "../generated/client";
 const SEED_SCAN: Scan = {
-  id: "cmbxcvkzz000m07jo1ynwfrc0", // cuid
+  id: 1,
   repository: "https://github.com/example/repo",
   commitSha: "abcdef1234567890",
   commitMessage: "Initial commit",
