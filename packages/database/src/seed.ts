@@ -1,29 +1,61 @@
-import { prisma } from "./client";
+import {prisma} from "./client";
 
-// import type { User } from "../generated/client";
+import type { Scan, Result } from "../generated/client";
+const SEED_SCAN: Scan = {
+  id: "cmbxcvkzz000m07jo1ynwfrc0", // cuid
+  repository: "https://github.com/example/repo",
+  commitSha: "abcdef1234567890",
+  commitMessage: "Initial commit",
+  commitDate: new Date(),
+  createdAt: new Date()
+}
 
-const DEFAULT_USERS = [
-  // Add your own user to pre-populate the database with
+const SEED_RESULTS = [
   {
-    name: "Tim Apple",
-    email: "tim@apple.com",
+    packageName: '@repo/cli',
+    status: 'SUCCESS',
+    numTrace: 1247,
+    numType: 4778,
+    numHotSpot: 0,
+    durationMs: 1533.330333,
+    durationMsHotSpot: 0,
+    createdAt: new Date(),
+    scanId: SEED_SCAN.id
   },
-];
+  {
+    packageName: '@repo/db',
+    status: 'SUCCESS',
+    numTrace: 711,
+    numType: 3898,
+    numHotSpot: 0,
+    durationMs: 2550.592959,
+    durationMsHotSpot: 0,
+    createdAt: new Date(),
+    scanId: SEED_SCAN.id
+  }
+] satisfies Omit<Result, "id">[];
 
 (async () => {
   try {
+    await prisma.scan.upsert({
+      where: {
+        id: SEED_SCAN.id
+      },
+      create: SEED_SCAN,
+      update: SEED_SCAN
+    })
+
     await Promise.all(
-      DEFAULT_USERS.map((user) =>
-        prisma.user.upsert({
+      SEED_RESULTS.map((result) =>
+        prisma.result.upsert({
           where: {
-            email: user.email,
+            scanId_packageName: {
+              scanId: SEED_SCAN.id,
+              packageName: result.packageName
+            }
           },
-          update: {
-            ...user,
-          },
-          create: {
-            ...user,
-          },
+          create: result,
+          update: result,
         }),
       ),
     );
@@ -34,3 +66,4 @@ const DEFAULT_USERS = [
     await prisma.$disconnect();
   }
 })();
+
