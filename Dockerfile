@@ -25,7 +25,7 @@ RUN pnpm --filter=@repo/db db:migrate:deploy
 
 WORKDIR /target
 WORKDIR /github/workspace
-ENTRYPOINT [
+CMD [
   "git",
   "config",
   "--global",
