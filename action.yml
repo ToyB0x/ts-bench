@@ -8,9 +8,13 @@ inputs:
   GITHUB_TOKEN:
     description: "for PR comments and managing artifacts"
     required: true
+  PR_NUMBER:
+    description: "The pull request number to analyze"
+    required: false
+    default: ${{ github.event.number }}
 runs:
   using: "docker"
   image: "Dockerfile"
   env:
     GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-    INPUT_PR_NUMBER: ${{ github.event.number }}
+    PR_NUMBER: ${{ inputs.PR_NUMBER }}
