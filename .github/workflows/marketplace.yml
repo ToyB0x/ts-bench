@@ -42,14 +42,10 @@ jobs:
         run: ls
 
       - name: Upload report
+        run: ls sqlite
+
+      - name: Upload report
         run: ls ${{ github.workspace }}
 
       - name: Upload report
         run: ls ${{ github.workspace }}/sqlite
-
-      - name: Upload report
-        run: ls ${{ github.workspace }}/../
-
-      - name: Upload report
-        run: ls ${{ github.workspace }}/../sqlite
-
