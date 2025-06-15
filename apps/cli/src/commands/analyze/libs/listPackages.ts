@@ -4,7 +4,8 @@ import * as path from "node:path";
 
 type Package = {
   name: string;
-  path: string;
+  absolutePath: string;
+  relativePathFromRoot: string;
 };
 
 export const listPackages = async (): Promise<Package[]> => {
@@ -56,7 +57,8 @@ const scanForPackages = async (gitRoot: string): Promise<Package[]> => {
         if (packageInfo) {
           packages.push({
             name: packageInfo.name,
-            path: packageDir,
+            absolutePath: absolutePackageDir,
+            relativePathFromRoot: packageDir,
           });
         }
       }),

@@ -13,7 +13,7 @@ export const checkTscPerformance = async (): Promise<void> => {
   console.log("Packages:", packages);
 
   // Step 2: Run tsc for each package with multicore support
-  const command = "npx tsc --noEmit";
+  const command = "npx tsc --noEmit --incremental false";
 
   /*
   Use 80% of available CPUs for concurrency. (increase test accuracy)
@@ -31,7 +31,12 @@ export const checkTscPerformance = async (): Promise<void> => {
     .process((pkg) => runTscForPackage(pkg, command));
 
   console.log("\n--- All tasks completed ---");
-  console.table(results);
+  console.table(
+    results.map((result) => ({
+      ...result,
+      package: result.package.name,
+    })),
+  );
 
   // Step 3: Analyze the results and output to stdout
   analyzeResults(results);

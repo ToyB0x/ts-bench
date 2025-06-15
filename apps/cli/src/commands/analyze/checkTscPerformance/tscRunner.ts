@@ -21,7 +21,7 @@ export const runTscForPackage = async (
 
   try {
     const { stdout, stderr } = await execPromise(command, {
-      cwd: pkg.path,
+      cwd: pkg.absolutePath,
     });
 
     // 完了後に標準出力を表示
