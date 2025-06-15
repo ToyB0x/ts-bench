@@ -20,7 +20,21 @@ export const runTscForPackage = async (
   const startTime = process.hrtime.bigint();
 
   try {
-    await execPromise(command, { cwd: pkg.path });
+    const { stdout, stderr } = await execPromise(command, {
+      cwd: pkg.path,
+    });
+
+    // 完了後に標準出力を表示
+    console.log("[Main Process] Command successful!");
+    console.log("--- stdout ---");
+    console.log(stdout);
+
+    // 標準エラー出力があれば表示
+    if (stderr) {
+      console.log("--- stderr ---");
+      console.error(stderr);
+    }
+
     const durationMs = calculateDuration(startTime);
 
     console.log(`[SUCCESS] ${pkg.name} in ${durationMs.toFixed(2)}ms`);
@@ -32,7 +46,7 @@ export const runTscForPackage = async (
   } catch (error) {
     const durationMs = calculateDuration(startTime);
 
-    console.error(`[FAILURE] ${pkg.name} in ${durationMs.toFixed(2)}ms`);
+    console.error(`[FAILURE] ${pkg.name} in ${durationMs.toFixed(2)}ms`, error);
     return {
       package: pkg,
       status: "FAILURE",
