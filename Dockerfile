@@ -24,7 +24,7 @@ RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 WORKDIR /github/workspace
 
 # Restore the database from the host repository's downloaded artifact to the container if it exists (use true to avoid failure with exit code 1 if it doesn't)
-RUN test -f /github/workspace/repo.sqlite && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db || true
+RUN test -f /github/workspace/repo.sqlite && echo "reuse db" && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db || echo "create new db"
 
 RUN pnpm --dir /repo-monitor/packages/database db:migrate:deploy
 
