@@ -4,7 +4,7 @@ import { listPackages } from "../libs";
 import { analyzeResults } from "./analyzer";
 import { runTscForPackage } from "./tscRunner";
 
-export const checkTscPerformance = async (): Promise<void> => {
+export const runTscBench = async (): Promise<void> => {
   console.log("Running tsc performance check...");
 
   // Step 1: List packages in the git repository
