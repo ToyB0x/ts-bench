@@ -4,11 +4,13 @@ const traceAnalyzeResultSchema = v.object({
   results: v.array(
     v.object({
       highlights: v.object({
-        hotSpots: v.object({
-          description: v.string(),
-          timeMs: v.number(),
-          path: v.string(),
-        }),
+        hotSpots: v.array(
+          v.object({
+            description: v.string(),
+            timeMs: v.number(),
+            path: v.string(),
+          }),
+        ),
       }),
     }),
   ),
