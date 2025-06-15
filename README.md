@@ -2,7 +2,7 @@
 A tool to monitor various metrics of your repository
 
 # Roadmap
-- モニタリング用にレポート結果のグラフ表示
-- MCPの作成
-  - リファクタ方針のDescribeの提供
-  - 計測Toolの提供
+- Graph display of report results for monitoring
+- Creation of MCP
+  - Provide description of refactoring policies
+  - Provide measurement tools
