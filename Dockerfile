@@ -23,7 +23,6 @@ RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
 RUN pnpm --filter=@repo/db db:migrate:deploy
 
-WORKDIR /target
 WORKDIR /github/workspace
 CMD git config --global --add safe.directory /github/workspace \
     && node /action/apps/cli/dist/index.js analyze > report.md
