@@ -42,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload report artifact
-        # if: github.ref == 'refs/heads/main' # Only upload on main branch
+        if: github.ref == 'refs/heads/main' # Only upload on main branch
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
