@@ -14,20 +14,15 @@ WORKDIR /action
 
 # Clone repo-monitor repository
 RUN git clone --depth 1 https://github.com/ToyB0x/repo-monitor.git .
-
-WORKDIR repo-monitor
-
+RUN rm -rf ./.git
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
 # Build packages
 RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
-# Make CLI executable
-RUN find apps/cli/dist -name "index.*" -exec chmod +x {} \;
+RUN pnpm --filter=@repo/db db:migrate:deploy
 
-# Copy entrypoint script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["node", "apps/cli/dist/index.js"]
 
-ENTRYPOINT ["/entrypoint.sh"]
+# docker build --progress=plain -t repo-monitor . && docker run repo-monitor
