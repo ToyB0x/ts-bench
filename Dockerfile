@@ -24,7 +24,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
 # Make CLI executable
-RUN chmod +x apps/cli/dist/index.js
+RUN find apps/cli/dist -name "index.*" -exec chmod +x {} \;
 
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh

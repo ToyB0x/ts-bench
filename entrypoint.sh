@@ -9,7 +9,7 @@ pnpm db:migrate:deploy
 cd "$GITHUB_WORKSPACE"
 
 # Analyze and generate report (CLI will analyze the current directory)
-/action/repo-monitor/apps/cli/dist/index.js analyze > report.md
+node /action/repo-monitor/apps/cli/dist/index.js analyze > report.md
 
 # Create PR comment
 gh pr comment "$INPUT_PR_NUMBER" --body-file report.md --edit-last --create-if-none
