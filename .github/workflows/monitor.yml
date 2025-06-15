@@ -1,7 +1,6 @@
 name: monitor
 on:
-  push:
-  workflow_dispatch:
+  pull_request:
 
 permissions:
   contents: read # for checkout repository
@@ -49,9 +48,10 @@ jobs:
 
       - name: Create PR comment
         working-directory: apps/cli
+        # upsert the last comment
         run: | 
-          gh pr comment ${{ github.event.number }} \
-          --body-file report.txt \
-          -–edit-last -–create-if-none # upsert the last comment
+          gh pr comment ${{ github.event.number }}
+          --body-file report.txt
+          -–edit-last -–create-if-none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
