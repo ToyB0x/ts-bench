@@ -4,7 +4,7 @@ import type { TscResult } from "./tscAndAnalyze";
 export const saveResultsToDatabase = async (
   results: TscResult[],
 ): Promise<void> => {
-  prisma.scan.create({
+  await prisma.scan.create({
     data: {
       repository: "org/name",
       commitSha: "sha123",
@@ -15,9 +15,14 @@ export const saveResultsToDatabase = async (
         create: results
           .filter((r) => r.status === "SUCCESS")
           .map((r) => ({
-            ...r,
             packageName: r.package.name,
-            status: "SUCCESS",
+            status: "SUCCESS" as const,
+            numTrace: r.numTrace,
+            numType: r.numType,
+            numHotSpot: r.numHotSpots,
+            durationMs: r.durationMs,
+            durationMsHotSpot: r.durationMsHotSpots,
+            createdAt: new Date(),
           })),
       },
     },
