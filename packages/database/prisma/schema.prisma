@@ -23,24 +23,20 @@ model Scan {
   results Result[]
 }
 
-enum Status {
-  SUCCESS
-  FAILED
-}
-
 model Result {
   id                String   @id @default(cuid())
-  packageName       String
-  status            Status
+  package           String
+  isSuccess         Boolean
   numTrace          Int
   numType           Int
   numHotSpot        Int
   durationMs        Int
   durationMsHotSpot Int
   createdAt         DateTime @default(now())
+  error             String?
 
   scanId String
   scan   Scan   @relation(fields: [scanId], references: [id])
 
-  @@unique([scanId, packageName])
+  @@unique([scanId, package])
 }

@@ -5,7 +5,7 @@ import { readAnalyzeData, readTraceFiles } from "./readFiles";
 
 export type TscResult =
   | {
-      status: "SUCCESS";
+      isSuccess: true;
       package: Awaited<ReturnType<typeof listPackages>>[number];
       numTrace: number;
       numType: number;
@@ -14,7 +14,7 @@ export type TscResult =
       durationMsHotSpot: number;
     }
   | {
-      status: "FAILURE";
+      isSuccess: false;
       package: Awaited<ReturnType<typeof listPackages>>[number];
       durationMs: number;
       error: unknown;
@@ -36,7 +36,7 @@ export const tscAndAnalyze = async (
 
     return {
       package: pkg,
-      status: "SUCCESS",
+      isSuccess: true,
       numTrace: trace.length,
       numType: types.length,
       numHotSpot: calculateHotSpotMetrics(analyze).numHotSpot,
@@ -46,7 +46,7 @@ export const tscAndAnalyze = async (
   } catch (error) {
     return {
       package: pkg,
-      status: "FAILURE",
+      isSuccess: false,
       durationMs: calculateDuration(startTime),
       error: String(error),
     };
