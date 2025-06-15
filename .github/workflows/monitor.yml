@@ -48,8 +48,9 @@ jobs:
         run: node . analyze > report.txt
 
       - name: Create PR comment
+        if: github.event_name == 'pull_request'
         working-directory: apps/cli
         run: | 
-          gh pr comment ${{ github.event.number }} --body-file report.txt --edit-last # upsert the last comment
+          gh pr comment ${{ github.event.number }} --body-file report.txt --edit-last
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
