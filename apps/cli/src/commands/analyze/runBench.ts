@@ -1,6 +1,11 @@
 import * as os from "node:os";
 import { PromisePool } from "@supercharge/promise-pool";
-import { listPackages, showTable, tscAndAnalyze } from "./libs";
+import {
+  listPackages,
+  saveResultsToDatabase,
+  showTable,
+  tscAndAnalyze,
+} from "./libs";
 
 export const runBench = async (): Promise<void> => {
   // Step 1: List packages in the git repository
@@ -18,9 +23,9 @@ export const runBench = async (): Promise<void> => {
     .for(packages)
     .process((pkg) => tscAndAnalyze(pkg));
 
-  // Step 4: Analyze the results and output to stdout
-  showTable(results);
+  // Step 4: Write result to sqlite (with multicore support)
+  await saveResultsToDatabase(results);
 
-  // Step 5: Write result to sqlite (with multicore support)
-  // TODO: Implement database storage
+  // Step 5: Show results
+  showTable(results);
 };
