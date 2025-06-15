@@ -1,7 +1,6 @@
+import { globSync } from "node:fs";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-
-const EXCLUDED_DIRS = new Set(["node_modules", "dist", ".git", "generated"]);
 
 type Package = {
   name: string;
@@ -32,40 +31,38 @@ const findGitRoot = async (): Promise<string | null> => {
   return (await pathExists(rootGitPath)) ? currentDir : null;
 };
 
-// This function scans the directory recursively for packages by looking for `package.json` files.
-const scanForPackages = async (
-  dir: string,
-  relativePath = "",
-): Promise<Package[]> => {
+// This function scans for packages using fs.glob to find all package.json files
+const scanForPackages = async (gitRoot: string): Promise<Package[]> => {
   const packages: Package[] = [];
 
   try {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
+    // Use glob to find all package.json files, excluding common build/cache directories
+    const packageJsonPaths = globSync("**/package.json", {
+      cwd: gitRoot,
+      exclude: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/.git/**",
+        "**/generated/**",
+      ],
+    });
 
     await Promise.all(
-      entries.map(async (entry) => {
-        if (entry.isDirectory() && !EXCLUDED_DIRS.has(entry.name)) {
-          const fullPath = path.join(dir, entry.name);
-          const newRelativePath = relativePath
-            ? path.join(relativePath, entry.name)
-            : entry.name;
-          const subPackages = await scanForPackages(fullPath, newRelativePath);
-          packages.push(...subPackages);
+      packageJsonPaths.map(async (packageJsonPath) => {
+        const packageDir = path.dirname(packageJsonPath);
+        const absolutePackageDir = path.join(gitRoot, packageDir);
+
+        const packageInfo = await parsePackageJson(absolutePackageDir);
+        if (packageInfo) {
+          packages.push({
+            name: packageInfo.name,
+            path: packageDir,
+          });
         }
       }),
     );
-
-    if (relativePath && (await pathExists(path.join(dir, "package.json")))) {
-      const packageInfo = await parsePackageJson(dir);
-      if (packageInfo) {
-        packages.push({
-          name: packageInfo.name,
-          path: relativePath,
-        });
-      }
-    }
   } catch (error) {
-    console.error(`Error scanning directory ${dir}:`, error);
+    console.error("Error scanning for packages:", error);
   }
 
   return packages;
