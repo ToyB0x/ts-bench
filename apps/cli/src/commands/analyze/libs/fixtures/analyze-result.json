@@ -1,0 +1,177 @@
+{
+  "results": [
+    {
+      "project": {
+        "tracePath": "trace/trace.json",
+        "typesPath": "trace/types.json"
+      },
+      "highlights": {
+        "hotSpots": [
+          {
+            "description": "Check file repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
+            "timeMs": 22,
+            "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
+            "children": [
+              {
+                "description": "Check deferred node",
+                "timeMs": 9,
+                "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
+                "startLine": 36,
+                "startChar": 25,
+                "endLine": 71,
+                "endChar": 2,
+                "children": [
+                  {
+                    "description": "Check variable declaration",
+                    "timeMs": 2,
+                    "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
+                    "startLine": 41,
+                    "startChar": 11,
+                    "endLine": 49,
+                    "endChar": 7,
+                    "children": [
+                      {
+                        "description": "Check expression",
+                        "timeMs": 2,
+                        "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
+                        "startLine": 41,
+                        "startChar": 30,
+                        "endLine": 49,
+                        "endChar": 7,
+                        "children": [
+                          {
+                            "description": "Check expression",
+                            "timeMs": 1,
+                            "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
+                            "startLine": 41,
+                            "startChar": 58,
+                            "endLine": 49,
+                            "endChar": 6,
+                            "children": [
+                              {
+                                "description": "Check expression",
+                                "timeMs": 1,
+                                "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.ts",
+                                "startLine": 43,
+                                "startChar": 16,
+                                "endLine": 48,
+                                "endChar": 8,
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Check file repo-monitor/apps/cli/src/commands/analyze/checktscperformance/tscrunner.ts",
+            "timeMs": 16,
+            "path": "repo-monitor/apps/cli/src/commands/analyze/checktscperformance/tscrunner.ts",
+            "children": [
+              {
+                "description": "Check deferred node",
+                "timeMs": 12,
+                "path": "repo-monitor/apps/cli/src/commands/analyze/checktscperformance/tscrunner.ts",
+                "startLine": 23,
+                "startChar": 5,
+                "endLine": 93,
+                "endChar": 2,
+                "children": []
+              }
+            ]
+          },
+          {
+            "description": "Check file repo-monitor/apps/cli/tsup.config.ts",
+            "timeMs": 16,
+            "path": "repo-monitor/apps/cli/tsup.config.ts",
+            "children": [
+              {
+                "description": "Check expression",
+                "timeMs": 14,
+                "path": "repo-monitor/apps/cli/tsup.config.ts",
+                "startLine": 3,
+                "startChar": 16,
+                "endLine": 7,
+                "endChar": 3,
+                "children": [
+                  {
+                    "description": "Check expression",
+                    "timeMs": 10,
+                    "path": "repo-monitor/apps/cli/tsup.config.ts",
+                    "startLine": 3,
+                    "startChar": 29,
+                    "endLine": 7,
+                    "endChar": 2,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Check file repo-monitor/apps/cli/src/commands/analyze/checktscperformance/checktscperformance.ts",
+            "timeMs": 6,
+            "path": "repo-monitor/apps/cli/src/commands/analyze/checktscperformance/checktscperformance.ts",
+            "children": []
+          },
+          {
+            "description": "Check file repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.test.ts",
+            "timeMs": 5,
+            "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.test.ts",
+            "children": [
+              {
+                "description": "Check expression",
+                "timeMs": 2,
+                "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.test.ts",
+                "startLine": 4,
+                "startChar": 1,
+                "endLine": 20,
+                "endChar": 3,
+                "children": [
+                  {
+                    "description": "Check expression",
+                    "timeMs": 1,
+                    "path": "repo-monitor/apps/cli/src/commands/analyze/libs/listpackages.test.ts",
+                    "startLine": 4,
+                    "startChar": 26,
+                    "endLine": 20,
+                    "endChar": 2,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Check file repo-monitor/apps/cli/src/commands/analyze/checktscperformance/analyzer.ts",
+            "timeMs": 3,
+            "path": "repo-monitor/apps/cli/src/commands/analyze/checktscperformance/analyzer.ts",
+            "children": [
+              {
+                "description": "Check deferred node",
+                "timeMs": 2,
+                "path": "repo-monitor/apps/cli/src/commands/analyze/checktscperformance/analyzer.ts",
+                "startLine": 3,
+                "startChar": 31,
+                "endLine": 17,
+                "endChar": 2,
+                "children": []
+              }
+            ]
+          },
+          {
+            "description": "Check file repo-monitor/apps/cli/src/commands/analyze/commands.ts",
+            "timeMs": 1,
+            "path": "repo-monitor/apps/cli/src/commands/analyze/commands.ts",
+            "children": []
+          }
+        ]
+      }
+    }
+  ]
+}
