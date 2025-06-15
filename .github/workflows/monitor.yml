@@ -52,6 +52,6 @@ jobs:
         run: | 
           gh pr comment ${{ github.event.number }} 
           --body-file report.txt
-          –edit-last –create-if-none # upsert the last comment
+          -–edit-last -–create-if-none # upsert the last comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
