@@ -34,9 +34,6 @@ jobs:
 
       - name: Create PR comment
         working-directory: apps/cli
-        # upsert the last comment
-        run: |
-          echo ${{ steps.analyze.outputs.report }} > report.md
-          gh pr comment ${{ github.event.number }} --body-file report.md --edit-last --create-if-none
+        run: gh pr comment ${{ github.event.number }} --body-file report.md --edit-last --create-if-none # upsert the last comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
