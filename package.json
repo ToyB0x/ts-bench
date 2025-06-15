@@ -6,6 +6,7 @@
     "generate": "turbo run generate",
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
+    "test": "turbo run test",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
