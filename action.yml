@@ -13,12 +13,55 @@ inputs:
     required: false
     default: ${{ github.event.number }}
 runs:
+#  using: "composite"
+#  steps:
+#    - name: Check out
+#      uses: actions/checkout@v4
+#
+#    - name: Install pnpm
+#      uses: pnpm/action-setup@v4
+#
+#    - name: Setup & Restore Node cache
+#      uses: actions/setup-node@v4
+#      with:
+#        cache: 'pnpm'
+#        node-version-file: 'package.json'
+#
+#    - name: Install all packages
+#      run: pnpm install --frozen-lockfile
+#
+#    - name: Build cli packages
+#      run: pnpm turbo build --filter=@repo/cli,@repo/db
+#
+#    - name: Migrate
+#      working-directory: packages/database
+#      run: pnpm db:migrate:deploy
+#
+#    - name: Analyze
+#      working-directory: apps/cli
+#      run: node . analyze > report.md
+#
+#    - name: Create PR comment
+#      working-directory: apps/cli
+#      run: gh pr comment ${{ github.event.number }} --body-file report.md --edit-last --create-if-none # upsert the last comment
+#      env:
+#        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+
+
+#    - name: Analyze repository metrics
+#      run: pnpm jobs aggregate organization
+#      shell: bash
+#      args:
+#        - analyze
+#      env:
+#        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+#        PR_NUMBER: ${{ inputs.PR_NUMBER }}
+#
   using: "docker"
   image: "Dockerfile"
   args:
-    - --volume
-    - .:/target
     - analyze
   env:
     GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
     PR_NUMBER: ${{ inputs.PR_NUMBER }}
+

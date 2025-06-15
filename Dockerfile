@@ -24,6 +24,7 @@ RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 RUN pnpm --filter=@repo/db db:migrate:deploy
 
 WORKDIR /target
+WORKDIR /github/workspace
 ENTRYPOINT ["node", "/action/apps/cli/dist/index.js"]
 
 # docker build --progress=plain -t repo-monitor . && docker run --volume .:/target repo-monitor analyze
