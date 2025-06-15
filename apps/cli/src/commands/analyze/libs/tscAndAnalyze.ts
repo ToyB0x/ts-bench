@@ -1,25 +1,28 @@
-import {listPackages} from "./listPackages";
-import {npxAnalyzeTrace, npxTscWithTrace} from "./npxCommands";
-import {readAnalyzeData, readTraceFiles} from "./readFiles";
-import {calculateDuration, calculateHotSpotMetrics} from "./calculates";
+import { calculateDuration, calculateHotSpotMetrics } from "./calculates";
+import type { listPackages } from "./listPackages";
+import { npxAnalyzeTrace, npxTscWithTrace } from "./npxCommands";
+import { readAnalyzeData, readTraceFiles } from "./readFiles";
 
-export type TscResult = {
-  status: "SUCCESS";
-  package: Awaited<ReturnType<typeof listPackages>>[number];
-  numTrace: number;
-  numType: number;
-  numHotSpots: number;
-  durationMs: number;
-  durationMsHotSpots: number;
-}| {
-  status: "FAILURE";
-  package: Awaited<ReturnType<typeof listPackages>>[number];
-  durationMs: number;
-  error: unknown;
-};
+export type TscResult =
+  | {
+      status: "SUCCESS";
+      package: Awaited<ReturnType<typeof listPackages>>[number];
+      numTrace: number;
+      numType: number;
+      numHotSpots: number;
+      durationMs: number;
+      durationMsHotSpots: number;
+    }
+  | {
+      status: "FAILURE";
+      package: Awaited<ReturnType<typeof listPackages>>[number];
+      durationMs: number;
+      error: unknown;
+    };
 
-
-export const tscAndAnalyze = async (pkg: Awaited<ReturnType<typeof listPackages>>[number]): Promise<TscResult> => {
+export const tscAndAnalyze = async (
+  pkg: Awaited<ReturnType<typeof listPackages>>[number],
+): Promise<TscResult> => {
   const startTime = process.hrtime.bigint();
 
   try {

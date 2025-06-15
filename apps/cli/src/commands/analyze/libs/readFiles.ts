@@ -1,11 +1,13 @@
 import { readFile } from "node:fs/promises";
 import * as path from "node:path";
 import { TRACE_FILES_DIR } from "../../../constants";
-import {type listPackages, parseTraceAnalyzeResult} from "../libs";
+import { type listPackages, parseTraceAnalyzeResult } from "../libs";
 
-export const readTraceFiles = async (pkg: Awaited<ReturnType<typeof listPackages>>[number]): Promise<{
-  trace: string,
-  types: string,
+export const readTraceFiles = async (
+  pkg: Awaited<ReturnType<typeof listPackages>>[number],
+): Promise<{
+  trace: string;
+  types: string;
 }> => {
   const basePath = path.join(pkg.absolutePath, TRACE_FILES_DIR);
 
@@ -22,7 +24,7 @@ export const readTraceFiles = async (pkg: Awaited<ReturnType<typeof listPackages
 
 export const readAnalyzeData = async (
   pkg: Awaited<ReturnType<typeof listPackages>>[number],
-  debug: boolean = false,
+  debug = false,
 ) => {
   const analyzeOutFile = path.join(
     pkg.absolutePath,
