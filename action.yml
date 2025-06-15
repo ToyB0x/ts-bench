@@ -59,8 +59,6 @@ runs:
 #
   using: "docker"
   image: "Dockerfile"
-  args:
-    - analyze
   env:
     GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
     PR_NUMBER: ${{ inputs.PR_NUMBER }}
