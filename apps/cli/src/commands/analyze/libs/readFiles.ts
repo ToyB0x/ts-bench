@@ -1,11 +1,9 @@
 import { readFile } from "node:fs/promises";
 import * as path from "node:path";
 import { TRACE_FILES_DIR } from "../../../constants";
-import { parseTraceAnalyzeResult } from "../libs";
-import type { AnalyzeResult, Package } from "./types";
+import {type listPackages, parseTraceAnalyzeResult} from "../libs";
 
-
-export const readTraceFiles = async (pkg: Package): Promise<{
+export const readTraceFiles = async (pkg: Awaited<ReturnType<typeof listPackages>>[number]): Promise<{
   trace: string,
   types: string,
 }> => {
@@ -23,16 +21,20 @@ export const readTraceFiles = async (pkg: Package): Promise<{
 };
 
 export const readAnalyzeData = async (
-  pkg: Package,
-  analyzeResult: AnalyzeResult,
+  pkg: Awaited<ReturnType<typeof listPackages>>[number],
+  debug: boolean = false,
 ) => {
-  if (!analyzeResult.success) return null;
-
   const analyzeOutFile = path.join(
     pkg.absolutePath,
     TRACE_FILES_DIR,
     "analyze.json",
   );
-  const analyzeData = await readFile(analyzeOutFile, "utf8");
-  return parseTraceAnalyzeResult(analyzeData);
+
+  try {
+    const analyzeData = await readFile(analyzeOutFile, "utf8");
+    return parseTraceAnalyzeResult(analyzeData);
+  } catch (e) {
+    if (debug) console.error(e);
+    return null;
+  }
 };

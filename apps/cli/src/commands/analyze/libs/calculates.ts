@@ -1,4 +1,4 @@
-import type { parseTraceAnalyzeResult } from "../libs";
+import type { parseTraceAnalyzeResult } from "./parseTraceAnalyzeResult";
 
 export const calculateDuration = (startTime: bigint): number => {
   const endTime = process.hrtime.bigint();
@@ -6,7 +6,7 @@ export const calculateDuration = (startTime: bigint): number => {
 };
 
 export const calculateHotSpotMetrics = (
-  parsedAnalyzeData: ReturnType<typeof parseTraceAnalyzeResult>,
+  parsedAnalyzeData: ReturnType<typeof parseTraceAnalyzeResult> | null,
 ) => {
   if (!parsedAnalyzeData) return { numHotSpots: 0, durationMsHotSpots: 0 };
 
