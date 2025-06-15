@@ -21,7 +21,7 @@ WORKDIR repo-monitor
 RUN pnpm install --frozen-lockfile
 
 # Build packages
-RUN pnpm turbo build --filter=@repo/cli,@repo/db
+RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
