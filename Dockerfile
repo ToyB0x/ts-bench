@@ -22,8 +22,8 @@ RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 # Set working directory to Github Actions default workspace as mounted volume (shared with host repository)
 WORKDIR /github/workspace
 
-RUN pnpm db:migrate:deploy --dir repo-monitor/packages/database
+RUN pnpm --dir repo-monitor/packages/database db:migrate:deploy
 
-CMD pnpm analyze --dir repo-monitor/apps/cli > report.md
+CMD pnpm --dir repo-monitor/apps/cli analyze > report.md
 
 # docker build --progress=plain -t repo-monitor . && docker run --volume .:/target repo-monitor analyze
