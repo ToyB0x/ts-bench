@@ -36,7 +36,7 @@ jobs:
         working-directory: apps/cli
         # upsert the last comment
         run: |
-          cat ${{ steps.analyze.outputs.report }} > report.md
+          echo ${{ steps.analyze.outputs.report }} > report.md
           gh pr comment ${{ github.event.number }} --body-file report.md --edit-last --create-if-none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
