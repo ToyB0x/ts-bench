@@ -1,0 +1,20 @@
+name: marketplace
+on:
+  pull_request:
+
+permissions:
+  contents: read # for checkout repository
+  pull-requests: write # for creating/updating PR comments
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: run marketplace action test
+        uses: './' # Uses an action in the root directory
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
