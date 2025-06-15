@@ -23,6 +23,9 @@ RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 # Set working directory to Github Actions default workspace as mounted volume (shared with host repository)
 WORKDIR /github/workspace
 
+# Restore the database from the host repository's downloaded artifact to the container if it exists (use true to avoid failure with exit code 1 if it doesn't)
+RUN test -f /github/workspace/repo.sqlite && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db || true
+
 RUN pnpm --dir /repo-monitor/packages/database db:migrate:deploy
 
 CMD git config --global --add safe.directory /github/workspace \

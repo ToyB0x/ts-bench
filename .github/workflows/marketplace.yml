@@ -39,9 +39,7 @@ jobs:
           workflow: marketplace.yml
           workflow_conclusion: success
           name: repo-performance-report
-
-      - name: ls dir
-        run: ls
+          # automatically extracts the artifact to file "repo.sqlite"
 
       - id: analyze
         uses: './' # Uses an action in the root directory
