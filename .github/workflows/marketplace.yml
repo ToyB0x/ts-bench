@@ -32,8 +32,23 @@ jobs:
       - id: analyze
         uses: './' # Uses an action in the root directory
 
+      # TODO: Store all brunch data (remove it if old)
       - name: Create PR comment
-        working-directory: apps/cli
         run: gh pr comment ${{ github.event.number }} --body-file ${{ github.workspace }}/report.md --edit-last --create-if-none # upsert the last comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload report
+        run: ls ${{ github.workspace }}
+
+      - name: Upload report
+        run: ls ${{ github.workspace }}/sqlite
+
+      - name: Upload report
+        run: ls ${{ github.workspace }}/action
+
+      - name: Upload report
+        run: ls ${{ github.workspace }}/action/packages
+
+      - name: Upload report
+        run: ls ${{ github.workspace }}/action/sqlite
