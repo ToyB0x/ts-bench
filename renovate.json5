@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "group:allNonMajor", ":semanticCommits"],
+  // "extends": ["config:best-practices", "group:allNonMajor", ":semanticCommits"], // TODO: use this after v0.1.x release
+  "separateMinorPatch": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "automerge": false, // TODO: enable auto-merge after v0.1.x release
+    },
+  ],
+  "rangeStrategy": "pin" // TODO: enable "auto" after v0.1.x release
+}

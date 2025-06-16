@@ -9,3 +9,9 @@ A tool to monitor various metrics of your repository
 - Creation of MCP
   - Provide description of refactoring policies
   - Provide measurement tools
+
+# TODO
+- Add web interface with report display
+- Implement hotspot checking functionality
+- Implement feature to verify TypeScript compilation metrics changes (comparing with previous commits or comparing current commit with uncommitted state)
+- Use pnpm link internally for local development
