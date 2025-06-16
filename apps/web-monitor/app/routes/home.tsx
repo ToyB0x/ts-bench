@@ -25,7 +25,11 @@ export async function loader() {
 export default function Page({ loaderData }: Route.ComponentProps) {
   return (
     <div>
-      <pre>{JSON.stringify(loaderData)}</pre>
+      {loaderData.map(({ package: pkg }) => (
+        <a key={pkg} href={`/packages/${pkg}`}>
+          {pkg}
+        </a>
+      ))}
       <Welcome />
     </div>
   );
