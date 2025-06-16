@@ -4,6 +4,7 @@ import type { TscResult } from "./tscAndAnalyze";
 export const showTable = async (results: TscResult[]) => {
   const recentScans = await prisma.scan.findMany({
     take: 10,
+    skip: 1, // Skip the most recent scan (current scan) to avoid showing it in the table
     orderBy: {
       createdAt: "desc",
     },
