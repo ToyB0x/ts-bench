@@ -24,8 +24,8 @@ export const runBench = async (): Promise<void> => {
     .process((pkg) => tscAndAnalyze(pkg));
 
   // Step 4: Write result to sqlite (with multicore support)
-  await saveResultsToDatabase(results);
+  await saveResultsToDatabase(results).catch(console.error);
 
   // Step 5: Show results
-  showTable(results);
+  await showTable(results);
 };
