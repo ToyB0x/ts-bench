@@ -52,7 +52,9 @@ const calcAverage = (
     .map((r) => r[column])
     .reduce((acc, value) => acc + value, 0) / results.length;
 
-// calculate the difference between two numbers (eg, +XX.X % or -XX.X %)
+// calculate the difference between two numbers
+// - case:plus  before 100, after121 --> +12.1 %)
+// - case:minus before 100, after 92 --> - 7.8 %)
 const calcDiff = (before: number, after: number): string => {
   if (before === 0) return "";
 
