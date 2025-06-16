@@ -10,7 +10,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  console.log(params.scope);
   return prisma.result.findMany({
     where: {
       package: `${params.scope}/${params.name}`,
