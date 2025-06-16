@@ -42,14 +42,16 @@ export const showTable = async (results: TscResult[]) => {
 
 // calculate average values for a specific package and column with given results
 const calcAverage = (
-  results: Result[],
+  results: Result[] | Result | TscResult[] | null | undefined | number,
   packageName: Result["package"],
   column: keyof Pick<
     Result,
     "numTrace" | "numType" | "numHotSpot" | "durationMs" | "durationMsHotSpot"
   >,
 ): number => {
-  const matchingResults = results.filter((r) => r.package === packageName);
+  const matchingResults = (results as Result[]).filter(
+    (r) => r.package === packageName,
+  );
 
   return (
     matchingResults
