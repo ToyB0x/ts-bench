@@ -15,16 +15,18 @@ generator client {
 model Scan {
   id            Int      @id @default(autoincrement()) // Github action の並列数を1にしなければならない
   repository    String
-  commitSha     String
+  commitHash    String
   commitMessage String
   commitDate    DateTime
   createdAt     DateTime @default(now())
 
   results Result[]
+
+  @@unique([repository, commitHash])
 }
 
 model Result {
-  id                String   @id @default(cuid())
+  id                Int     @id @default(autoincrement())
   package           String
   isSuccess         Boolean
   numTrace          Int
@@ -32,8 +34,8 @@ model Result {
   numHotSpot        Int
   durationMs        Int
   durationMsHotSpot Int
-  createdAt         DateTime @default(now())
   error             String?
+  // createdAt     DateTime @default(now()) // omit createdAt to duplicate the scan.createdAt
 
   scanId Int
   scan   Scan @relation(fields: [scanId], references: [id], onUpdate: Cascade, onDelete: Cascade)
