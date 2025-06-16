@@ -10,23 +10,23 @@
     "typecheck": "npm run generate && tsc --noEmit"
   },
   "dependencies": {
-    "@react-router/node": "^7.5.3",
-    "@react-router/serve": "^7.5.3",
-    "isbot": "^5.1.27",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router": "^7.5.3"
+    "@react-router/node": "7.6.2",
+    "@react-router/serve": "7.6.2",
+    "isbot": "5.1.28",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-router": "7.6.2"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.5.3",
-    "@tsconfig/strictest": "^2.0.5",
-    "@tailwindcss/vite": "^4.1.4",
-    "@types/node": "^22.0.0",
+    "@react-router/dev": "7.6.2",
+    "@tsconfig/strictest": "2.0.5",
+    "@tailwindcss/vite": "4.1.10",
+    "@types/node": "22.15.31",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
-    "tailwindcss": "^4.1.4",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.3",
-    "vite-tsconfig-paths": "^5.1.4"
+    "tailwindcss": "4.1.10",
+    "typescript": "5.8.3",
+    "vite": "6.3.5",
+    "vite-tsconfig-paths": "5.1.4"
   }
 }
