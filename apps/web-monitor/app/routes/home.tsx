@@ -1,3 +1,4 @@
+import { prisma } from "@repo/db";
 import { Welcome } from "~/welcome/welcome";
 import type { Route } from "./+types/home";
 
@@ -9,6 +10,23 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
-  return <Welcome />;
+export async function loader() {
+  return prisma.result.findMany({
+    distinct: ["package"],
+    orderBy: {
+      package: "asc",
+    },
+    select: {
+      package: true,
+    },
+  });
+}
+
+export default function Page({ loaderData }: Route.ComponentProps) {
+  return (
+    <div>
+      <pre>{JSON.stringify(loaderData)}</pre>
+      <Welcome />
+    </div>
+  );
 }
