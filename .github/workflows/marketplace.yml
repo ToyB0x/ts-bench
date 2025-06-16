@@ -39,6 +39,7 @@ jobs:
           workflow: marketplace.yml
           workflow_conclusion: success
           name: repo-performance-report
+          if_no_artifact_found: warn
           # automatically extracts the artifact to file "repo.sqlite"
 
       - id: analyze
