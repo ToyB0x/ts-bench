@@ -28,7 +28,13 @@ CMD set -e \
     # Try to restore existing database if available
     && if test -f /github/workspace/repo.sqlite; then \
          echo "Reusing existing database" \
-         && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db; \
+         && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db \
+         # Try to apply migrations to existing database if needed
+         && npm run --prefix /repo-monitor/packages/database db:migrate:deploy || { \
+           echo "Migration failed on existing database, recreating" \
+           && rm -f /repo-monitor/sqlite/repo.db \
+           && npm run --prefix /repo-monitor/packages/database db:migrate:deploy; \
+         }; \
        else \
          echo "Setting up new database" \
          && npm run --prefix /repo-monitor/packages/database db:migrate:deploy || { \
@@ -40,5 +46,3 @@ CMD set -e \
     # Run analysis and save the database
     && node /repo-monitor/apps/cli analyze > /github/workspace/report.md \
     && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.sqlite
-
-# Build and run: docker build -t repo-monitor . && docker run --volume .:/github/workspace repo-monitor
