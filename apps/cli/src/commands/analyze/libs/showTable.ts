@@ -3,7 +3,7 @@ import type { TscResult } from "./tscAndAnalyze";
 
 export const showTable = async (results: TscResult[]) => {
   const recentScans = await prisma.scan.findMany({
-    take: 10,
+    take: 1,
     orderBy: {
       createdAt: "desc",
     },
@@ -53,12 +53,12 @@ const calcAverage = (
     .reduce((acc, value) => acc + value, 0) / results.length;
 
 // calculate the difference between two numbers
-// - case:plus  before 100, after 121 --> +21.0%)
-// - case:minus before 100, after 92 --> -8.0%)
+// - case:plus  before 100 after 121 --> +21.0%)
+// - case:minus before 100 after 92  --> -8.0%)
 const calcDiff = (before: number, after: number): string => {
   if (before === 0) return "";
 
-  const diff = (after - before) / Math.abs(before);
+  const diff = ((after - before) / Math.abs(before)) * 100;
   const sign = diff >= 0 ? "+" : "-";
   return `${sign}${Math.abs(diff).toFixed(1)}%`;
 };
