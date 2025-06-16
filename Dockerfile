@@ -22,15 +22,23 @@ RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
 # Set working directory to Github Actions default workspace as mounted volume (shared with host repository)
 WORKDIR /github/workspace
-
-CMD git config --global --add safe.directory /github/workspace \
-    # Restore the database from the host repository's downloaded artifact to the container if it exists (use true to avoid failure with exit code 1 if it doesn't)
-    && test -f /github/workspace/repo.sqlite && echo "reuse db" && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db
-      # If failed to re-use db, Run new init migration
-      || echo "migration start" && npm run --prefix /repo-monitor/packages/database db:migrate:deploy \
-         # if migrations fail, remove the database and re-create it
-         || echo "migraton failed, re-creating database" && rm /repo-monitor/sqlite/repo.db && npm run --prefix /repo-monitor/packages/database db:migrate:deploy \
+CMD set -e \
+    # Configure git for the workspace
+    && git config --global --add safe.directory /github/workspace \
+    # Try to restore existing database if available
+    && if test -f /github/workspace/repo.sqlite; then \
+         echo "Reusing existing database" \
+         && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db; \
+       else \
+         echo "Setting up new database" \
+         && npm run --prefix /repo-monitor/packages/database db:migrate:deploy || { \
+           echo "Migration failed, recreating database" \
+           && rm -f /repo-monitor/sqlite/repo.db \
+           && npm run --prefix /repo-monitor/packages/database db:migrate:deploy; \
+         }; \
+       fi \
+    # Run analysis and save the database
     && node /repo-monitor/apps/cli analyze > /github/workspace/report.md \
     && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.sqlite
 
-# docker build --progress=plain -t repo-monitor . && docker run --volume .:/target repo-monitor analyze
+# Build and run: docker build -t repo-monitor . && docker run --volume .:/github/workspace repo-monitor
