@@ -36,7 +36,7 @@ model Result {
   error             String?
 
   scanId Int
-  scan   Scan @relation(fields: [scanId], references: [id])
+  scan   Scan @relation(fields: [scanId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@unique([scanId, package])
 }
