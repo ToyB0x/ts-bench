@@ -17,7 +17,7 @@ export const saveResultsToDatabase = async (
   await prisma.scan.create({
     data: {
       repository: repoName,
-      commitSha: latest.hash,
+      commitHash: latest.hash,
       commitMessage: latest.message,
       commitDate: new Date(latest.date),
       createdAt: new Date(),
