@@ -25,9 +25,11 @@ WORKDIR /github/workspace
 
 CMD git config --global --add safe.directory /github/workspace \
     # Restore the database from the host repository's downloaded artifact to the container if it exists (use true to avoid failure with exit code 1 if it doesn't)
-    && test -f /github/workspace/repo.sqlite && echo "reuse db" && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db || echo "create new db" \
-    && npm run --prefix /repo-monitor/packages/database db:migrate:deploy \
-      || echo "migraton failed, re-creating database" && rm /repo-monitor/sqlite/repo.db && npm run --prefix /repo-monitor/packages/database db:migrate:deploy \
+    && test -f /github/workspace/repo.sqlite && echo "reuse db" && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db
+      # If failed to re-use db, Run new init migration
+      || echo "migration start" && npm run --prefix /repo-monitor/packages/database db:migrate:deploy \
+         # if migrations fail, remove the database and re-create it
+         || echo "migraton failed, re-creating database" && rm /repo-monitor/sqlite/repo.db && npm run --prefix /repo-monitor/packages/database db:migrate:deploy \
     && node /repo-monitor/apps/cli analyze > /github/workspace/report.md \
     && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.sqlite
 
