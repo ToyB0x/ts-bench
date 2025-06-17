@@ -33,17 +33,17 @@ CMD set -e \
          echo "Reusing existing database" \
          && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db \
          # Try to apply migrations to existing database if needed
-         && npm run --prefix /repo-monitor/packages/database db:migrate:deploy || { \
+         && npm run --prefix db:migrate:deploy || { \
            echo "Migration failed on existing database, recreating" \
            && rm -f /repo-monitor/sqlite/repo.db \
-           && npm run --prefix /repo-monitor/packages/database db:migrate:deploy; \
+           && npm run --prefix db:migrate:deploy; \
          }; \
        else \
          echo "Setting up new database" \
-         && npm run --prefix /repo-monitor/packages/database db:migrate:deploy || { \
+         && npm run --prefix db:migrate:deploy || { \
            echo "Migration failed, recreating database" \
            && rm -f /repo-monitor/sqlite/repo.db \
-           && npm run --prefix /repo-monitor/packages/database db:migrate:deploy; \
+           && npm run --prefix db:migrate:deploy; \
          }; \
        fi \
     # Run analysis and save the database
