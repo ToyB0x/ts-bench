@@ -17,6 +17,9 @@ importers:
 
   apps/cli:
     dependencies:
+      '@dotenvx/dotenvx':
+        specifier: ^1.44.2
+        version: 1.44.2
       '@repo/db':
         specifier: workspace:*
         version: link:../../packages/database
