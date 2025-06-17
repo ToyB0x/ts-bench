@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.44.2",
+    "@dotenvx/dotenvx": "1.44.2",
     "@repo/db": "workspace:*",
     "@supercharge/promise-pool": "3.2.0",
     "@typescript/analyze-trace": "0.10.1",

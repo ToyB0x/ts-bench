@@ -18,7 +18,7 @@ importers:
   apps/cli:
     dependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.44.2
+        specifier: 1.44.2
         version: 1.44.2
       '@repo/db':
         specifier: workspace:*
@@ -80,7 +80,7 @@ importers:
         version: 7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.44.2
+        specifier: 1.44.2
         version: 1.44.2
       '@react-router/dev':
         specifier: 7.6.2
@@ -123,7 +123,7 @@ importers:
         version: 6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.44.2
+        specifier: 1.44.2
         version: 1.44.2
       '@tsconfig/strictest':
         specifier: 2.0.5
