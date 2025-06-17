@@ -37,7 +37,7 @@ jobs:
             turbo/${{ github.job }}/
 
       - name: Prepare test env
-        run: cp .env.ci .env
+        run: cp .env.example .env
 
       - name: Lint
         run: pnpm lint
