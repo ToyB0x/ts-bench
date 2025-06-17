@@ -20,6 +20,9 @@ RUN pnpm install --frozen-lockfile
 # Build packages
 RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
+# Copy the example environment file to .env (workaround for missing .env under GitHub Actions until release npm package)
+RUN cp .env.example .env
+
 # Set working directory to Github Actions default workspace as mounted volume (shared with host repository)
 WORKDIR /github/workspace
 CMD set -e \
