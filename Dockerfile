@@ -18,7 +18,7 @@ WORKDIR ./repo-monitor
 RUN pnpm install --frozen-lockfile
 
 # Build packages
-RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
+RUN pnpm turbo build --filter=@ts-bench/cli --filter=@ts-bench/db
 
 # Copy the example environment file to .env (workaround for missing .env under GitHub Actions until release npm package)
 RUN echo "DATABASE_URL=file:/repo-monitor/sqlite/repo.db" > .env
