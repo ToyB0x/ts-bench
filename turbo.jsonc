@@ -18,8 +18,8 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**"]
     },
-    "build:prerender": {
-      "dependsOn": ["generate", "db:migrate:deploy", "build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
+    "build:prerender:with-seed": {
+      "dependsOn": ["db:seed", "build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["build/**"]
     },
