@@ -3,8 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
+    "NOTE": "react-routerのdev/buildモードまたはPrsimaの挙動により、env.DATABASE_URLは絶対パスでないとどちらかのモードで不具合が出る",
+    "-": "またviteの機能で.envを読み込ませても不具合がでることがあったためdotenvか、環境変数で直接渡す必要がある",
+    "dev": "dotenv -e ../../packages/database/.env -- react-router dev",
+    "build": "dotenv -e ../../packages/database/.env -- react-router build",
     "start": "http-server -c-1 ./build/client",
     "typegen": "react-router typegen",
     "typecheck": "npm run typegen && tsc --noEmit"
@@ -25,6 +27,7 @@
     "@types/node": "22.15.32",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
+    "dotenv-cli": "8.0.0",
     "http-server": "14.1.1",
     "tailwindcss": "4.1.10",
     "typescript": "5.8.3",
