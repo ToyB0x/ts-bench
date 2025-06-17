@@ -10,7 +10,7 @@
     "dev": "dotenv -e ../../.env -- react-router dev",
     "NOTE:prerenderについて": "",
     "// - build:prerender コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要": "",
-    "build:prerender": "dotenv -e ../../.env -- echo $DATABASE_URL && react-router build",
+    "build:prerender": "dotenv -e ../../.env -- bash -c 'echo $DATABASE_URL' && react-router build",
     "start": "http-server -c-1 ./build/client",
     "typegen": "react-router typegen",
     "typecheck": "npm run typegen && tsc --noEmit"
