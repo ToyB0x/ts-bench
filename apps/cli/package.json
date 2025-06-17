@@ -1,6 +1,6 @@
 {
   "name": "@ts-bench/cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "bin": "dist/index.js",
   "scripts": {
@@ -32,5 +32,7 @@
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
-  "files": ["dist/"]
+  "files": [
+    "dist/"
+  ]
 }

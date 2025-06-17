@@ -1,6 +1,6 @@
 {
   "name": "@ts-bench/db",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "main": "./dist/client.js",
   "exports": {
@@ -43,5 +43,7 @@
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
-  "files": ["dist/"]
+  "files": [
+    "dist/"
+  ]
 }
