@@ -20,12 +20,12 @@ importers:
       '@dotenvx/dotenvx':
         specifier: 1.44.2
         version: 1.44.2
-      '@repo/db':
-        specifier: workspace:*
-        version: link:../../packages/database
       '@supercharge/promise-pool':
         specifier: 3.2.0
         version: 3.2.0
+      '@ts-bench/db':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@typescript/analyze-trace':
         specifier: 0.10.1
         version: 0.10.1
@@ -63,7 +63,7 @@ importers:
       '@react-router/serve':
         specifier: 7.6.2
         version: 7.6.2(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
-      '@repo/db':
+      '@ts-bench/db':
         specifier: workspace:*
         version: link:../../packages/database
       isbot:

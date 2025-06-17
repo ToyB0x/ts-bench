@@ -1,4 +1,4 @@
-import { prisma } from "@repo/db";
+import { prisma } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
 import type { TscResult } from "./tscAndAnalyze";
 

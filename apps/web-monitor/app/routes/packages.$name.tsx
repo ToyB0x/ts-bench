@@ -1,4 +1,4 @@
-import { prisma } from "@repo/db";
+import { prisma } from "@ts-bench/db";
 import type { Route } from "./+types/packages.$name";
 
 // biome-ignore lint/correctness/noEmptyPattern: example code

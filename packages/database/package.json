@@ -1,5 +1,5 @@
 {
-  "name": "@repo/db",
+  "name": "@ts-bench/db",
   "type": "module",
   "exports": {
     ".": {

@@ -1,4 +1,4 @@
-import { prisma } from "@repo/db";
+import { prisma } from "@ts-bench/db";
 import { Welcome } from "~/welcome/welcome";
 import type { Route } from "./+types/home";
 

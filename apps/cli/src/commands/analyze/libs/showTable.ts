@@ -1,4 +1,4 @@
-import { type Result, prisma } from "@repo/db";
+import { type Result, prisma } from "@ts-bench/db";
 import type { TscResult } from "./tscAndAnalyze";
 
 export const showTable = async (results: TscResult[]) => {

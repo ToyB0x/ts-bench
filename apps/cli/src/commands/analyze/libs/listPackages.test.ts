@@ -8,11 +8,11 @@ describe("listPackages", () => {
     // check exact match of package names and paths (assert contain all packages, and not contain extra package)
     expect(packages.sort((a, b) => a.name.localeCompare(b.name))).toEqual([
       {
-        name: "@repo/cli",
+        name: "@ts-bench/cli",
         path: "apps/cli",
       },
       {
-        name: "@repo/db",
+        name: "@ts-bench/db",
         path: "packages/database",
       },
     ]);

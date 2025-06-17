@@ -1,5 +1,5 @@
 import type { Config } from "@react-router/dev/config";
-import { prisma } from "@repo/db";
+import { prisma } from "@ts-bench/db";
 
 export default {
   // Deployed to a static file server
