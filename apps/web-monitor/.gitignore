@@ -4,3 +4,6 @@
 # React Router
 /.react-router/
 /build/
+
+# This file is just symlink to root .env file
+!.env
