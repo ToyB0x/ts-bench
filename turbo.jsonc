@@ -1,6 +1,6 @@
 {
   "$schema": "https://turborepo.com/schema.json",
-  "globalPassThroughEnv": ["DATABASE_URL"],
+  // "globalPassThroughEnv": ["DATABASE_URL"],
   "tasks": {
     "generate": {
       "cache": false, // Disable caching for generate code in node_modules
