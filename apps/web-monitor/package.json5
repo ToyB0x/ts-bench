@@ -6,6 +6,7 @@
     // NOTE: Envの渡し方について
     // - react-routerのdev/buildモードまたはPrsimaの挙動により、env.DATABASE_URLは絶対パスでないとどちらかのモードで不具合が出る
     // - またviteの機能で.envを読み込ませても不具合がでることがあったためdotenvか、環境変数で直接渡す必要がある
+    // TODO: NPM経由で利用するユーザは相対パスの.envを読めないので環境変数またはコマンドオプションとして提供することを検討
     "dev": "dotenv -e ../../packages/database/.env -- react-router dev",
     "build": "dotenv -e ../../packages/database/.env -- react-router build",
     "start": "http-server -c-1 ./build/client",
