@@ -1,2 +1,2 @@
-.env
+# .env # this file is just symlink to root .env file
 generated
