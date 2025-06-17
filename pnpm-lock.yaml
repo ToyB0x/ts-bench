@@ -125,6 +125,9 @@ importers:
       '@types/node':
         specifier: 24.0.3
         version: 24.0.3
+      dotenv-cli:
+        specifier: 8.0.0
+        version: 8.0.0
       prisma:
         specifier: 6.9.0
         version: 6.9.0(typescript@5.8.3)
