@@ -8,8 +8,10 @@
       "inputs": ["prisma/**"]
     },
     "db:migrate:deploy": {
-      "dependsOn": ["^generate"],
-      "inputs": ["prisma/**"]
+      "dependsOn": ["generate"]
+    },
+    "db:seed": {
+      "dependsOn": ["db:migrate:deploy"]
     },
     "build": {
       "dependsOn": ["generate"],
