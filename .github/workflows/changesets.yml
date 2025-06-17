@@ -8,6 +8,11 @@ on:
 env:
   CI: true
 
+permissions:
+  contents: write # to create release pull request
+  issues: write # to create issues for unreleased changes
+  pull-requests: write # to create pull requests for changesets
+
 jobs:
   version:
     timeout-minutes: 10
