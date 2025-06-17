@@ -47,7 +47,7 @@ CMD set -e \
          }; \
        fi \
     # Run analysis and save the database
-    && node /repo-monitor/apps/cli analyze > /github/workspace/report.md \
+    && npm run --prefix /repo-monitor/apps/cli analyze > /github/workspace/report.md \
     && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.sqlite
 
 # docker build -t monitor -f Dockerfile . --progress plain && docker run monitor
