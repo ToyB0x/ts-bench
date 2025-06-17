@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "NOTE": "react-routerのdev/buildモードまたはPrsimaの挙動により、env.DATABASE_URLは絶対パスでないとどちらかのモードで不具合が出る",
-    "-": "またviteの機能で.envを読み込ませても不具合がでることがあったためdotenvか、環境変数で直接渡す必要がある",
+    // NOTE: Envの渡し方について
+    // - react-routerのdev/buildモードまたはPrsimaの挙動により、env.DATABASE_URLは絶対パスでないとどちらかのモードで不具合が出る
+    // - またviteの機能で.envを読み込ませても不具合がでることがあったためdotenvか、環境変数で直接渡す必要がある
     "dev": "dotenv -e ../../packages/database/.env -- react-router dev",
     "build": "dotenv -e ../../packages/database/.env -- react-router build",
     "start": "http-server -c-1 ./build/client",
