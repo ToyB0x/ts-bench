@@ -6,6 +6,9 @@ on:
 permissions:
   contents: read # for checkout repository
 
+env:
+  DATABASE_URL: 'file:temp.sqlite'
+
 jobs:
   test:
     runs-on: ubuntu-latest
