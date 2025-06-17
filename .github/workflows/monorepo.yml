@@ -42,5 +42,8 @@ jobs:
       - name: Build check
         run: pnpm build
 
+      - name: Pre-Render check
+        run: pnpm build:prerender
+
       - name: Type check
         run: pnpm typecheck
