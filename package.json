@@ -11,7 +11,7 @@
     "lint:fix": "biome check . --write",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "ci:publish": "pnpm publish --recursive"
+    "ci:publish": "pnpm publish --recursive --access=public"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
