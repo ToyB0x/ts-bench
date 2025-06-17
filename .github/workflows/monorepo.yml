@@ -46,7 +46,7 @@ jobs:
         run: pnpm build
 
       - name: Pre-Render check
-        run: pnpm build:prerender
+        run: pnpm build:prerender:with-seed
 
       - name: Type check
         run: pnpm typecheck
