@@ -6,8 +6,8 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "http-server -c-1 ./build/client",
-    "generate": "react-router typegen",
-    "typecheck": "npm run generate && tsc --noEmit"
+    "typegen": "react-router typegen",
+    "typecheck": "npm run typegen && tsc --noEmit"
   },
   "dependencies": {
     "@react-router/node": "7.6.2",
