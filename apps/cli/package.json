@@ -32,7 +32,5 @@
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
-  "files": [
-    "dist/"
-  ]
+  "files": ["dist/"]
 }

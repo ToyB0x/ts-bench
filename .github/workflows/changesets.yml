@@ -33,7 +33,7 @@ jobs:
       - name: Install all packages
         run: pnpm install --frozen-lockfile
 
-      - name: Build check
+      - name: Build
         run: pnpm build
 
       - name: Create Release Pull Request or Publish to npm
