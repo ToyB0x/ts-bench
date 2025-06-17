@@ -26,5 +26,10 @@
     "node": "24.2.0",
     "pnpm": "10.12.1"
   },
-  "author": "ToyB0x"
+  "author": "ToyB0x",
+  "license": "MIT",
+  "homepage": "https://github.com/ToyB0x/ts-bench",
+  "bugs": {
+    "url": "https://github.com/ToyB0x/ts-bench/issues"
+  }
 }

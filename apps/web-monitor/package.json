@@ -34,5 +34,11 @@
     "typescript": "5.8.3",
     "vite": "6.3.5",
     "vite-tsconfig-paths": "5.1.4"
+  },
+  "author": "ToyB0x",
+  "license": "MIT",
+  "homepage": "https://github.com/ToyB0x/ts-bench",
+  "bugs": {
+    "url": "https://github.com/ToyB0x/ts-bench/issues"
   }
 }
