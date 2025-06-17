@@ -15,13 +15,13 @@
     "predev": "npm run generate",
     "// prisma コマンドは直接.envを読めるが、他と統一するためにdotenv-cli経由でenvを読み込む": "",
     "format": "prisma format",
-    "db:migrate:deploy": "dotenvx run -f ../../.env -- prisma migrate deploy",
-    "db:migrate:dev": "dotenvx run -f ../../.env -- prisma migrate dev",
-    "db:push": "dotenvx run -f ../../.env -- prisma db push",
-    "studio": "dotenvx run -f ../../.env -- prisma studio",
+    "db:migrate:deploy": "dotenvx run -f .env -- prisma migrate deploy",
+    "db:migrate:dev": "dotenvx run -f .env -- prisma migrate dev",
+    "db:push": "dotenvx run -f .env -- prisma db push",
+    "studio": "dotenvx run -f .env -- prisma studio",
     "typecheck": "tsc --noEmit",
     "// Seed用のtsxコマンドはprisma.schema経由でenvを読めないのかCIなどで失敗することがあったためdotenv-cliでenvを読み込む": "",
-    "db:seed": "dotenvx run -f ../../.env -- tsx src/seed.ts"
+    "db:seed": "dotenvx run -f .env -- tsx src/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "6.9.0"
