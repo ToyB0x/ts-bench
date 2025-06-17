@@ -21,7 +21,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm turbo build --filter=@repo/cli --filter=@repo/db
 
 # Copy the example environment file to .env (workaround for missing .env under GitHub Actions until release npm package)
-RUN echo "DATABASE_URL=/repo-monitor/sqlite/repo.db" > .env
+RUN echo "DATABASE_URL=file:/repo-monitor/sqlite/repo.db" > .env
 
 # Set working directory to Github Actions default workspace as mounted volume (shared with host repository)
 WORKDIR /github/workspace
@@ -33,19 +33,21 @@ CMD set -e \
          echo "Reusing existing database" \
          && cp /github/workspace/repo.sqlite /repo-monitor/sqlite/repo.db \
          # Try to apply migrations to existing database if needed
-         && npm run --prefix db:migrate:deploy || { \
+         && npm run --prefix /repo-monitor db:migrate:deploy || { \
            echo "Migration failed on existing database, recreating" \
            && rm -f /repo-monitor/sqlite/repo.db \
-           && npm run --prefix db:migrate:deploy; \
+           && npm run --prefix /repo-monitor db:migrate:deploy; \
          }; \
        else \
          echo "Setting up new database" \
-         && npm run --prefix db:migrate:deploy || { \
+         && npm run --prefix /repo-monitor db:migrate:deploy || { \
            echo "Migration failed, recreating database" \
            && rm -f /repo-monitor/sqlite/repo.db \
-           && npm run --prefix db:migrate:deploy; \
+           && npm run --prefix /repo-monitor db:migrate:deploy; \
          }; \
        fi \
     # Run analysis and save the database
     && node /repo-monitor/apps/cli analyze > /github/workspace/report.md \
     && cp /repo-monitor/sqlite/repo.db /github/workspace/repo.sqlite
+
+# docker build -t monitor -f Dockerfile . --progress plain && docker run monitor
