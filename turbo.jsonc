@@ -8,10 +8,11 @@
       "inputs": ["prisma/**"]
     },
     "db:migrate:deploy": {
+      "cache": false, // Disable caching for sql file generation
       "dependsOn": ["generate"]
     },
     "db:seed": {
-      "cache": false, // Disable caching for seed data
+      "cache": false, // Disable caching for insert seed data
       "dependsOn": ["db:migrate:deploy"]
     },
     "build": {
