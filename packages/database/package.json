@@ -8,19 +8,20 @@
     }
   },
   "scripts": {
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:migrate:dev": "prisma migrate dev",
-    "db:push": "prisma db push",
-    "// Seed用のtsxコマンドはprisma.schema経由でenvを読めないのかCIなどで失敗することがあったためdotenv-cliでenvを読み込む": "",
-    "db:seed": "dotenv -e ../../.env -- tsx src/seed.ts",
     "dev": "tsup --watch",
     "build": "tsup",
-    "format": "prisma format",
     "generate": "prisma generate",
     "prebuild": "npm run generate",
     "predev": "npm run generate",
-    "studio": "prisma studio",
-    "typecheck": "tsc --noEmit"
+    "// prisma コマンドは直接.envを読めるが、他と統一するためにdotenv-cli経由でenvを読み込む": "",
+    "format": "prisma format",
+    "db:migrate:deploy": "dotenv -e ../../.env -- prisma migrate deploy",
+    "db:migrate:dev": "dotenv -e ../../.env -- prisma migrate dev",
+    "db:push": "dotenv -e ../../.env -- prisma db push",
+    "studio": "dotenv -e ../../.env -- prisma studio",
+    "typecheck": "tsc --noEmit",
+    "// Seed用のtsxコマンドはprisma.schema経由でenvを読めないのかCIなどで失敗することがあったためdotenv-cliでenvを読み込む": "",
+    "db:seed": "dotenv -e ../../.env -- tsx src/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "6.9.0"
