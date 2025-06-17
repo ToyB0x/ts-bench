@@ -47,6 +47,8 @@ jobs:
 
       - name: Pre-Render check
         run: pnpm build:prerender
+        env:
+          DATABASE_URL: 'file:temp.sqlite'
 
       - name: Type check
         run: pnpm typecheck
