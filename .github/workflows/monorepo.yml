@@ -6,9 +6,6 @@ on:
 permissions:
   contents: read # for checkout repository
 
-env:
-  DATABASE_URL: 'file:temp.sqlite'
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -38,6 +35,9 @@ jobs:
           restore-keys: |
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
+
+      - name: Prepare test env
+        run: cp .env.ci .env
 
       - name: Lint
         run: pnpm lint
