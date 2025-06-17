@@ -11,7 +11,7 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push",
-    "db:seed": "tsx src/seed.ts",
+    "db:seed": "DATABASE_URL=file:/home/runner/work/repo-monitor/repo-monitor/apps/web-monitor/CI.db tsx src/seed.ts",
     "dev": "tsup --watch",
     "build": "tsup",
     "format": "prisma format",
