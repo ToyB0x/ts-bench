@@ -11,6 +11,7 @@
       "dependsOn": ["generate"]
     },
     "db:seed": {
+      "cache": false, // Disable caching for seed data
       "dependsOn": ["db:migrate:deploy"]
     },
     "build": {
