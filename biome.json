@@ -15,7 +15,8 @@
       "**/node_modules/**",
       "**/.turbo/**",
       "**/.cache/**",
-      "**/.react-router/**"
+      "**/.react-router/**",
+      "**/package.json"
     ]
   },
   "formatter": {

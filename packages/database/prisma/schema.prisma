@@ -7,9 +7,10 @@ datasource db {
 }
 
 generator client {
-  provider     = "prisma-client"
-  moduleFormat = "esm"
-  output       = "../generated/client"
+  provider      = "prisma-client"
+  moduleFormat  = "esm"
+  output        = "../generated/client"
+  binaryTargets = ["native", "darwin-arm64"] // in CI Ubuntu is used, but locally support macOS
 }
 
 model Scan {

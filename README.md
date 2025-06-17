@@ -20,3 +20,4 @@ npx @ts-bench/cli
 - Implement hotspot checking functionality
 - Implement feature to verify TypeScript compilation metrics changes (comparing with previous commits or comparing current commit with uncommitted state)
 - Use pnpm link internally for local development
+- Update prisma config to use queryCompiler or replace prisma to Drizzle ORM for better OS compatibility
