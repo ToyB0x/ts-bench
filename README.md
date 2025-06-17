@@ -1,4 +1,4 @@
-# Repo Performance
+# TS Bench
 A tool to monitor various metrics of your repository
 
 # Motivation
