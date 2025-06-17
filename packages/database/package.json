@@ -15,21 +15,21 @@
     "predev": "npm run generate",
     "// prisma コマンドは直接.envを読めるが、他と統一するためにdotenv-cli経由でenvを読み込む": "",
     "format": "prisma format",
-    "db:migrate:deploy": "dotenv -e ../../.env -- prisma migrate deploy",
-    "db:migrate:dev": "dotenv -e ../../.env -- prisma migrate dev",
-    "db:push": "dotenv -e ../../.env -- prisma db push",
-    "studio": "dotenv -e ../../.env -- prisma studio",
+    "db:migrate:deploy": "dotenvx run -f ../../.env -- prisma migrate deploy",
+    "db:migrate:dev": "dotenvx run -f ../../.env -- prisma migrate dev",
+    "db:push": "dotenvx run -f ../../.env -- prisma db push",
+    "studio": "dotenvx run -f ../../.env -- prisma studio",
     "typecheck": "tsc --noEmit",
     "// Seed用のtsxコマンドはprisma.schema経由でenvを読めないのかCIなどで失敗することがあったためdotenv-cliでenvを読み込む": "",
-    "db:seed": "dotenv -e ../../.env -- tsx src/seed.ts"
+    "db:seed": "dotenvx run -f ../../.env -- tsx src/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "6.9.0"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.44.2",
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "24.0.3",
-    "dotenv-cli": "8.0.0",
     "prisma": "6.9.0",
     "tsup": "8.5.0",
     "tsx": "4.20.3",
