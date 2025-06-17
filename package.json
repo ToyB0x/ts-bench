@@ -10,10 +10,12 @@
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
     "test": "turbo run test",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "ci:publish": "pnpm publish --recursive"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "^2.29.4",
     "turbo": "2.5.4"
   },
   "engines": {

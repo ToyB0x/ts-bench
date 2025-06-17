@@ -1,0 +1,37 @@
+name: Changesets
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CI: true
+
+jobs:
+  version:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup & Restore Node cache
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+          node-version-file: 'package.json'
+
+      - name: Install all packages
+        run: pnpm install --frozen-lockfile
+
+      - name: Create and publish versions
+        uses: changesets/action@v1.5.3
+        with:
+          publish: pnpm ci:publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
