@@ -1,4 +1,4 @@
-name: marketplace (preview)
+name: pre-marketplace
 on:
   push:
     branches:
