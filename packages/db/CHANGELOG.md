@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.4
+
+### Patch Changes
+
+- 63330b5: feat: replace db client from prisma to drizzle
+
 ## 0.0.3
 
 ### Patch Changes

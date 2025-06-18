@@ -11,7 +11,7 @@
     "typegen": "react-router typegen",
     "typecheck": "npm run typegen && tsc --noEmit"
   },
-  "NOTE: packages側で指定している @libsql/client を apps側でも指定しないとprerenderに失敗するため依存追加":  "",
+  "NOTE: packages側で指定している @libsql/client を apps側でも指定しないとprerenderに失敗するため依存追加": "",
   "dependencies": {
     "@libsql/client": "^0.15.9",
     "@react-router/node": "7.6.2",
