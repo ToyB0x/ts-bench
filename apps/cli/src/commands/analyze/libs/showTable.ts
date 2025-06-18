@@ -1,14 +1,14 @@
-import { type Result, prisma } from "@ts-bench/db";
+import { db, type resultTbl } from "@ts-bench/db";
 import type { TscResult } from "./tscAndAnalyze";
 
+type Result = typeof resultTbl.$inferSelect;
+
 export const showTable = async (results: TscResult[]) => {
-  const recentScans = await prisma.scan.findMany({
-    take: 10,
-    skip: 1, // Skip the most recent scan (current scan) to avoid showing it in the table
-    orderBy: {
-      createdAt: "desc",
-    },
-    select: {
+  const recentScans = await db.query.scanTbl.findMany({
+    limit: 10,
+    offset: 1, // Skip the most recent scan (current scan) to avoid showing it in the table
+    orderBy: (scan, { desc }) => desc(scan.createdAt),
+    with: {
       results: true,
     },
   });

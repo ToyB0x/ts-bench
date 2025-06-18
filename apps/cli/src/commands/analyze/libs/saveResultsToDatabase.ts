@@ -1,4 +1,4 @@
-import { prisma } from "@ts-bench/db";
+import { db, resultTbl, scanTbl } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
 import type { TscResult } from "./tscAndAnalyze";
 
@@ -14,35 +14,43 @@ export const saveResultsToDatabase = async (
   const { latest } = await simpleGit().log();
   if (!latest) return;
 
-  await prisma.scan.create({
-    data: {
-      repository: repoName,
-      commitHash: latest.hash,
-      commitMessage: latest.message,
-      commitDate: new Date(latest.date),
-      createdAt: new Date(),
-      results: {
-        create: [
-          ...results
-            .filter((r) => r.isSuccess)
-            .map((r) => ({
-              ...r,
-              package: r.package.name,
-            })),
-          ...results
-            .filter((r) => !r.isSuccess)
-            .map((r) => ({
-              ...r,
-              error: String(r.error),
-              package: r.package.name,
-              numType: 0,
-              numTrace: 0,
-              numHotSpot: 0,
-              durationMs: r.durationMs || 0,
-              durationMsHotSpot: 0,
-            })),
-        ],
-      },
-    },
+  await db.transaction(async (tx) => {
+    const scan = await tx
+      .insert(scanTbl)
+      .values({
+        repository: repoName,
+        commitHash: latest.hash,
+        commitMessage: latest.message,
+        commitDate: new Date(latest.date),
+        createdAt: new Date(),
+      })
+      .returning();
+
+    const scanId = scan[0]?.id;
+    if (!scanId)
+      throw new Error("Failed to create scan entry in the database.");
+
+    await tx.insert(resultTbl).values([
+      ...results
+        .filter((r) => r.isSuccess)
+        .map((r) => ({
+          ...r,
+          scanId,
+          package: r.package.name,
+        })),
+      ...results
+        .filter((r) => !r.isSuccess)
+        .map((r) => ({
+          ...r,
+          scanId,
+          error: String(r.error),
+          package: r.package.name,
+          numType: 0,
+          numTrace: 0,
+          numHotSpot: 0,
+          durationMs: r.durationMs || 0,
+          durationMsHotSpot: 0,
+        })),
+    ]);
   });
 };

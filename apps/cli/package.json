@@ -2,6 +2,7 @@
   "name": "@ts-bench/cli",
   "version": "0.0.5",
   "type": "module",
+  "main": "dist/index.js",
   "bin": "dist/index.js",
   "scripts": {
     "dev": "tsup --watch",
