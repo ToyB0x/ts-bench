@@ -39,7 +39,7 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/temp.db
+          DB_FILE_NAME: ${{ github.workspace }}/temp.db
 
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1.5.3
