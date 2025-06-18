@@ -42,8 +42,8 @@ jobs:
           if_no_artifact_found: warn
           # automatically extracts the artifact to file "repo.sqlite"
 
-      - name: Build
-        run: pnpm build
+      - name: Build & Type generation
+        run: pnpm build && pnpm --filter=@ts-bench/web-monitor typegen
         env:
           DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
 

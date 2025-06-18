@@ -31,7 +31,8 @@
     },
     "typecheck": {
       "dependsOn": ["build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".react-router/**"]
     },
     "dev": {
       "dependsOn": ["db:seed", "build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
