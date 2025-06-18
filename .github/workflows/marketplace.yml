@@ -47,7 +47,7 @@ jobs:
         env:
           DB_FILE_NAME: ${env.DB_FILE_NAME}
 
-      - id: ts-bench actions
+      - id: ts-bench-actions
         uses: './' # Uses an action in the root directory
 
       - name: Create PR comment
