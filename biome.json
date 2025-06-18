@@ -11,7 +11,7 @@
       "**/dist/**",
       "**/build/**",
       "**/generated/**",
-      "**/prisma/**",
+      "**/drizzle/**",
       "**/node_modules/**",
       "**/.turbo/**",
       "**/.cache/**",
