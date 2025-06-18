@@ -12,7 +12,7 @@ runs:
       shell: bash
 
     - name: Run migrations
-      run: npx @ts-bench/cli@latest migrate
+      run: npx @ts-bench/cli@latest db migrate
       shell: bash
       env:
         DB_FILE_NAME: "ts-bench.sqlite"

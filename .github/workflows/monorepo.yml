@@ -73,7 +73,7 @@ jobs:
 
       - name: Migrate check
         working-directory: apps/cli
-        run: pnpm execute migrate --force
+        run: pnpm execute db migrate --force
         env:
           DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
 
