@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.7
+
+### Patch Changes
+
+- f6fa158: fix: update package.json to include src/
+
 ## 0.0.6
 
 ### Patch Changes
