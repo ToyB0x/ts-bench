@@ -6,10 +6,11 @@
 import { Command } from "commander";
 
 import * as process from "node:process";
-import { makeAnalyzeCommand } from "./commands";
+import { makeAnalyzeCommand, makeDbCommand } from "./commands";
 
 const program = new Command();
 program.addCommand(makeAnalyzeCommand());
+program.addCommand(makeDbCommand());
 
 try {
   await program.parseAsync();
