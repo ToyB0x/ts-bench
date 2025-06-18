@@ -1,6 +1,6 @@
 {
   "name": "@ts-bench/cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "type": "module",
   "bin": "./src/index.ts",
   "//NOTE: tsx経由で実行するようにindex.tsを設定してあるため main フィールドは不要": "",

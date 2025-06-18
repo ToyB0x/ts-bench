@@ -1,5 +1,13 @@
 # @ts-bench/cli
 
+## 0.0.10
+
+### Patch Changes
+
+- 5317644: feat: add migration command to cli
+- Updated dependencies [5317644]
+  - @ts-bench/db@0.0.7
+
 ## 0.0.9
 
 ### Patch Changes
