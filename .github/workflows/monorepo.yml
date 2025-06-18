@@ -10,8 +10,8 @@ permissions:
   pull-requests: write # for creating/updating PR comments
 
 env:
-  DB_FILE_NAME_TEST: "${{ GITHUB_WORKSPACE }}/test.db" # Default database file name for tests
-  DB_FILE_NAME_REPORT: "${{ GITHUB_WORKSPACE }}/report.db" # Default database file name for reports
+  DB_FILE_NAME_TEST: ${{ GITHUB_WORKSPACE }}/test.db # Default database file name for tests
+  DB_FILE_NAME_REPORT: ${{ GITHUB_WORKSPACE }}/report.db # Default database file name for reports
 
 jobs:
   test:
