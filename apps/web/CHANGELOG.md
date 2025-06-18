@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.3
+
+### Patch Changes
+
+- cd0332d: fix: move tailwindcss, vite, vite-tsconfig-paths, and @tailwindcss/vite from devDependencies to dependencies for proper build/runtime support
+
 ## 0.0.2
 
 ### Patch Changes
