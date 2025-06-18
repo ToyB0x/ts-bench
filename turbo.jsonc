@@ -10,7 +10,8 @@
     },
     "db:migrate": {
       "cache": false, // Disable caching for sql file generation
-      "dependsOn": ["db:generate"]
+      "dependsOn": ["db:generate"],
+      "env": ["DB_FILE_NAME"]
     },
     "db:seed": {
       "cache": false, // Disable caching for insert seed data
