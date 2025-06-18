@@ -4,10 +4,9 @@
   "type": "module",
   "scripts": {
     "// TODO": "NPM経由で利用するユーザのためにDBパスを.env以外のコマンドオプション等で渡せるよう改修",
-    "// NOTE: vite付属の.env自動読み込み機能だけではPrsimaの初期化時に失敗するためdotenvx経由で環境変数を渡す": "",
-    "dev": "dotenvx run -f .env -- react-router dev",
+    "dev": "react-router dev",
     "// NOTE: prerender コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要": "",
-    "build:prerender": "dotenvx run -f .env -- react-router build",
+    "build:prerender": "react-router build",
     "start": "http-server -c-1 ./build/client",
     "typegen": "react-router typegen",
     "typecheck": "npm run typegen && tsc --noEmit"
@@ -22,7 +21,6 @@
     "react-router": "7.6.2"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "1.44.2",
     "@react-router/dev": "7.6.2",
     "@tailwindcss/vite": "4.1.10",
     "@tsconfig/strictest": "2.0.5",
