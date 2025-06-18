@@ -42,7 +42,7 @@ jobs:
       - name: Build (include dts generation)
         run: pnpm build
         env:
-          DB_FILE_NAME: "file:ts-bench.sqlite"
+          DB_FILE_NAME: "ts-bench.sqlite"
 
       - id: analyze
         uses: './' # Uses an action in the root directory
