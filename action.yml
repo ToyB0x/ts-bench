@@ -11,8 +11,8 @@ runs:
       run: npm install -g tsx
       shell: bash
 
-    - name: Run performance analysis
-      run: npx @ts-bench/db migrate
+    - name: Run migrations
+      run: npx @ts-bench/cli@latest migrate
       shell: bash
       env:
         DB_FILE_NAME: "ts-bench.sqlite"

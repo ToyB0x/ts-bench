@@ -9,6 +9,9 @@ permissions:
   contents: read # for checkout repository
   pull-requests: write # for creating/updating PR comments
 
+env:
+    DB_FILE_NAME: "ts-bench.sqlite" # Default database file name
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -39,12 +42,12 @@ jobs:
           if_no_artifact_found: warn
           # automatically extracts the artifact to file "repo.sqlite"
 
-      - name: Build (include dts generation)
+      - name: Build
         run: pnpm build
         env:
-          DB_FILE_NAME: "ts-bench.sqlite"
+          DB_FILE_NAME: ${env.DB_FILE_NAME}
 
-      - id: analyze
+      - id: ts-bench actions
         uses: './' # Uses an action in the root directory
 
       - name: Create PR comment
@@ -58,4 +61,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
-          path: ts-bench.sqlite
+          path: ${env.DB_FILE_NAME}
