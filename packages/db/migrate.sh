@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_PATH="${BASH_SOURCE[0]}"
 echo "BASH_SOURCE[0] を使用: ${SCRIPT_PATH}"
