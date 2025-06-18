@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.11
+
+### Patch Changes
+
+- 2c30488: fix: update sorting logic in showTable to prioritize
+
 ## 0.0.10
 
 ### Patch Changes
