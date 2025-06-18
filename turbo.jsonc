@@ -2,21 +2,21 @@
   "$schema": "https://turborepo.com/schema.json",
   "globalDependencies": [".env"], // All task hashes
   "tasks": {
-    "generate": {
-      "cache": false, // Disable caching for generate code in node_modules
-      "dependsOn": ["^generate"],
+    "db:generate": {
+      "cache": false, // Disable caching for db:generate code in node_modules
+      "dependsOn": ["^db:generate"],
       "inputs": ["prisma/**"]
     },
-    "db:migrate:deploy": {
+    "db:migrate": {
       "cache": false, // Disable caching for sql file generation
-      "dependsOn": ["generate"]
+      "dependsOn": ["db:generate"]
     },
     "db:seed": {
       "cache": false, // Disable caching for insert seed data
-      "dependsOn": ["db:migrate:deploy"]
+      "dependsOn": ["db:migrate"]
     },
     "build": {
-      "dependsOn": ["generate"],
+      "dependsOn": ["db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", "build/**"]
     },
@@ -34,6 +34,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "dev": {
+      "dependsOn": ["db:seed", "build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
       "cache": false,
       "persistent": true
     }
