@@ -5,5 +5,8 @@ branding:
   color: 'blue'
   icon: 'activity'
 runs:
-  using: "docker"
-  image: "Dockerfile"
+  using: "composite"
+  steps:
+    - name: Build all packages
+      run: DB_FILE_NAME=file:repo.sqlite npx @ts-bench/cli@latest
+      shell: bash
