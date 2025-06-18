@@ -13,8 +13,10 @@
     "typecheck": "npm run typegen && tsc --noEmit"
   },
   "NOTE: packages側で指定している @libsql/client を apps側でも指定しないとprerenderに失敗するため依存追加": "",
+  "NOTE: 本パッケージを publish 後に react-router build コマンドをnpx内で実行するためには @react-router/dev をdependencies側に追加する必要がある(内部で@react-router/devを利用)": "",
   "dependencies": {
     "@libsql/client": "0.15.9",
+    "@react-router/dev": "7.6.2",
     "@react-router/node": "7.6.2",
     "@react-router/serve": "7.6.2",
     "@ts-bench/db": "workspace:*",
@@ -24,7 +26,6 @@
     "react-router": "7.6.2"
   },
   "devDependencies": {
-    "@react-router/dev": "7.6.2",
     "@tailwindcss/vite": "4.1.10",
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "22.15.32",
