@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 WEB_OUT_DIR="${PWD}/web"
-DB_FILE_ABSOLUTE_PATH="${PWD}/${DB_FILE_NAME}"
+DB_FILE_ABSOLUTE_PATH="${PWD}/${DB_FILE_NAME:-default_db_file_name}"
 SCRIPT_PATH="${BASH_SOURCE[0]}"
 SCRIPT_DIR="$(dirname "$(readlink -f "$SCRIPT_PATH")")" # or SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
