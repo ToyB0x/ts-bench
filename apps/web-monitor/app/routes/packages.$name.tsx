@@ -1,4 +1,4 @@
-import { prisma } from "@ts-bench/db";
+import { db } from "@ts-bench/db";
 import type { Route } from "./+types/packages.$name";
 
 // biome-ignore lint/correctness/noEmptyPattern: example code
@@ -10,26 +10,20 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  return prisma.result.findMany({
-    where: {
-      package: `${params.scope}/${params.name}`,
-    },
-    select: {
-      package: true,
+  return db.query.resultTbl.findMany({
+    where: (table, { eq }) =>
+      eq(table.package, `${params.scope}/${params.name}`),
+    with: {
       scan: {
-        select: {
+        columns: {
           commitHash: true,
           commitMessage: true,
           createdAt: true,
         },
       },
     },
-    orderBy: {
-      scan: {
-        createdAt: "desc",
-      },
-    },
-    take: 100,
+    orderBy: (table, { asc }) => asc(table.scanId),
+    limit: 100,
   });
 }
 

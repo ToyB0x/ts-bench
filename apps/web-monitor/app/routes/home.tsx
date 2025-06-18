@@ -1,4 +1,4 @@
-import { prisma } from "@ts-bench/db";
+import { db, resultTbl } from "@ts-bench/db";
 import { Welcome } from "~/welcome/welcome";
 import type { Route } from "./+types/home";
 
@@ -11,15 +11,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader() {
-  return prisma.result.findMany({
-    distinct: ["package"],
-    orderBy: {
-      package: "asc",
-    },
-    select: {
-      package: true,
-    },
-  });
+  return await db.selectDistinct().from(resultTbl).orderBy(resultTbl.package);
 }
 
 export default function Page({ loaderData }: Route.ComponentProps) {
