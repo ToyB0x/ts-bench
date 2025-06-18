@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.5
+
+### Patch Changes
+
+- 596a5c5: feat: update action.yml to use composite runs and add build step
+
 ## 0.0.4
 
 ### Patch Changes

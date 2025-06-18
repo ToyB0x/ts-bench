@@ -1,5 +1,12 @@
 # @ts-bench/cli
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [596a5c5]
+  - @ts-bench/db@0.0.5
+
 ## 0.0.7
 
 ### Patch Changes
