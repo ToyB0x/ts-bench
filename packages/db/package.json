@@ -2,11 +2,13 @@
   "name": "@ts-bench/db",
   "version": "0.0.3",
   "type": "module",
-  "main": "./dist/client.js",
-  "types": "./src/client.ts",
+  "exports": {
+    ".": {
+      "types": "./src/client.ts",
+      "default": "./src/client.ts"
+    }
+  },
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/seed.ts",
@@ -14,14 +16,13 @@
   },
   "dependencies": {
     "@libsql/client": "^0.15.9",
+    "dotenv": "^16.5.0",
     "drizzle-orm": "^0.44.2"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "24.0.3",
-    "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.1",
-    "tsup": "8.5.0",
     "tsx": "4.20.3",
     "typescript": "5.8.3"
   },
@@ -31,7 +32,11 @@
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
+  "NOTE: 利用側はtsxやvite経由で本パッケージを.tsファイルのまま利用することを想定しているため、distフォルダは生成しない": "",
   "files": [
-    "dist/"
+    "src/",
+    "drizzle/",
+    "drizzle.config.ts",
+    "tsconfig.json"
   ]
 }
