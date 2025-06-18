@@ -15,14 +15,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@libsql/client": "^0.15.9",
-    "dotenv": "^16.5.0",
-    "drizzle-orm": "^0.44.2"
+    "@libsql/client": "0.15.9",
+    "dotenv": "16.5.0",
+    "drizzle-orm": "0.44.2"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "24.0.3",
-    "drizzle-kit": "^0.31.1",
+    "drizzle-kit": "0.31.1",
     "tsx": "4.20.3",
     "typescript": "5.8.3"
   },

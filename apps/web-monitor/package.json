@@ -13,7 +13,7 @@
   },
   "NOTE: packages側で指定している @libsql/client を apps側でも指定しないとprerenderに失敗するため依存追加": "",
   "dependencies": {
-    "@libsql/client": "^0.15.9",
+    "@libsql/client": "0.15.9",
     "@react-router/node": "7.6.2",
     "@react-router/serve": "7.6.2",
     "@ts-bench/db": "workspace:*",
