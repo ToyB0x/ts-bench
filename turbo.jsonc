@@ -1,7 +1,7 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "globalDependencies": [".env"], // All task hashes
-  "globalEnv": ["DB_FILE_NAME"],
+  "globalPassThroughEnv": ["DB_FILE_NAME"],
   "tasks": {
     "db:generate": {
       "cache": false, // Disable caching for db:generate code in node_modules
@@ -10,13 +10,12 @@
     },
     "db:migrate": {
       "cache": false, // Disable caching for sql file generation
-      "dependsOn": ["db:generate"],
-      "env": ["DB_FILE_NAME"] // Use DB_FILE_NAME from .env or environment variables
+      "dependsOn": ["db:generate"]
     },
     "db:seed": {
       "cache": false, // Disable caching for insert seed data
       "dependsOn": ["db:migrate"],
-      "env": ["DB_FILE_NAME"] // Use DB_FILE_NAME from .env or environment variables
+      "env": ["DB_FILE_NAME"]
     },
     "build": {
       "dependsOn": ["db:generate"],
@@ -25,9 +24,7 @@
     },
     "build:prerender": {
       "dependsOn": ["db:seed", "build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["build/**"],
-      "env": ["DB_FILE_NAME"] // Use DB_FILE_NAME from .env or environment variables
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "test": {
       "dependsOn": ["build"],
