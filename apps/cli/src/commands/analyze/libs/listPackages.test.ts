@@ -20,9 +20,9 @@ describe("listPackages", () => {
         relativePathFromRoot: "packages/db",
       },
       {
-        absolutePath: `${rootDir}/apps/web-monitor`,
-        name: "@ts-bench/web-monitor",
-        relativePathFromRoot: "apps/web-monitor",
+        absolutePath: `${rootDir}/apps/web`,
+        name: "@ts-bench/web",
+        relativePathFromRoot: "apps/web",
       },
     ]);
   });

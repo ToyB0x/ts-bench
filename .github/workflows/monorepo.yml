@@ -61,6 +61,11 @@ jobs:
         env:
           DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
 
+      - name: Test
+        run: pnpm test
+        env:
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
+
       - name: Download previous main branch report
         uses: dawidd6/action-download-artifact@v11
         with:
