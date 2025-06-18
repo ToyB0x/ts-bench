@@ -2,17 +2,19 @@
   "name": "@ts-bench/cli",
   "version": "0.0.5",
   "type": "module",
-  "main": "dist/index.js",
-  "bin": "dist/index.js",
+  "bin": "./src/index.ts",
+  "//NOTE: tsx経由で実行するようにindex.tsを設定してあるため main フィールドは不要": "",
+  "//main": "dist/index.js",
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
+    "NOTE: dbパッケージをビルドしていないことと関係してviteかtsx経由で実行しないとimportエラー等が発生するため dev/build コマンドはコメントアウト": "",
+    "//dev": "tsup --watch",
+    "//build": "tsup",
+    "//analyze": "node . analyze",
     "test": "vitest",
-    "analyze": "dotenvx run -f .env --quiet -- node . analyze",
+    "execute": "tsx ./src/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "1.44.2",
     "@ts-bench/db": "workspace:*",
     "@supercharge/promise-pool": "3.2.0",
     "@typescript/analyze-trace": "0.10.1",
@@ -24,6 +26,7 @@
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "24.0.3",
     "tsup": "8.5.0",
+    "tsx": "4.20.3",
     "typescript": "5.8.3",
     "vitest": "3.2.3"
   },
