@@ -7,7 +7,11 @@ branding:
 runs:
   using: "composite"
   steps:
-    - name: Build all packages
+    - name: Install dependencies
+      run: npm install -g tsx
+      shell: bash
+
+    - name: Run performance analysis
       run: npx @ts-bench/cli@latest
       shell: bash
       env:
