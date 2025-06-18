@@ -12,7 +12,7 @@ runs:
       shell: bash
 
     - name: Run performance analysis
-      run: npx @ts-bench/cli@latest analyze
+      run: npx @ts-bench/cli@latest analyze > report.md
       shell: bash
       env:
         DB_FILE_NAME: "file:repo.sqlite"
