@@ -10,13 +10,11 @@
     },
     "db:migrate": {
       "cache": false, // Disable caching for sql file generation
-      "dependsOn": ["db:generate"],
-      "env": ["DB_FILE_NAME"]
+      "dependsOn": ["db:generate"]
     },
     "db:seed": {
       "cache": false, // Disable caching for insert seed data
-      "dependsOn": ["db:migrate"],
-      "env": ["DB_FILE_NAME"]
+      "dependsOn": ["db:migrate"]
     },
     "build": {
       "dependsOn": ["db:generate"],
@@ -25,8 +23,7 @@
     },
     "build:prerender": {
       "dependsOn": ["db:seed", "build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "env": ["DB_FILE_NAME"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "test": {
       "dependsOn": ["build"],
