@@ -10,8 +10,8 @@ permissions:
   pull-requests: write # for creating/updating PR comments
 
 env:
-  DB_FILE_NAME_TEST: ${{ GITHUB_WORKSPACE }}/test.db # Default database file name for tests
-  DB_FILE_NAME_REPORT: ${{ GITHUB_WORKSPACE }}/report.db # Default database file name for reports
+  DB_FILE_NAME_TEST: test.db # Default database file name for tests
+  DB_FILE_NAME_REPORT: report.db # Default database file name for reports
 
 jobs:
   test:
@@ -49,23 +49,23 @@ jobs:
       - name: Build check
         run: pnpm build
         env:
-          DB_FILE_NAME: ${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Pre-Render check
         run: pnpm build:prerender
         env:
-          DB_FILE_NAME: ${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Type check
         run: pnpm typecheck
         env:
-          DB_FILE_NAME: ${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Download previous main branch report
         uses: dawidd6/action-download-artifact@v11
         with:
           branch: main
-          workflow: marketplace.yml
+          workflow: monorepo.yml
           workflow_conclusion: success
           name: repo-performance-report
           if_no_artifact_found: warn
@@ -75,13 +75,13 @@ jobs:
         working-directory: apps/cli
         run: pnpm migrate --force
         env:
-          DB_FILE_NAME: ${{ env.DB_FILE_NAME_REPORT }}
+          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Analyze check
         working-directory: apps/cli
         run: pnpm execute analyze > report.md
         env:
-          DB_FILE_NAME: ${{ env.DB_FILE_NAME_REPORT }}
+          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Create PR comment
         if: github.event_name == 'pull_request' # Only create comment on pull requests
@@ -95,4 +95,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
-          path: apps/cli/${{ env.DB_FILE_NAME_REPORT }}
+          path: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_REPORT }}

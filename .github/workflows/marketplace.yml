@@ -10,7 +10,7 @@ permissions:
   pull-requests: write # for creating/updating PR comments
 
 env:
-  DB_FILE_NAME_TEST: ${{ GITHUB_WORKSPACE }}/ts-bench.sqlite # Default database file name
+  DB_FILE_NAME_TEST: ts-bench.sqlite # Default database file name
 
 jobs:
   test:
@@ -45,7 +45,7 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          DB_FILE_NAME: ${env.DB_FILE_NAME}
+          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${env.DB_FILE_NAME}
 
       - id: ts-bench-actions
         uses: './' # Uses an action in the root directory
@@ -61,4 +61,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
-          path: ${env.DB_FILE_NAME}
+          path: ${{ GITHUB_WORKSPACE }}/${env.DB_FILE_NAME}
