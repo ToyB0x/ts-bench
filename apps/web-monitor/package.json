@@ -1,7 +1,8 @@
 {
-  "name": "@ts-bench/web-monitor",
+  "name": "@ts-bench/web",
   "private": true,
   "type": "module",
+  "bin": "render.sh",
   "scripts": {
     "// TODO": "NPM経由で利用するユーザのためにDBパスを.env以外のコマンドオプション等で渡せるよう改修",
     "dev": "react-router dev",
@@ -40,5 +41,13 @@
   "homepage": "https://github.com/ToyB0x/ts-bench",
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
-  }
+  },
+  "files": [
+    "app/",
+    "public",
+    "render.sh",
+    "tsconfig.json",
+    "vite.config.ts",
+    "react-router.config.ts"
+  ]
 }
