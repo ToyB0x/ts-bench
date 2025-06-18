@@ -1,4 +1,4 @@
-import { createClient } from "@libsql/client/web";
+import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import * as schema from "./schema";
 import "dotenv/config"; // If you need variable expansion in .env files, use @dotenvx/dotenvx/config

@@ -60,6 +60,9 @@ importers:
 
   apps/web-monitor:
     dependencies:
+      '@libsql/client':
+        specifier: ^0.15.9
+        version: 0.15.9
       '@react-router/node':
         specifier: 7.6.2
         version: 7.6.2(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)
