@@ -29,18 +29,25 @@ jobs:
       - name: Install all packages
         run: pnpm install --frozen-lockfile
 
+#      - name: Download previous main branch report
+#        uses: dawidd6/action-download-artifact@v11
+#        with:
+#          branch: main
+#          workflow: marketplace.yml
+#          workflow_conclusion: success
+#          name: repo-performance-report
+#          if_no_artifact_found: warn
+#          # automatically extracts the artifact to file "repo.sqlite"
+
       - name: Build (include dts generation)
         run: pnpm build
+        env:
+          DB_FILE_NAME: "file:../../repo.sqlite"
 
-      - name: Download previous main branch report
-        uses: dawidd6/action-download-artifact@v11
-        with:
-          branch: main
-          workflow: marketplace.yml
-          workflow_conclusion: success
-          name: repo-performance-report
-          if_no_artifact_found: warn
-          # automatically extracts the artifact to file "repo.sqlite"
+      - name: Build (include dts generation)
+        run: pnpm db:migrate
+        env:
+          DB_FILE_NAME: "file:../../repo.sqlite"
 
       - id: analyze
         uses: './' # Uses an action in the root directory
