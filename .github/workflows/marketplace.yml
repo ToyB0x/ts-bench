@@ -10,7 +10,7 @@ permissions:
   pull-requests: write # for creating/updating PR comments
 
 env:
-  DB_FILE_NAME_TEST: ts-bench.sqlite # Default database file name
+  DB_FILE_NAME: ts-bench.sqlite # Default database file name
 
 jobs:
   test:
