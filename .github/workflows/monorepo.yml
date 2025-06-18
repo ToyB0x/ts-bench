@@ -1,10 +1,12 @@
 name: monorepo
 on:
   push:
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read # for checkout repository
+  pull-requests: write # for creating/updating PR comments
 
 jobs:
   test:
@@ -36,17 +38,56 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
-      - name: Prepare test env
-        run: cp .env.example .env
-
       - name: Lint
         run: pnpm lint
 
       - name: Build check
         run: pnpm build
+        env:
+          DB_FILE_NAME: build.db
 
       - name: Pre-Render check
         run: pnpm build:prerender
+        env:
+          DB_FILE_NAME: render.db
 
       - name: Type check
         run: pnpm typecheck
+        env:
+          DB_FILE_NAME: type.db
+
+      - name: Download previous main branch report
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          branch: main
+          workflow: marketplace.yml
+          workflow_conclusion: success
+          name: repo-performance-report
+          if_no_artifact_found: warn
+          # automatically extracts the artifact to file "repo.sqlite"
+
+      - name: Migrate check
+        working-directory: apps/cli
+        run: pnpm migrate --force
+        env:
+          DB_FILE_NAME: report.db
+
+      - name: Analyze check
+        working-directory: apps/cli
+        run: pnpm execute analyze > report.md
+        env:
+          DB_FILE_NAME: report.db
+
+      - name: Create PR comment
+        if: github.event_name == 'pull_request' # Only create comment on pull requests
+        working-directory: apps/cli
+        run: gh pr comment ${{ github.event.number }} --body-file report.md --edit-last --create-if-none # upsert the last comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload report artifact
+        if: github.ref == 'refs/heads/main' # Only upload on main branch
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-performance-report
+          path: apps/cli/report.db
