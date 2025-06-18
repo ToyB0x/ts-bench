@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.6
+
+### Patch Changes
+
+- 5a69e8f: fix: update DB_FILE_NAME in marketplace.yml and adjust drizzle-kit dependency in package.json
+
 ## 0.0.5
 
 ### Patch Changes
