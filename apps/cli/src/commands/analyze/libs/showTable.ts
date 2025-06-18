@@ -19,7 +19,11 @@ export const showTable = async (results: TscResult[]) => {
   console.log("```");
   console.table(
     results
-      .sort((a, b) => b.durationMs - a.durationMs)
+      .sort((a, b) =>
+        a.isSuccess && b.isSuccess
+          ? b.numType - a.numType
+          : b.durationMs - a.durationMs,
+      )
       .map((r) =>
         r.isSuccess
           ? {
