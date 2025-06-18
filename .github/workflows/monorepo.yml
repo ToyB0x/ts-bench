@@ -49,17 +49,17 @@ jobs:
       - name: Build check
         run: pnpm build
         env:
-          DB_FILE_NAME: ${env.DB_FILE_NAME_TEST}
+          DB_FILE_NAME: ${{ env.DB_FILE_NAME_TEST }}
 
       - name: Pre-Render check
         run: pnpm build:prerender
         env:
-          DB_FILE_NAME: ${env.DB_FILE_NAME_TEST}
+          DB_FILE_NAME: ${{ env.DB_FILE_NAME_TEST }}
 
       - name: Type check
         run: pnpm typecheck
         env:
-          DB_FILE_NAME: ${env.DB_FILE_NAME_TEST}
+          DB_FILE_NAME: ${{ env.DB_FILE_NAME_TEST }}
 
       - name: Download previous main branch report
         uses: dawidd6/action-download-artifact@v11
