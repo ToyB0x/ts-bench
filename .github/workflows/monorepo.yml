@@ -49,17 +49,17 @@ jobs:
       - name: Build check
         run: pnpm build
         env:
-          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Pre-Render check
         run: pnpm build:prerender
         env:
-          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Type check
         run: pnpm typecheck
         env:
-          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Download previous main branch report
         uses: dawidd6/action-download-artifact@v11
@@ -75,13 +75,13 @@ jobs:
         working-directory: apps/cli
         run: pnpm migrate --force
         env:
-          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_REPORT }}
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Analyze check
         working-directory: apps/cli
         run: pnpm execute analyze > report.md
         env:
-          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_REPORT }}
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Create PR comment
         if: github.event_name == 'pull_request' # Only create comment on pull requests
@@ -95,4 +95,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
-          path: ${{ GITHUB_WORKSPACE }}/${{ env.DB_FILE_NAME_REPORT }}
+          path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}

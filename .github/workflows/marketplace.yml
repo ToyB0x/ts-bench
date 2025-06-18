@@ -45,7 +45,7 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          DB_FILE_NAME: ${{ GITHUB_WORKSPACE }}/${env.DB_FILE_NAME}
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
 
       - id: ts-bench-actions
         uses: './' # Uses an action in the root directory
@@ -61,4 +61,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
-          path: ${{ GITHUB_WORKSPACE }}/${env.DB_FILE_NAME}
+          path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
