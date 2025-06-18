@@ -1,7 +1,7 @@
 # @ts-bench/web
 
-## 0.0.2
+## 0.0.1
 
-### Patch Changes
+### Initial release
 
 - 18d483b: feat: initial release web app
