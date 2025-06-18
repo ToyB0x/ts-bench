@@ -8,6 +8,9 @@
       "default": "./src/client.ts"
     }
   },
+  "bin": {
+    "migrate": "./migrate.sh"
+  },
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

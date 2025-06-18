@@ -12,7 +12,13 @@ runs:
       shell: bash
 
     - name: Run performance analysis
+      run: npx @ts-bench/db migrate
+      shell: bash
+      env:
+        DB_FILE_NAME: "ts-bench.sqlite"
+
+    - name: Run performance analysis
       run: npx @ts-bench/cli@latest analyze > report.md
       shell: bash
       env:
-        DB_FILE_NAME: "file:repo.sqlite"
+        DB_FILE_NAME: "ts-bench.sqlite"

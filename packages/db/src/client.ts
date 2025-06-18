@@ -10,7 +10,7 @@ const DB_FILE_NAME = process.env["DB_FILE_NAME"];
 if (!DB_FILE_NAME)
   throw new Error("DB_FILE_NAME environment variable is not set.");
 
-const client = createClient({ url: DB_FILE_NAME });
+const client = createClient({ url: `file:${DB_FILE_NAME}` });
 
 export const db = drizzle(client, {
   schema,
