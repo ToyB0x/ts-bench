@@ -43,7 +43,7 @@ jobs:
           # automatically extracts the artifact to file "repo.sqlite"
 
       - name: Build & Type generation
-        run: pnpm build && pnpm --filter=@ts-bench/web-monitor typegen
+        run: pnpm build && pnpm --filter=@ts-bench/web typegen
         env:
           DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
 
