@@ -1,5 +1,13 @@
 # @ts-bench/cli
 
+## 0.0.14
+
+### Patch Changes
+
+- 014af3e: feat: enhance CLI commands with database migration and improved trace analysis options
+- Updated dependencies [014af3e]
+  - @ts-bench/db@0.0.9
+
 ## 0.0.13
 
 ### Patch Changes
