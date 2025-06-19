@@ -1,5 +1,12 @@
 # @ts-bench/web
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [ea04b72]
+  - @ts-bench/db@0.0.10
+
 ## 0.0.6
 
 ### Patch Changes

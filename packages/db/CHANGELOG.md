@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.10
+
+### Patch Changes
+
+- ea04b72: feat: enhance CPU usage reporting and migration logging / adjust FORCE_MILLIS
+
 ## 0.0.9
 
 ### Patch Changes
