@@ -1,5 +1,14 @@
 # @ts-bench/web
 
+## 0.0.5
+
+### Patch Changes
+
+- 5c4c681: feat: add shadcn
+- 9d3f31d: feat: render real chart
+- Updated dependencies [5c4c681]
+  - @ts-bench/db@0.0.8
+
 ## 0.0.4
 
 ### Patch Changes

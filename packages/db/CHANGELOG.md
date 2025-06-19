@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.8
+
+### Patch Changes
+
+- 5c4c681: feat: add shadcn
+
 ## 0.0.7
 
 ### Patch Changes
