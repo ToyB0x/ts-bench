@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.15
+
+### Patch Changes
+
+- 5c256cd: feat: enhance database insertion logic and update CLI table output
+
 ## 0.0.14
 
 ### Patch Changes
