@@ -1,5 +1,5 @@
 import { db, resultTbl } from "@ts-bench/db";
-import { Welcome } from "~/welcome/welcome";
+import { ChartAreaInteractive } from "~/components/parts/chart-area";
 import type { Route } from "./+types/home";
 
 // biome-ignore lint/correctness/noEmptyPattern: example code
@@ -22,7 +22,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           {pkg}
         </a>
       ))}
-      <Welcome />
+      <ChartAreaInteractive />
     </div>
   );
 }
