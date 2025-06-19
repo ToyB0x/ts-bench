@@ -21,21 +21,22 @@
     "@react-router/serve": "7.6.2",
     "@tailwindcss/vite": "4.1.10",
     "@ts-bench/db": "workspace:*",
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "22.15.32",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
     "isbot": "5.1.28",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-router": "7.6.2",
     "tailwindcss": "4.1.10",
+    "typescript": "5.8.3",
     "vite": "6.3.5",
     "vite-tsconfig-paths": "5.1.4"
   },
+  "NOTE: 本パッケージの目的はNPX経由で利用するユーザ向けにビルド環境を提供することなので、ほぼ全ての依存パッケージはdependencies側に記載する必要がある(そうしないと実行時にパッケージ不足でエラーになる)": "",
   "devDependencies": {
-    "@tsconfig/strictest": "2.0.5",
-    "@types/node": "22.15.32",
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
-    "http-server": "14.1.1",
-    "typescript": "5.8.3"
+    "http-server": "14.1.1"
   },
   "author": "ToyB0x",
   "license": "MIT",
