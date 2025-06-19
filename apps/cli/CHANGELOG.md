@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.13
+
+### Patch Changes
+
+- 0e391a3: fix(deps): move dependencies to ensure proper runtime support
+
 ## 0.0.12
 
 ### Patch Changes
