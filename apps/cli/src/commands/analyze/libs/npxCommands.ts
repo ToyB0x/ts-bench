@@ -33,7 +33,7 @@ export const npxAnalyzeTrace = async (
   // Available options for @typescript/analyze-trace:
   // https://github.com/microsoft/typescript-analyze-trace
   const SKIP_MILLIS = 100; // DEFAULT: 100
-  const FORCE_MILLIS = 300; // DEFAULT: 500
+  const FORCE_MILLIS = 150; // DEFAULT: 500
   const command = `npx @typescript/analyze-trace ${tracePath} > ${analyzeOutFile} --skipMillis ${SKIP_MILLIS} --forceMillis ${FORCE_MILLIS} --json`;
 
   try {
