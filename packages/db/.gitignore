@@ -1,2 +1,2 @@
-# This file is just symlink to root .env file
-!.env
+# .env をsymlinkにした場合、GithubActionをマーケットプレイスで配布するときにエラーとなるためsymlinkを使わない
+.env
