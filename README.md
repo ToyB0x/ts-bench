@@ -25,7 +25,7 @@ npx @ts-bench/cli
 - Implement a feature to prepare scripts
   - Provide a way to run prepare scripts (pre-install, pre-build types, etc.)
 - Implement features to rapid scan
-  - limit the packages (this is useful for large monorepos, but difficult to analyze if type dependent package build is needed)
+  - limit the packages (this is useful for large monorepos, but difficult to analyze if type dependent package build is needed, also but, turborepo can help build cache)
     - specify the paths to scan directory
     - specify the package names to scan
 - Implement features to bulk scan

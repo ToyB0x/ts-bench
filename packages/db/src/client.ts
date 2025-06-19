@@ -17,12 +17,14 @@ export const db = drizzle(createClient({ url: `file:${DB_FILE_NAME}` }), {
 });
 
 export const migrateDb = async (force = false) => {
-  console.info("Running migrations...", force ? " (force mode)" : "");
+  if (force) console.warn("Force mode enabled. This will reset the database.");
+
+  // console.info("Running migrations...", force ? " (force mode)" : "");
   const __dirname = dirname(new URL(import.meta.url).pathname);
 
   try {
     await migrate(db, { migrationsFolder: resolve(__dirname, "../drizzle") });
-    console.info("Migrations completed successfully.");
+    // console.info("Migrations completed successfully.");
   } catch (e) {
     console.error(e);
 
