@@ -14,7 +14,7 @@ export const showTable = async (results: TscResult[]) => {
   });
 
   const lastResult = recentScans.slice(0, 1).flatMap((scan) => scan.results);
-  const recentResults = recentScans.flatMap((scan) => scan.results);
+  // const recentResults = recentScans.flatMap((scan) => scan.results);
 
   console.log("```");
   console.table(
@@ -26,17 +26,31 @@ export const showTable = async (results: TscResult[]) => {
       )
       .map((r) =>
         r.isSuccess
-          ? {
+          ? // ? {
+            //     package: r.package.name,
+            //     "types (diff recent 1 | recent 10)": `${r.numType} (${calcDiff(calcAverage(lastResult, r.package.name, "numType"), r.numType)} | ${calcDiff(calcAverage(recentResults, r.package.name, "numType"), r.numType)})`,
+            //     traces: `${r.numTrace} (${calcDiff(calcAverage(lastResult, r.package.name, "numTrace"), r.numTrace)} | ${calcDiff(calcAverage(recentResults, r.package.name, "numTrace"), r.numTrace)})`,
+            //     ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)} | ${calcDiff(calcAverage(recentResults, r.package.name, "durationMs"), r.durationMs)})`,
+            //     hotSpots: `${r.numHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "numHotSpot"), r.numHotSpot)} | ${calcDiff(calcAverage(recentResults, r.package.name, "numHotSpot"), r.numHotSpot)})`,
+            //     hotSpotMs: `${r.durationMsHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMsHotSpot"), r.durationMsHotSpot)} | ${calcDiff(calcAverage(recentResults, r.package.name, "durationMsHotSpot"), r.durationMsHotSpot)})`,
+            //   }
+            // : {
+            //     package: r.package.name,
+            //     ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)} | ${calcDiff(calcAverage(recentResults, r.package.name, "durationMs"), r.durationMs)})`,
+            //     error: String(r.error),
+            //   },
+            // NOTE: The above commented code is replaced with the following to avoid showing the recent 10 data in the table
+            {
               package: r.package.name,
-              "types (diff recent 1 | recent 10)": `${r.numType} (${calcDiff(calcAverage(lastResult, r.package.name, "numType"), r.numType)} | ${calcDiff(calcAverage(recentResults, r.package.name, "numType"), r.numType)})`,
-              traces: `${r.numTrace} (${calcDiff(calcAverage(lastResult, r.package.name, "numTrace"), r.numTrace)} | ${calcDiff(calcAverage(recentResults, r.package.name, "numTrace"), r.numTrace)})`,
-              ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)} | ${calcDiff(calcAverage(recentResults, r.package.name, "durationMs"), r.durationMs)})`,
-              hotSpots: `${r.numHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "numHotSpot"), r.numHotSpot)} | ${calcDiff(calcAverage(recentResults, r.package.name, "numHotSpot"), r.numHotSpot)})`,
-              hotSpotMs: `${r.durationMsHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMsHotSpot"), r.durationMsHotSpot)} | ${calcDiff(calcAverage(recentResults, r.package.name, "durationMsHotSpot"), r.durationMsHotSpot)})`,
+              types: `${r.numType} (${calcDiff(calcAverage(lastResult, r.package.name, "numType"), r.numType)})`,
+              traces: `${r.numTrace} (${calcDiff(calcAverage(lastResult, r.package.name, "numTrace"), r.numTrace)})`,
+              ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)})`,
+              hotSpots: `${r.numHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "numHotSpot"), r.numHotSpot)})`,
+              hotSpotMs: `${r.durationMsHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMsHotSpot"), r.durationMsHotSpot)})`,
             }
           : {
               package: r.package.name,
-              ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)} | ${calcDiff(calcAverage(recentResults, r.package.name, "durationMs"), r.durationMs)})`,
+              ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)})`,
               error: String(r.error),
             },
       ),

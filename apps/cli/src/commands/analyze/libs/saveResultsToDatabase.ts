@@ -24,13 +24,19 @@ export const saveResultsToDatabase = async (
         commitDate: new Date(latest.date),
         createdAt: new Date(),
       })
+      .onConflictDoUpdate({
+        target: [scanTbl.repository, scanTbl.commitHash],
+        set: {
+          createdAt: new Date(),
+        },
+      })
       .returning();
 
     const scanId = scan[0]?.id;
     if (!scanId)
       throw new Error("Failed to create scan entry in the database.");
 
-    await tx.insert(resultTbl).values([
+    const insertion: (typeof resultTbl.$inferInsert)[] = [
       ...results
         .filter((r) => r.isSuccess)
         .map((r) => ({
@@ -51,6 +57,21 @@ export const saveResultsToDatabase = async (
           durationMs: r.durationMs || 0,
           durationMsHotSpot: 0,
         })),
-    ]);
+    ];
+
+    await tx
+      .insert(resultTbl)
+      .values(insertion)
+      .onConflictDoUpdate({
+        target: [resultTbl.scanId, resultTbl.package],
+        set: {
+          numType: resultTbl.numType,
+          numTrace: resultTbl.numTrace,
+          numHotSpot: resultTbl.numHotSpot,
+          durationMs: resultTbl.durationMs,
+          durationMsHotSpot: resultTbl.durationMsHotSpot,
+          error: resultTbl.error,
+        },
+      });
   });
 };
