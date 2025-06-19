@@ -1,3 +1,4 @@
+import { migrateDb } from "@ts-bench/db";
 import { Command } from "commander";
 import { runBench } from "./runBench";
 
@@ -8,7 +9,11 @@ export const makeAnalyzeCommand = () => {
   analyze
     .command("tsc", { isDefault: true })
     .description("check tsc performance")
-    .action(runBench);
+    .action(async () => {
+      const enableForceMigrationConflict = false;
+      await migrateDb(enableForceMigrationConflict);
+      await runBench();
+    });
 
   return analyze;
 };

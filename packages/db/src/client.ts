@@ -8,9 +8,9 @@ import "dotenv/config"; // If you need variable expansion in .env files, use @do
 
 export * from "./schema"; // if you need to export types or functions: export * from "drizzle-orm";
 
-const DB_FILE_NAME = process.env["DB_FILE_NAME"];
-if (!DB_FILE_NAME)
-  throw new Error("DB_FILE_NAME environment variable is not set.");
+const DEFAULT_DB_FILE_NAME = "ts-bench.sqlite";
+const DB_FILE_NAME_ENV = process.env["DB_FILE_NAME"]; // Use the environment variable or .env file via dotenv
+const DB_FILE_NAME = DB_FILE_NAME_ENV || DEFAULT_DB_FILE_NAME;
 
 export const db = drizzle(createClient({ url: `file:${DB_FILE_NAME}` }), {
   schema,

@@ -29,7 +29,12 @@ export const npxAnalyzeTrace = async (
 ) => {
   const tracePath = path.join(pkg.absolutePath, TRACE_FILES_DIR);
   const analyzeOutFile = path.join(tracePath, "analyze.json");
-  const command = `npx @typescript/analyze-trace ${tracePath} > ${analyzeOutFile}`;
+
+  // Available options for @typescript/analyze-trace:
+  // https://github.com/microsoft/typescript-analyze-trace
+  const SKIP_MILLIS = 100; // DEFAULT: 100
+  const FORCE_MILLIS = 300; // DEFAULT: 500
+  const command = `npx @typescript/analyze-trace ${tracePath} > ${analyzeOutFile} --skipMillis ${SKIP_MILLIS} --forceMillis ${FORCE_MILLIS} --json`;
 
   try {
     const result = await execPromise(command, { cwd: pkg.absolutePath });
