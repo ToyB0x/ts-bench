@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader() {
   const packages = await db
-    .selectDistinct()
+    .selectDistinct({ package: resultTbl.package })
     .from(resultTbl)
     .orderBy(resultTbl.package);
 
