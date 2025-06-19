@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.4
+
+### Patch Changes
+
+- 4586f62: fix: move TypeScript and type definitions from devDependencies to dependencies for proper build/runtime support
+
 ## 0.0.3
 
 ### Patch Changes
