@@ -14,7 +14,11 @@ export const runBench = async (): Promise<void> => {
   // Step 2: Run tsc for each package with multicore support (Use 80% of available CPUs for accuracy)
   const totalCPUs = cpus().length;
   const cpuModelAndSpeeds = [
-    ...new Set(cpus().map((cpu) => `${cpu.model} (${cpu.speed} MHz)`)),
+    ...new Set(
+      cpus().map((cpu) =>
+        cpu.speed ? `${cpu.model} (${cpu.speed}MHz)` : `${cpu.model}`,
+      ),
+    ),
   ];
 
   const NUM_RESERVE_CPUS = 0; // Reserve some CPUs for the system to ensure accuracy
@@ -30,7 +34,7 @@ CPU: ${cpuModelAndSpeeds.join(", ")}`,
     .process((pkg) => tscAndAnalyze(pkg));
 
   // Step 4: Write result to sqlite (with multicore support)
-  await saveResultsToDatabase(results).catch(console.error);
+  await saveResultsToDatabase(results, cpuModelAndSpeeds).catch(console.error);
 
   // Step 5: Show results
   await showTable(results);

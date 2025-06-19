@@ -17,6 +17,7 @@ export const scanTbl = sqliteTable(
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .default(sql`(CURRENT_TIMESTAMP)`)
       .notNull(),
+    cpus: text("cpus").notNull().default(""),
   },
   (tbl) => [
     uniqueIndex("uq_scan_repository_commit_hash").on(

@@ -8,6 +8,13 @@
       "when": 1750212926399,
       "tag": "0000_curious_sunfire",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1750358110012,
+      "tag": "0001_overjoyed_toro",
+      "breakpoints": true
     }
   ]
 }

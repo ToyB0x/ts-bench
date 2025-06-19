@@ -4,6 +4,7 @@ import type { TscResult } from "./tscAndAnalyze";
 
 export const saveResultsToDatabase = async (
   results: TscResult[],
+  cpus: string[],
 ): Promise<void> => {
   const { value: gitRepo } = await simpleGit().getConfig("remote.origin.url");
   // git@github.com:ToyB0x/repo-monitor.git --> repo-monitor
@@ -23,11 +24,13 @@ export const saveResultsToDatabase = async (
         commitMessage: latest.message,
         commitDate: new Date(latest.date),
         createdAt: new Date(),
+        cpus: cpus.join(", "),
       })
       .onConflictDoUpdate({
         target: [scanTbl.repository, scanTbl.commitHash],
         set: {
           createdAt: new Date(),
+          cpus: cpus.join(", "),
         },
       })
       .returning();
