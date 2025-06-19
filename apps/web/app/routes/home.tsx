@@ -1,5 +1,5 @@
 import { db, resultTbl } from "@ts-bench/db";
-import { ChartAreaInteractive } from "~/components/parts/chart-area";
+import { ChartAreaInteractiveExample } from "~/components/parts/chart-area-example";
 import type { Route } from "./+types/home";
 
 // biome-ignore lint/correctness/noEmptyPattern: example code
@@ -16,13 +16,15 @@ export async function loader() {
 
 export default function Page({ loaderData }: Route.ComponentProps) {
   return (
-    <div>
-      {loaderData.map(({ package: pkg }) => (
-        <a key={pkg} href={`/packages/${pkg}`}>
-          {pkg}
-        </a>
-      ))}
-      <ChartAreaInteractive />
-    </div>
+    <>
+      <ChartAreaInteractiveExample />
+      <ul className="list-disc mt-4 pl-6">
+        {loaderData.map(({ package: pkg }) => (
+          <li key={pkg}>
+            <a href={`/packages/${pkg}`}>{pkg}</a>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
