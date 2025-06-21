@@ -6,6 +6,7 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  index("routes/home.tsx"),
+  index("routes/index.tsx"),
+  route("home", "routes/home.tsx"),
   ...prefix("packages", [route(":scope?/:name", "routes/packages.$name.tsx")]),
 ] satisfies RouteConfig;

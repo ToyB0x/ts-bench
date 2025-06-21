@@ -27,13 +27,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <title>Repo Monitor</title>
+        <title>TSBench</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-black text-white min-h-screen flex flex-col">
         {children}
         <ScrollRestoration />
         <Scripts />

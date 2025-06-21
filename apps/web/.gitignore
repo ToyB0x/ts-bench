@@ -7,3 +7,7 @@
 
 # .env をsymlinkにした場合、GithubActionをマーケットプレイスで配布するときにエラーとなるためsymlinkを使わない
 .env
+
+# db
+*.db
+*.sqlite
