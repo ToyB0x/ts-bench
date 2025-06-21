@@ -110,8 +110,10 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             {data.length !== 1 ? "s" : ""}
           </CardDescription>
         </div>
-        {/* @ts-ignore */}
-        <Select value={metricType} onValueChange={setMetricType}>
+        <Select<"all" | "types" | "durationMs">
+          value={metricType}
+          onValueChange={(value) => setMetricType(value)}
+        >
           <SelectTrigger
             className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
             aria-label="Select metric type"
