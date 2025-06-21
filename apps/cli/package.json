@@ -2,9 +2,8 @@
   "name": "@ts-bench/cli",
   "version": "0.0.16",
   "type": "module",
+  "main": "./src/index.ts",
   "bin": "./src/index.ts",
-  "//NOTE: tsx経由で実行するようにindex.tsを設定してあるため main フィールドは不要": "",
-  "//main": "dist/index.js",
   "scripts": {
     "NOTE: dbパッケージをビルドしていないことと関係してviteかtsx経由で実行しないとimportエラー等が発生するため dev/build コマンドはコメントアウト": "",
     "//dev": "tsup --watch",

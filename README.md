@@ -34,3 +34,15 @@ npx @ts-bench/cli
   - specify the commits hashes (commit-a, commit-b, commit-c)
   - specify the skip span (e.g., skip each odd commit, skip each even commit, skip every 10th commit, scan only 1st each day, scan only 1st commit each week etc.)
 - Check Hotspot checking functionality
+- Add Human readable / and "Actionable" report (including hotspots summary)
+  - Provide a way to generate a report that is easy to understand and actionable
+  - Provide a way to generate a report that can be used for code review
+  - Provide report for LLM First 
+- Add Graph / Split Graph recent 10, recent 1year
+- Add MCP to find .ts / .ts file that import specific package (find positive reason for split export / import)
+- Add MCP to find .ts / .ts file that does not generate .d.ts file (find positive reason for not generating .d.ts file and import them)
+- Use intelligent code analysis to run analyze command for specific files that affected by the changes
+  - https://turborepo.com/docs/reference/run#--dry----dry-run
+  - https://turborepo.com/docs/reference/query
+  - eg: add option for monorepo typecheck command that user already use (typecheck, check-types, tsc, tsc-check, etc...)
+- Add E2E tests
