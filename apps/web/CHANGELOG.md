@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.8
+
+### Patch Changes
+
+- 695a8d2: feat: update web design
+
 ## 0.0.7
 
 ### Patch Changes

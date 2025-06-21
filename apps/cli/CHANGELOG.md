@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.17
+
+### Patch Changes
+
+- 695a8d2: feat: update web design
+
 ## 0.0.16
 
 ### Patch Changes
