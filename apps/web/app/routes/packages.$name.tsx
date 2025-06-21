@@ -29,12 +29,11 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function Page({ loaderData }: Route.ComponentProps) {
   const results = loaderData;
-  console.log(results);
   const name = results[0]?.package || "Unknown Package";
 
   return (
     <div>
-      <h1>{name}</h1>
+      <h1 className="bg-blue-400">{name}</h1>
       <pre>{JSON.stringify(results)}</pre>
     </div>
   );
