@@ -43,18 +43,18 @@ type ChartAreaInteractiveProps = {
 export const description = "Package analysis metrics over time";
 
 const chartConfig = {
-  numTrace: {
-    label: "Traces",
+  durationMs: {
+    label: "ms",
     color: "var(--chart-1)",
   },
   numType: {
     label: "Types",
     color: "var(--chart-2)",
   },
-  numHotSpot: {
-    label: "Hot Spots",
-    color: "var(--chart-3)",
-  },
+  // numHotSpot: {
+  //   label: "Hot Spots",
+  //   color: "var(--chart-3)",
+  // },
 } satisfies ChartConfig;
 
 export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
@@ -66,23 +66,25 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
       numTrace: result.numTrace,
       numType: result.numType,
       numHotSpot: result.numHotSpot,
-      durationMs: result.durationMs,
+      durationMs: Math.round(result.durationMs),
       isSuccess: result.isSuccess,
     }));
   }, [data]);
 
-  const [metricType, setMetricType] = React.useState("all");
+  const [metricType, setMetricType] = React.useState<
+    "all" | "types" | "durationMs"
+  >("all");
 
   const filteredData = React.useMemo(() => {
-    if (metricType === "traces") {
-      return chartData.map((item) => ({ ...item, numType: 0, numHotSpot: 0 }));
+    if (metricType === "durationMs") {
+      return chartData.map((item) => ({ ...item, numType: 0 }));
     }
     if (metricType === "types") {
-      return chartData.map((item) => ({ ...item, numTrace: 0, numHotSpot: 0 }));
+      return chartData.map((item) => ({ ...item, durationMs: 0 }));
     }
-    if (metricType === "hotspots") {
-      return chartData.map((item) => ({ ...item, numTrace: 0, numType: 0 }));
-    }
+    // if (metricType === "hotspots") {
+    //   return chartData.map((item) => ({ ...item, durationMs: 0, numType: 0 }));
+    // }
     return chartData;
   }, [chartData, metricType]);
 
@@ -108,6 +110,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             {data.length !== 1 ? "s" : ""}
           </CardDescription>
         </div>
+        {/* @ts-ignore */}
         <Select value={metricType} onValueChange={setMetricType}>
           <SelectTrigger
             className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
@@ -119,15 +122,15 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             <SelectItem value="all" className="rounded-lg">
               All metrics
             </SelectItem>
-            <SelectItem value="traces" className="rounded-lg">
-              Traces only
+            <SelectItem value="durationMs" className="rounded-lg">
+              Ms only
             </SelectItem>
             <SelectItem value="types" className="rounded-lg">
               Types only
             </SelectItem>
-            <SelectItem value="hotspots" className="rounded-lg">
-              Hot spots only
-            </SelectItem>
+            {/*<SelectItem value="hotspots" className="rounded-lg">*/}
+            {/*  Hot spots only*/}
+            {/*</SelectItem>*/}
           </SelectContent>
         </Select>
       </CardHeader>
@@ -139,15 +142,15 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
           <AreaChart data={filteredData}>
             <defs>
               {/* biome-ignore lint/nursery/useUniqueElementIds: chart gradients */}
-              <linearGradient id="fillNumTrace" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillDurationMs" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-numTrace)"
+                  stopColor="var(--color-durationMs)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-numTrace)"
+                  stopColor="var(--color-durationMs)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -164,19 +167,18 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              {/* biome-ignore lint/nursery/useUniqueElementIds: chart gradients */}
-              <linearGradient id="fillNumHotSpot" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-numHotSpot)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-numHotSpot)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
+              {/*<linearGradient id="fillNumHotSpot" x1="0" y1="0" x2="0" y2="1">*/}
+              {/*  <stop*/}
+              {/*    offset="5%"*/}
+              {/*    stopColor="var(--color-numHotSpot)"*/}
+              {/*    stopOpacity={0.8}*/}
+              {/*  />*/}
+              {/*  <stop*/}
+              {/*    offset="95%"*/}
+              {/*    stopColor="var(--color-numHotSpot)"*/}
+              {/*    stopOpacity={0.1}*/}
+              {/*  />*/}
+              {/*</linearGradient>*/}
             </defs>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -196,15 +198,15 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 />
               }
             />
-            {metricType === "all" || metricType === "hotspots" ? (
-              <Area
-                dataKey="numHotSpot"
-                type="natural"
-                fill="url(#fillNumHotSpot)"
-                stroke="var(--color-numHotSpot)"
-                stackId="a"
-              />
-            ) : null}
+            {/*{metricType === "all" || metricType === "hotspots" ? (*/}
+            {/*  <Area*/}
+            {/*    dataKey="numHotSpot"*/}
+            {/*    type="natural"*/}
+            {/*    fill="url(#fillNumHotSpot)"*/}
+            {/*    stroke="var(--color-numHotSpot)"*/}
+            {/*    stackId="a"*/}
+            {/*  />*/}
+            {/*) : null}*/}
             {metricType === "all" || metricType === "types" ? (
               <Area
                 dataKey="numType"
@@ -214,12 +216,12 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 stackId="a"
               />
             ) : null}
-            {metricType === "all" || metricType === "traces" ? (
+            {metricType === "all" || metricType === "durationMs" ? (
               <Area
-                dataKey="numTrace"
+                dataKey="durationMs"
                 type="natural"
-                fill="url(#fillNumTrace)"
-                stroke="var(--color-numTrace)"
+                fill="url(#fillDurationMs)"
+                stroke="var(--color-durationMs)"
                 stackId="a"
               />
             ) : null}
