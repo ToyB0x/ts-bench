@@ -1,3 +1,4 @@
+import type { resultTbl, scanTbl } from "@ts-bench/db";
 import * as React from "react";
 import { Area, AreaChart, XAxis } from "recharts";
 import {
@@ -23,27 +24,8 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 
-type ResultData = {
-  id: number;
-  package: string;
-  isSuccess: boolean;
-  numTrace: number;
-  numType: number;
-  numHotSpot: number;
-  durationMs: number;
-  durationMsHotSpot: number;
-  error: string | null;
-  scanId: number;
-  commitHash: string;
-  commitMessage: string;
-  commitDate: Date;
-  owner: string;
-  repo: string;
-  benchVersion: string;
-};
-
 type ChartAreaInteractiveProps = {
-  data: ResultData[];
+  data: Array<typeof resultTbl.$inferSelect & typeof scanTbl.$inferSelect>;
 };
 
 export const description = "Package analysis metrics over time";
@@ -57,31 +39,11 @@ const chartConfig = {
     label: "Types",
     color: "var(--chart-2)",
   },
-  // numHotSpot: {
-  //   label: "Hot Spots",
-  //   color: "var(--chart-3)",
-  // },
 } satisfies ChartConfig;
 
 export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
   const packageName = data[0]?.package || "Unknown Package";
-
-  const chartData = React.useMemo(() => {
-    return data.map((result) => ({
-      scanId: result.scanId,
-      numTrace: result.numTrace,
-      numType: result.numType,
-      numHotSpot: result.numHotSpot,
-      durationMs: Math.round(result.durationMs),
-      isSuccess: result.isSuccess,
-      commitHash: result.commitHash.slice(0, 7),
-      commitMessage: result.commitMessage,
-      commitDate: `${result.commitDate.getMonth() + 1}/${result.commitDate.getDate()}`,
-      owner: result.owner,
-      repo: result.repo,
-      benchVersion: result.benchVersion,
-    }));
-  }, [data]);
+  const chartData = React.useMemo(() => data, [data]);
 
   const [metricType, setMetricType] = React.useState<
     "all" | "types" | "durationMs"

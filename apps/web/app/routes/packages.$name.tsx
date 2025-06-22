@@ -18,7 +18,7 @@ export async function loader({ params }: Route.LoaderArgs) {
         columns: {
           commitHash: true,
           commitMessage: true,
-          createdAt: true,
+          scannedAt: true,
         },
       },
     },
