@@ -47,6 +47,13 @@ export const makeAnalyzeCommand = () => {
         "prepare / setup commands to run before analyze",
       ).default(["pnpm install", "pnpm build"]),
     )
+    // option: specify working directory for prepare commands
+    .addOption(
+      new Option(
+        "-d, --working-dir <dir>",
+        "working directory for prepare commands (default: current directory)",
+      ).default("."),
+    )
     // specify timeout in minutes
     .addOption(
       new Option(
@@ -55,7 +62,7 @@ export const makeAnalyzeCommand = () => {
       ).default(60),
     )
     .action(async (options) => {
-      console.info({ options });
+      // console.info({ options });
 
       const enableForceMigrationConflict = false;
       await migrateDb(enableForceMigrationConflict);
@@ -75,15 +82,25 @@ export const makeAnalyzeCommand = () => {
           // run setup commands via bash (eg., pnpm install, pnpm build)
           const { exec } = await import("node:child_process");
           await new Promise<void>((resolve, reject) => {
-            exec(command, (error, stdout, _stderr) => {
-              if (error) {
-                console.error(`Error executing command: ${command}`, error);
-                reject(error);
-              } else {
-                console.info(`Command output: ${stdout}`);
-                resolve();
-              }
-            });
+            exec(
+              command,
+              {
+                cwd: options.workingDir,
+              },
+              (error, stdout, stderr) => {
+                if (error) {
+                  console.error(
+                    `Error executing command: ${command}`,
+                    error,
+                    stderr,
+                  );
+                  reject(error);
+                } else {
+                  console.info(`Command output: ${stdout}`);
+                  resolve();
+                }
+              },
+            );
           });
         }
 
