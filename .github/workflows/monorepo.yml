@@ -117,6 +117,7 @@ jobs:
           path: apps/web/build/client/
 
   deploy:
+    # if: github.ref == 'refs/heads/main' # Only upload on main branch (commented out to allow deployment on all branches: handle if statement inner steps accordingly)
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
