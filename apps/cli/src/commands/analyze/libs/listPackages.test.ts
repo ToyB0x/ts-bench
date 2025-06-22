@@ -24,6 +24,11 @@ describe("listPackages", () => {
         name: "@ts-bench/web",
         relativePathFromRoot: "apps/web",
       },
+      {
+        absolutePath: `${rootDir}/apps/ts-bench`,
+        name: "ts-bench",
+        relativePathFromRoot: "apps/ts-bench",
+      },
     ]);
   });
 });
