@@ -102,13 +102,6 @@ jobs:
           name: repo-performance-report
           path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
 
-      - name: Build web report
-        if: github.ref == 'refs/heads/main' # Only upload on main branch
-        run: npx @ts-bench/web@latest
-        shell: bash
-        env:
-          DB_FILE_NAME: "ts-bench.sqlite"
-
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
         name: Upload static web files as artifact
