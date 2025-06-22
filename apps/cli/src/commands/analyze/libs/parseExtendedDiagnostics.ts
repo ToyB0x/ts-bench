@@ -76,7 +76,7 @@ export const parseExtendedDiagnosticsResult = (
 
   const aggregatedObj: {
     // [K in (typeof extendedDiagnosticsResultKeys)[number]]: never;
-    [key: string]: any;
+    [key: string]: number;
   } = {};
   for (const line of extendedDiagnosticsByLines) {
     const [key, valueWithUnitWithWhiteSpace] = line.split(":");
@@ -86,5 +86,5 @@ export const parseExtendedDiagnosticsResult = (
     }
   }
 
-  return aggregatedObj as any;
+  return aggregatedObj;
 };
