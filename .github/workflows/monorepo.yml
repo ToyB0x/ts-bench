@@ -117,7 +117,7 @@ jobs:
           path: apps/web/build/client/
 
   deploy:
-    # if: github.ref == 'refs/heads/main' # Only upload on main branch (commented out to allow deployment on all branches: handle if statement inner steps accordingly)
+    if: github.ref == 'refs/heads/main' # Only upload on main branch
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
@@ -128,9 +128,4 @@ jobs:
     needs: build-test
     steps:
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main' # Only upload on main branch
         uses: actions/deploy-pages@v4
-
-      - name: Show Skipped Deployment Message
-        if: github.ref != 'refs/heads/main' # Only upload on main branch
-        uses: echo "Deployment web report is skipped for this branch (branch protection enabled)."
