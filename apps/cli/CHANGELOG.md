@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.19
+
+### Patch Changes
+
+- c7362c4: feat: add multi analyze command
+
 ## 0.0.18
 
 ### Patch Changes
