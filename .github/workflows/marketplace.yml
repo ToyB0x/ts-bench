@@ -56,9 +56,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload report artifact
-        if: github.ref == 'refs/heads/main' # Only upload on main branch
-        uses: actions/upload-artifact@v4
-        with:
-          name: repo-performance-report
-          path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
+      # Skipped steps for uploading artifacts (other workflows handle this)
+      # - name: Upload report artifact
+      #   if: github.ref == 'refs/heads/main' # Only upload on main branch
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: repo-performance-report
+      #   path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
