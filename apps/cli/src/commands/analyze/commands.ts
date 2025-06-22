@@ -45,7 +45,10 @@ export const makeAnalyzeCommand = () => {
       new Option(
         "-p, --prepare-commands <commands...>",
         "prepare / setup commands to run before analyze",
-      ).default(["pnpm install", "pnpm build"] as string[]),
+      ).default([
+        "pnpm install --reporter=silent --no-deprecation",
+        "pnpm build",
+      ] as string[]),
     )
     // option: specify working directory for prepare commands
     .addOption(
@@ -77,12 +80,29 @@ export const makeAnalyzeCommand = () => {
 
       // check out to each commit
       let count = 0;
+      let errorCount = 0;
       for (const commit of recentCommits) {
         count += 1;
         console.info(`${commit.hash} ( ${count}/ ${recentCommits.length})`);
         await simpleGit().checkout(commit.hash);
-        await runPreprpareCommands(options.prepareCommands, options.workingDir);
-        await runBench();
+        try {
+          await runPreprpareCommands(
+            options.prepareCommands,
+            options.workingDir,
+          );
+          const enableShowTable = false;
+          await runBench(enableShowTable);
+        } catch (error) {
+          errorCount += 1;
+          console.error(
+            `Error running benchmark for commit ${commit.hash}:`,
+            error,
+          );
+          if (errorCount >= 3) {
+            console.error("Too many errors, stopping the analysis.");
+            break;
+          }
+        }
       }
 
       // restore to the latest commit

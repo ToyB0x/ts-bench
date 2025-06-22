@@ -7,7 +7,7 @@ import {
   tscAndAnalyze,
 } from "./libs";
 
-export const runBench = async (): Promise<void> => {
+export const runBench = async (enableShowTable = true): Promise<void> => {
   // Step 1: List packages in the git repository
   const packages = await listPackages();
 
@@ -37,5 +37,5 @@ CPU: ${cpuModelAndSpeeds.join(", ")}`,
   await saveResultsToDatabase(results, cpuModelAndSpeeds).catch(console.error);
 
   // Step 5: Show results
-  await showTable(results);
+  if (enableShowTable) await showTable(results);
 };
