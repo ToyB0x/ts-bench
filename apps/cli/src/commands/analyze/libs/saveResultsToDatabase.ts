@@ -12,8 +12,9 @@ export const saveResultsToDatabase = async (
     ? gihubFullName.split("/")
     : [];
 
-  const { latest: latestCommit } = await simpleGit().log();
-  if (latestCommit) return;
+  const { latest: currentCommit } = await simpleGit().log();
+  if (!currentCommit)
+    throw Error("Please run this command on a clean working tree.");
 
   const { value: gitRepo } = await simpleGit().getConfig("remote.origin.url");
   // git@github.com:ToyB0x/repo-monitor.git --> ToyB0x
@@ -30,20 +31,17 @@ export const saveResultsToDatabase = async (
       ? gitRepo.split("/").pop()?.replace(".git", "") || "unknown"
       : "unknown");
 
-  const { latest } = await simpleGit().log();
-  if (!latest) return;
-
   const insertionScan: typeof scanTbl.$inferInsert = {
     version,
     owner,
-    changed: latest.diff?.changed,
-    files: latest.diff?.files.length,
-    insertions: latest.diff?.insertions,
-    deletions: latest.diff?.deletions,
+    changed: currentCommit.diff?.changed,
+    files: currentCommit.diff?.files.length,
+    insertions: currentCommit.diff?.insertions,
+    deletions: currentCommit.diff?.deletions,
     repository: repoName,
-    commitHash: latest.hash,
-    commitMessage: latest.message,
-    commitDate: new Date(latest.date),
+    commitHash: currentCommit.hash,
+    commitMessage: currentCommit.message,
+    commitDate: new Date(currentCommit.date),
     scannedAt: new Date(),
     cpus: cpus.join(", "),
   };
