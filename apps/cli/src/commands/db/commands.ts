@@ -1,5 +1,5 @@
+import { Command, Option } from "@commander-js/extra-typings";
 import { migrateDb } from "@ts-bench/db";
-import { Command, Option } from "commander";
 
 export const makeDbCommand = () => {
   const db = new Command("db");
