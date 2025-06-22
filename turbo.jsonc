@@ -5,7 +5,8 @@
   "tasks": {
     "db:generate": {
       "dependsOn": ["^db:generate"],
-      "inputs": ["prisma/**"]
+      "inputs": ["packages/db/src/**"],
+      "outputs": ["packages/db/drizzle/**"]
     },
     "db:migrate": {
       "cache": false, // Disable caching for sql file generation
