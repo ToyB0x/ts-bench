@@ -34,6 +34,10 @@ type ResultData = {
   durationMsHotSpot: number;
   error: string | null;
   scanId: number;
+  commitHash: string;
+  commitMessage: string;
+  commitDate: Date;
+  repo: string;
 };
 
 type ChartAreaInteractiveProps = {
@@ -68,6 +72,10 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
       numHotSpot: result.numHotSpot,
       durationMs: Math.round(result.durationMs),
       isSuccess: result.isSuccess,
+      commitHash: result.commitHash.slice(0, 7),
+      commitMessage: result.commitMessage,
+      commitDate: `${result.commitDate.getMonth() + 1}/${result.commitDate.getDate()}`,
+      repo: result.repo,
     }));
   }, [data]);
 
@@ -82,9 +90,6 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
     if (metricType === "types") {
       return chartData.map((item) => ({ ...item, durationMs: 0 }));
     }
-    // if (metricType === "hotspots") {
-    //   return chartData.map((item) => ({ ...item, durationMs: 0, numType: 0 }));
-    // }
     return chartData;
   }, [chartData, metricType]);
 
@@ -130,9 +135,6 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             <SelectItem value="types" className="rounded-lg">
               Types only
             </SelectItem>
-            {/*<SelectItem value="hotspots" className="rounded-lg">*/}
-            {/*  Hot spots only*/}
-            {/*</SelectItem>*/}
           </SelectContent>
         </Select>
       </CardHeader>
@@ -141,7 +143,18 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
+          <AreaChart
+            data={filteredData}
+            onClick={(payload) => {
+              const repo = payload?.activePayload?.[0]?.payload.repo;
+              const commitHash =
+                payload?.activePayload?.[0]?.payload.commitHash;
+
+              if (!repo || !commitHash) return;
+              const githubUrl = `https://github.com/owner/${repo}/commit/${commitHash}`;
+              window.open(githubUrl, "_blank");
+            }}
+          >
             <defs>
               {/* biome-ignore lint/nursery/useUniqueElementIds: chart gradients */}
               <linearGradient id="fillDurationMs" x1="0" y1="0" x2="0" y2="1">
@@ -169,48 +182,37 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              {/*<linearGradient id="fillNumHotSpot" x1="0" y1="0" x2="0" y2="1">*/}
-              {/*  <stop*/}
-              {/*    offset="5%"*/}
-              {/*    stopColor="var(--color-numHotSpot)"*/}
-              {/*    stopOpacity={0.8}*/}
-              {/*  />*/}
-              {/*  <stop*/}
-              {/*    offset="95%"*/}
-              {/*    stopColor="var(--color-numHotSpot)"*/}
-              {/*    stopOpacity={0.1}*/}
-              {/*  />*/}
-              {/*</linearGradient>*/}
             </defs>
-            {/*<CartesianGrid vertical={false} />*/}
             <XAxis
-              dataKey="scanId"
+              dataKey="commitDate"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
               minTickGap={32}
-              tickFormatter={(value) => `Scan ${value}`}
+              tickFormatter={(value) => `${value}`}
             />
             <ChartTooltip
               cursor={false}
               isAnimationActive={false}
               content={
                 <ChartTooltipContent
-                  labelFormatter={(value) => `Scan ID: ${value}`}
+                  labelFormatter={(value, payload) => {
+                    const item = payload?.[0];
+                    if (!item) return value;
+                    return (
+                      <>
+                        <div>{value}</div>
+                        <div className="text-xs text-gray-500 w-48">
+                          {item.payload.commitMessage}
+                        </div>
+                      </>
+                    );
+                  }}
                   isAnimationActive={false}
                   indicator="dot"
                 />
               }
             />
-            {/*{metricType === "all" || metricType === "hotspots" ? (*/}
-            {/*  <Area*/}
-            {/*    dataKey="numHotSpot"*/}
-            {/*    type="natural"*/}
-            {/*    fill="url(#fillNumHotSpot)"*/}
-            {/*    stroke="var(--color-numHotSpot)"*/}
-            {/*    stackId="a"*/}
-            {/*  />*/}
-            {/*) : null}*/}
             {metricType === "all" || metricType === "types" ? (
               <Area
                 isAnimationActive={false}
