@@ -143,13 +143,13 @@ jobs:
           path: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Pre-Render report site
-        if: github.ref == 'refs/heads/main' # Only upload on main branch
+#        if: github.ref == 'refs/heads/main' # Only upload on main branch
         run: pnpm build:prerender
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - id: deployment
-        if: github.ref == 'refs/heads/main' # Only upload on main branch
+#        if: github.ref == 'refs/heads/main' # Only upload on main branch
         name: Upload static web files as artifact
         uses: actions/upload-pages-artifact@v3
         with:
