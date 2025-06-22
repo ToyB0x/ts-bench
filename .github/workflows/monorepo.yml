@@ -10,7 +10,6 @@ on:
         description: 'analyze size of the repository'
         required: false
         type: number
-        default: 1
 
 permissions:
   contents: read # for checkout repository
@@ -129,8 +128,16 @@ jobs:
           if_no_artifact_found: warn
           # automatically extracts the artifact to file "repo.sqlite"
 
-      - name: Analyze check
+      - name: Analyze check (single size)
         working-directory: apps/cli
+        if: ${{ inputs.analyze-size == '' }} # Only run if analyze-size input is not provided
+        run: pnpm execute analyze > report.md
+        env:
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
+
+      - name: Analyze check (multiple sizes)
+        working-directory: apps/cli
+        if: ${{ inputs.analyze-size > 0 }} # Only run if analyze-size input is provided
         run: pnpm execute analyze span --working-dir=../.. --size=${{ inputs.analyze-size }} > report.md
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
