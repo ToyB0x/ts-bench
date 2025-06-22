@@ -31,12 +31,12 @@ type ChartAreaInteractiveProps = {
 export const description = "Package analysis metrics over time";
 
 const chartConfig = {
-  durationMs: {
+  totalTime: {
     label: "ms",
     color: "var(--chart-1)",
   },
-  numType: {
-    label: "Types",
+  traceNumType: {
+    label: "traceNumType",
     color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
@@ -46,15 +46,15 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
   const chartData = React.useMemo(() => data, [data]);
 
   const [metricType, setMetricType] = React.useState<
-    "all" | "types" | "durationMs"
+    "all" | "traceNumType" | "totalTime"
   >("all");
 
   const filteredData = React.useMemo(() => {
-    if (metricType === "durationMs") {
-      return chartData.map((item) => ({ ...item, numType: 0 }));
+    if (metricType === "totalTime") {
+      return chartData.map((item) => ({ ...item, traceNumType: 0 }));
     }
-    if (metricType === "types") {
-      return chartData.map((item) => ({ ...item, durationMs: 0 }));
+    if (metricType === "traceNumType") {
+      return chartData.map((item) => ({ ...item, totalTime: 0 }));
     }
     return chartData;
   }, [chartData, metricType]);
@@ -95,10 +95,10 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             <SelectItem value="all" className="rounded-lg">
               All metrics
             </SelectItem>
-            <SelectItem value="durationMs" className="rounded-lg">
+            <SelectItem value="totalTime" className="rounded-lg">
               Ms only
             </SelectItem>
-            <SelectItem value="types" className="rounded-lg">
+            <SelectItem value="traceNumType" className="rounded-lg">
               Types only
             </SelectItem>
           </SelectContent>
@@ -125,28 +125,28 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
           >
             <defs>
               {/* biome-ignore lint/nursery/useUniqueElementIds: chart gradients */}
-              <linearGradient id="fillDurationMs" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillTotalTime" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-durationMs)"
+                  stopColor="var(--color-totalTime)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-durationMs)"
+                  stopColor="var(--color-totalTime)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
               {/* biome-ignore lint/nursery/useUniqueElementIds: chart gradients */}
-              <linearGradient id="fillNumType" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillTraceNumType" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-numType)"
+                  stopColor="var(--color-TraceNumType)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-numType)"
+                  stopColor="var(--color-TraceNumType)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -183,23 +183,23 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 />
               }
             />
-            {metricType === "all" || metricType === "types" ? (
+            {metricType === "all" || metricType === "traceNumType" ? (
               <Area
                 isAnimationActive={false}
-                dataKey="numType"
+                dataKey="traceNumType"
                 type="natural"
-                fill="url(#fillNumType)"
-                stroke="var(--color-numType)"
+                fill="url(#fillTraceNumType)"
+                stroke="var(--color-TraceNumType)"
                 stackId="a"
               />
             ) : null}
-            {metricType === "all" || metricType === "durationMs" ? (
+            {metricType === "all" || metricType === "totalTime" ? (
               <Area
                 isAnimationActive={false}
-                dataKey="durationMs"
+                dataKey="totalTime"
                 type="natural"
-                fill="url(#fillDurationMs)"
-                stroke="var(--color-durationMs)"
+                fill="url(#fillTotalTime)"
+                stroke="var(--color-totalTime)"
                 stackId="a"
               />
             ) : null}
