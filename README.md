@@ -50,3 +50,4 @@ npx @ts-bench/cli
 - Add github action to deploy site
 - refactor database table models (decrease size, remove unused fields, etc.)
 - Add ability to show report web site without self-hosting (mostly large monorepos are belonging to companies with private repo, so it is a little bit difficult to self-host the report site with github-pages and so on)
+- Add dark mode support
