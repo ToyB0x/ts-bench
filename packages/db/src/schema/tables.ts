@@ -10,6 +10,8 @@ export const scanTbl = sqliteTable(
   "scan",
   {
     id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
+    version: text("version").notNull().default("alpha"), // scanner version (use default "alpha" as compatibility)
+    owner: text("owner").notNull().default(""), // owner of the repo (use default "" as compatibility)
     repository: text("repository").notNull(),
     commitHash: text("commit_hash").notNull(),
     commitMessage: text("commit_message").notNull(),
