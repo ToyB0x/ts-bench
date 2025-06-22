@@ -16,7 +16,9 @@ export const saveResultsToDatabase = async (
   // git@github.com:ToyB0x/repo-monitor.git --> ToyB0x
   const owner =
     githubOwner ||
-    (gitRepo ? gitRepo.split("/").slice(-2).pop() || "unknown" : "unknown");
+    (gitRepo
+      ? gitRepo.split(":").pop()?.split("/")[0] || "unknown"
+      : "unknown");
 
   // git@github.com:ToyB0x/repo-monitor.git --> repo-monitor
   const repoName =
