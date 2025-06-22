@@ -63,6 +63,16 @@ importers:
       '@ts-bench/cli':
         specifier: workspace:*
         version: link:../cli
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.3
+        version: 24.0.3
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
 
   apps/web:
     dependencies:
