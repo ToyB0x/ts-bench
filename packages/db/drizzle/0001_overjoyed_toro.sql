@@ -1,1 +1,0 @@
-ALTER TABLE `scan` ADD `cpus` text DEFAULT '' NOT NULL;
