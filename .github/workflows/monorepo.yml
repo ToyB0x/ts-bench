@@ -49,22 +49,22 @@ jobs:
       - name: Build check
         run: pnpm build
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Pre-Render test site (check command with seed)
         run: pnpm build:prerender
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Type check
         run: pnpm typecheck
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Test
         run: pnpm test
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Download previous main branch report
         uses: dawidd6/action-download-artifact@v11
@@ -80,13 +80,13 @@ jobs:
         working-directory: apps/cli
         run: pnpm execute db migrate --force
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Analyze check
         working-directory: apps/cli
         run: pnpm execute analyze > report.md
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Create PR comment
         if: github.event_name == 'pull_request' # Only create comment on pull requests
@@ -100,13 +100,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: repo-performance-report
-          path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
+          path: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Pre-Render report site
         if: github.ref == 'refs/heads/main' # Only upload on main branch
         run: pnpm build:prerender
         env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch

@@ -2,19 +2,12 @@ name: Purge Report DB
 
 on: workflow_dispatch
 
-env:
-  DB_FILE_NAME_REPORT: report.db # Default database file name for reports
-
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Prepare broken blank database
-        run: echo "This job is to purge the database. It will create a broken blank database file for next migration auto refresh" > ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
-
-      - name: Purge Report DB
-        uses: actions/upload-artifact@v4
+      - name: Remove old artifacts
+        uses: c-hive/gha-remove-artifacts@v1
         with:
-          name: repo-performance-report
-          path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
+          age: '0 seconds' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js
