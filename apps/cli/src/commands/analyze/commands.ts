@@ -1,5 +1,7 @@
 import { Command, Option } from "@commander-js/extra-typings";
 import { migrateDb } from "@ts-bench/db";
+import { simpleGit } from "simple-git";
+import { listCommits } from "./libs";
 import { runBench } from "./runBench";
 
 export const makeAnalyzeCommand = () => {
@@ -31,6 +33,13 @@ export const makeAnalyzeCommand = () => {
         "size of span (e.g., 10, 100, 1000)",
       ).default(30),
     )
+    // option: specify skip commits (e.g., 0, 5, 10)
+    .addOption(
+      new Option(
+        "-k, --skip <skip>",
+        "number of commits to skip each scan (default: 0)",
+      ).default(0),
+    )
     // option: specify setup commands (dependencies install, build monorepo, ...)
     .addOption(
       new Option(
@@ -48,14 +57,39 @@ export const makeAnalyzeCommand = () => {
     .action(async (options) => {
       console.info({ options });
 
-      // TODO: Implement span analysis
-      // const enableForceMigrationConflict = false;
-      // await migrateDb(enableForceMigrationConflict);
-      // // list commits
-      // // check out to each commit
-      // // run setup (dependencies install, build monorepo, ...)
-      // // run bench
-      // await runBench();
+      const enableForceMigrationConflict = false;
+      await migrateDb(enableForceMigrationConflict);
+
+      // list commits
+      const commits = await listCommits();
+      const recentCommits = commits.slice(0, Number(options.size));
+
+      // check out to each commit
+      for (const commit of recentCommits) {
+        console.info(`Checking out to commit: ${commit}`);
+        await simpleGit().checkout(commit.hash);
+
+        for (const command of options.prepareCommands) {
+          console.info(`Running setup command: ${command}`);
+
+          // run setup commands via bash (eg., pnpm install, pnpm build)
+          const { exec } = await import("node:child_process");
+          await new Promise<void>((resolve, reject) => {
+            exec(command, (error, stdout, _stderr) => {
+              if (error) {
+                console.error(`Error executing command: ${command}`, error);
+                reject(error);
+              } else {
+                console.info(`Command output: ${stdout}`);
+                resolve();
+              }
+            });
+          });
+        }
+
+        // run bench
+        await runBench();
+      }
     });
 
   return analyze;

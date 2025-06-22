@@ -1,4 +1,5 @@
 export * from "./calculates";
+export * from "./listCommits";
 export * from "./listPackages";
 export * from "./npxCommands";
 export * from "./parseTraceAnalyzeResult";
