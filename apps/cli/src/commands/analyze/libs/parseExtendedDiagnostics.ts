@@ -86,7 +86,5 @@ export const parseExtendedDiagnosticsResult = (
     }
   }
 
-  console.info(aggregatedObj);
-
   return aggregatedObj as any;
 };
