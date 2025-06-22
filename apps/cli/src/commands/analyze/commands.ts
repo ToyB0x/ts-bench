@@ -45,10 +45,7 @@ export const makeAnalyzeCommand = () => {
       new Option(
         "-p, --prepare-commands <commands...>",
         "prepare / setup commands to run before analyze",
-      ).default([
-        "pnpm install --reporter=silent --no-deprecation",
-        "pnpm build",
-      ] as string[]),
+      ).default(["pnpm install --reporter=silent", "pnpm build"] as string[]),
     )
     // option: specify working directory for prepare commands
     .addOption(
