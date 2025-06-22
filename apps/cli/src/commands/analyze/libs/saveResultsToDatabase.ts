@@ -1,16 +1,29 @@
 import { db, resultTbl, scanTbl } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
+import { version } from "../../../../package.json";
 import type { TscResult } from "./tscAndAnalyze";
 
 export const saveResultsToDatabase = async (
   results: TscResult[],
   cpus: string[],
 ): Promise<void> => {
+  const gihubFullName = process.env["GITHUB_REPOSITORY"]; // e.g., ToyB0x/repo-monitor
+  const [githubOwner, githubRepo] = gihubFullName
+    ? gihubFullName.split("/")
+    : [];
+
   const { value: gitRepo } = await simpleGit().getConfig("remote.origin.url");
+  // git@github.com:ToyB0x/repo-monitor.git --> ToyB0x
+  const owner =
+    githubOwner ||
+    (gitRepo ? gitRepo.split("/").slice(-2).pop() || "unknown" : "unknown");
+
   // git@github.com:ToyB0x/repo-monitor.git --> repo-monitor
-  const repoName = gitRepo
-    ? gitRepo.split("/").pop()?.replace(".git", "") || "unknown"
-    : "unknown";
+  const repoName =
+    githubRepo ||
+    (gitRepo
+      ? gitRepo.split("/").pop()?.replace(".git", "") || "unknown"
+      : "unknown");
 
   const { latest } = await simpleGit().log();
   if (!latest) return;
@@ -19,6 +32,8 @@ export const saveResultsToDatabase = async (
     const scan = await tx
       .insert(scanTbl)
       .values({
+        version,
+        owner,
         repository: repoName,
         commitHash: latest.hash,
         commitMessage: latest.message,
