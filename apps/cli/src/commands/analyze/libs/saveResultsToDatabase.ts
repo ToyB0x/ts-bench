@@ -12,7 +12,7 @@ export const saveResultsToDatabase = async (
     ? gihubFullName.split("/")
     : [];
 
-  const { latest: currentCommit } = await simpleGit().log();
+  const { latest: currentCommit } = await simpleGit().log(["--shortstat"]);
   if (!currentCommit)
     throw Error("Please run this command on a clean working tree.");
 
