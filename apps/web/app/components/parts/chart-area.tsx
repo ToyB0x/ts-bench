@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { Area, AreaChart, XAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -101,9 +101,9 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
   }
 
   return (
-    <Card className="pt-0">
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-        <div className="grid flex-1 gap-1">
+    <Card className="pt-0 bg-black rounded-xs border-gray-800">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row border-none">
+        <div className="grid flex-1 gap-1 text-gray-400">
           <CardTitle>{packageName} - Analysis Metrics</CardTitle>
           <CardDescription>
             Showing analysis results across {data.length} scan
@@ -115,7 +115,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
           onValueChange={(value: never) => setMetricType(value)}
         >
           <SelectTrigger
-            className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
+            className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex  border-gray-600 text-gray-300"
             aria-label="Select metric type"
           >
             <SelectValue placeholder="All metrics" />
@@ -182,7 +182,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
               {/*  />*/}
               {/*</linearGradient>*/}
             </defs>
-            <CartesianGrid vertical={false} />
+            {/*<CartesianGrid vertical={false} />*/}
             <XAxis
               dataKey="scanId"
               tickLine={false}
@@ -193,9 +193,11 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             />
             <ChartTooltip
               cursor={false}
+              isAnimationActive={false}
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) => `Scan ID: ${value}`}
+                  isAnimationActive={false}
                   indicator="dot"
                 />
               }
@@ -211,6 +213,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             {/*) : null}*/}
             {metricType === "all" || metricType === "types" ? (
               <Area
+                isAnimationActive={false}
                 dataKey="numType"
                 type="natural"
                 fill="url(#fillNumType)"
@@ -220,6 +223,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             ) : null}
             {metricType === "all" || metricType === "durationMs" ? (
               <Area
+                isAnimationActive={false}
                 dataKey="durationMs"
                 type="natural"
                 fill="url(#fillDurationMs)"
