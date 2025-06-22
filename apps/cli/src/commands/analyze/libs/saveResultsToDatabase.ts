@@ -61,25 +61,12 @@ export const saveResultsToDatabase = async (
       throw new Error("Failed to create scan entry in the database.");
 
     const insertionResults: (typeof resultTbl.$inferInsert)[] = [
-      ...results
-        .filter((r) => r.isSuccess)
-        .map((r) => ({
-          ...r,
-          scanId,
-          package: r.package.name,
-        })),
-      ...results
-        .filter((r) => !r.isSuccess)
-        .map((r) => ({
-          ...r,
-          scanId,
-          error: String(r.error),
-          package: r.package.name,
-          numType: 0,
-          numTrace: 0,
-          numHotSpot: 0,
-          durationMsHotSpot: 0,
-        })),
+      ...results.map((r) => ({
+        ...r,
+        scanId,
+        package: r.package.name,
+        error: r.isSuccess ? null : String(r.error),
+      })),
     ];
 
     await tx
