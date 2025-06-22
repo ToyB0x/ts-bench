@@ -3,6 +3,7 @@ import * as path from "node:path";
 import { promisify } from "node:util";
 import { TRACE_FILES_DIR } from "../../../constants";
 import type { listPackages } from "./listPackages";
+import { parseValueAndUnit } from "./parseValueAndUnit";
 
 const execPromise = promisify(exec);
 
@@ -12,11 +13,35 @@ export const npxTscWithTrace = async (
 ) => {
   // TODO: add option to set maxOldSpaceSize via CLI argument
   const maxOldSpaceSize = 6144; // 6GB, adjust as needed
-  // TODO: consider using extendedDiagnostics option for more detailed diagnostics
-  const command = `NODE_OPTIONS=--max-old-space-size=${maxOldSpaceSize} npx tsc --noEmit --incremental false --generateTrace ${TRACE_FILES_DIR}`;
+
+  const command = `NODE_OPTIONS=--max-old-space-size=${maxOldSpaceSize} npx tsc --noEmit --extendedDiagnostics --incremental false --generateTrace ${TRACE_FILES_DIR}`;
   const { stdout, stderr } = await execPromise(command, {
     cwd: pkg.absolutePath,
   });
+
+  // console.info({ stdout });
+  const extendedDiagnosticsByLines = stdout
+    .split("\n")
+    .filter((l) => l.trim().length > 0);
+
+  const extendedDiagnostic: {
+    [key: string]: {
+      value: number;
+      unit: string | null; // e.g., "ms", "bytes"
+    };
+  } = {};
+
+  for (const line of extendedDiagnosticsByLines) {
+    const [key, valueWithUnitWithWhiteSpace] = line.split(":");
+    if (key && valueWithUnitWithWhiteSpace) {
+      const { value, unit } = parseValueAndUnit(
+        valueWithUnitWithWhiteSpace.trim(),
+      );
+      extendedDiagnostic[key.trim()] = { value, unit };
+    }
+  }
+
+  console.info(extendedDiagnostic);
 
   if (debug) {
     console.log(stdout);
