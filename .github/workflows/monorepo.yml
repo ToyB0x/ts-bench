@@ -138,7 +138,7 @@ jobs:
       - name: Analyze check (multiple sizes)
         working-directory: apps/cli
         if: ${{ inputs.analyze-size > 0 }} # Only run if analyze-size input is provided
-        run: pnpm execute analyze span --working-dir=../.. --size=${{ inputs.analyze-size }} > report.md
+        run: pnpm execute analyze span --working-dir=../.. --size=${{ inputs.analyze-size }}
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
