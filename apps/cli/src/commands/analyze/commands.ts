@@ -81,7 +81,8 @@ export const makeAnalyzeCommand = () => {
       }
 
       // restore to the latest commit
-      await simpleGit().checkout(recentCommits[0]?.hash || "HEAD");
+      console.info("Restoring to the latest commit...");
+      await simpleGit().checkout("HEAD");
       await runPreprpareCommands(options.prepareCommands, options.workingDir);
     });
 
