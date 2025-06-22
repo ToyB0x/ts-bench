@@ -12,6 +12,9 @@ export const saveResultsToDatabase = async (
     ? gihubFullName.split("/")
     : [];
 
+  const { latest: latestCommit } = await simpleGit().log();
+  if (latestCommit) return;
+
   const { value: gitRepo } = await simpleGit().getConfig("remote.origin.url");
   // git@github.com:ToyB0x/repo-monitor.git --> ToyB0x
   const owner =

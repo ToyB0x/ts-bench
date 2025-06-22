@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   integer,
+  numeric,
   sqliteTable,
   text,
   uniqueIndex,
@@ -41,7 +42,7 @@ export const resultTbl = sqliteTable(
   "result",
   {
     id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
-    package: text("package").notNull(),
+    package: text("package").notNull(), // デバッグ頻度が高いため、単一テーブルのみでデバッグしやすいように非正規化しない
     isSuccess: integer("is_success", { mode: "boolean" }).notNull(),
     numTrace: integer("num_trace").notNull(),
     numType: integer("num_type").notNull(),
@@ -55,6 +56,7 @@ export const resultTbl = sqliteTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       }),
+    fileSizeTyoe: integer("file_size_type").notNull(),
   },
   (tbl) => [
     uniqueIndex("uq_result_scanId_package").on(tbl.scanId, tbl.package),
