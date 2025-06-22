@@ -18,7 +18,7 @@ export async function loader() {
     .orderBy(resultTbl.package);
 
   const scansWithResults = await db.query.scanTbl.findMany({
-    orderBy: (scan, { asc }) => asc(scan.createdAt),
+    orderBy: (scan, { asc }) => asc(scan.commitDate),
     with: {
       results: true,
     },
