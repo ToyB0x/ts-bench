@@ -1,10 +1,5 @@
 import type { parseTraceAnalyzeResult } from "./parseTraceAnalyzeResult";
 
-export const calculateDuration = (startTime: bigint): number => {
-  const endTime = process.hrtime.bigint();
-  return Number(endTime - startTime) / 1_000_000;
-};
-
 export const calculateHotSpotMetrics = (
   parsedAnalyzeData: ReturnType<typeof parseTraceAnalyzeResult> | null,
 ) => {

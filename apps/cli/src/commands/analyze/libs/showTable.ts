@@ -1,28 +1,29 @@
-import { db, type resultTbl } from "@ts-bench/db";
+import { db } from "@ts-bench/db";
 import type { TscResult } from "./tscAndAnalyze";
-
-type Result = typeof resultTbl.$inferSelect;
 
 export const showTable = async (results: TscResult[]) => {
   const recentScans = await db.query.scanTbl.findMany({
     limit: 10,
     offset: 1, // Skip the most recent scan (current scan) to avoid showing it in the table
-    orderBy: (scan, { desc }) => desc(scan.createdAt),
+    orderBy: (scan, { desc }) => desc(scan.commitDate),
     with: {
       results: true,
     },
   });
 
-  const lastResult = recentScans.slice(0, 1).flatMap((scan) => scan.results);
-  // const recentResults = recentScans.flatMap((scan) => scan.results);
+  const lastResult = recentScans.slice(0, 1).flatMap((scan) => scan.results)[0];
+  if (!lastResult) {
+    console.warn("No previous results found to compare with.");
+    return;
+  }
 
   console.log("```");
   console.table(
     results
       .sort((a, b) =>
         a.isSuccess && b.isSuccess
-          ? b.numType - a.numType
-          : b.durationMs - a.durationMs,
+          ? b.traceNumType - a.traceNumType
+          : b.package.name.localeCompare(a.package.name),
       )
       .map((r) =>
         r.isSuccess
@@ -42,38 +43,19 @@ export const showTable = async (results: TscResult[]) => {
             // NOTE: The above commented code is replaced with the following to avoid showing the recent 10 data in the table
             {
               package: r.package.name,
-              types: `${r.numType} (${calcDiff(calcAverage(lastResult, r.package.name, "numType"), r.numType)})`,
-              traces: `${r.numTrace} (${calcDiff(calcAverage(lastResult, r.package.name, "numTrace"), r.numTrace)})`,
-              ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)})`,
-              hotSpots: `${r.numHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "numHotSpot"), r.numHotSpot)})`,
-              hotSpotMs: `${r.durationMsHotSpot} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMsHotSpot"), r.durationMsHotSpot)})`,
+              traceTypes: `${r.traceNumType} (${calcDiff(lastResult.traceNumType || 0, r.traceNumType)})`,
+              traceTypeSize: `${r.traceFileSizeType} (${calcDiff(lastResult.traceFileSizeType || 0, r.traceFileSizeType)})`,
+              totalTime: `${r.totalTime} (${calcDiff(lastResult.totalTime || 0, r.totalTime || 0)})`,
+              memoryUsed: `${r.memoryUsed} (${calcDiff(lastResult.memoryUsed || 0, r.memoryUsed || 0)})`,
+              analyzeHotSpotMs: `${r.analyzeHotSpotMs} (${calcDiff(lastResult.analyzeHotSpotMs || 0, r.analyzeHotSpotMs)})`,
             }
           : {
               package: r.package.name,
-              ms: `${r.durationMs} (${calcDiff(calcAverage(lastResult, r.package.name, "durationMs"), r.durationMs)})`,
               error: String(r.error),
             },
       ),
   );
   console.log("```");
-};
-
-// calculate average values for a specific package and column with given results
-const calcAverage = (
-  results: Result[],
-  packageName: Result["package"],
-  column: keyof Pick<
-    Result,
-    "numTrace" | "numType" | "numHotSpot" | "durationMs" | "durationMsHotSpot"
-  >,
-): number => {
-  const matchingResults = results.filter((r) => r.package === packageName);
-
-  return (
-    matchingResults
-      .map((r) => r[column])
-      .reduce((acc, value) => acc + value, 0) / matchingResults.length
-  );
 };
 
 // calculate the difference between two numbers

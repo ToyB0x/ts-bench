@@ -78,7 +78,6 @@ export const saveResultsToDatabase = async (
           numType: 0,
           numTrace: 0,
           numHotSpot: 0,
-          durationMs: r.durationMs || 0,
           durationMsHotSpot: 0,
         })),
     ];

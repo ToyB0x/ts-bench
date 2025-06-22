@@ -3,7 +3,7 @@ import * as path from "node:path";
 import { promisify } from "node:util";
 import { TRACE_FILES_DIR } from "../../../constants";
 import type { listPackages } from "./listPackages";
-import { parseValueAndUnit } from "./parseValueAndUnit";
+import { parseExtendedDiagnosticsResult } from "./parseExtendedDiagnostics";
 
 const execPromise = promisify(exec);
 
@@ -19,34 +19,12 @@ export const npxTscWithTrace = async (
     cwd: pkg.absolutePath,
   });
 
-  // console.info({ stdout });
-  const extendedDiagnosticsByLines = stdout
-    .split("\n")
-    .filter((l) => l.trim().length > 0);
-
-  const extendedDiagnostic: {
-    [key: string]: {
-      value: number;
-      unit: string | null; // e.g., "ms", "bytes"
-    };
-  } = {};
-
-  for (const line of extendedDiagnosticsByLines) {
-    const [key, valueWithUnitWithWhiteSpace] = line.split(":");
-    if (key && valueWithUnitWithWhiteSpace) {
-      const { value, unit } = parseValueAndUnit(
-        valueWithUnitWithWhiteSpace.trim(),
-      );
-      extendedDiagnostic[key.trim()] = { value, unit };
-    }
-  }
-
-  console.info(extendedDiagnostic);
-
   if (debug) {
     console.log(stdout);
     console.error(stderr);
   }
+
+  return parseExtendedDiagnosticsResult(stdout);
 };
 
 export const npxAnalyzeTrace = async (

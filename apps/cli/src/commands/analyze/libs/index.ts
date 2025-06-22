@@ -2,6 +2,7 @@ export * from "./calculates";
 export * from "./listCommits";
 export * from "./listPackages";
 export * from "./npxCommands";
+export * from "./parseExtendedDiagnostics";
 export * from "./parseTraceAnalyzeResult";
 export * from "./parseValueAndUnit";
 export * from "./readFiles";
