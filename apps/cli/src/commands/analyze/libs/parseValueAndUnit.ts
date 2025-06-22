@@ -15,4 +15,3 @@ export const parseValueAndUnit = (
   const unit = match[2] || null; // 単位がない場合はnull
   return { value, unit };
 };
-
