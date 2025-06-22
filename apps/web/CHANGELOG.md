@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.10
+
+### Patch Changes
+
+- 86f9842: feat: show git commit info on graph
+
 ## 0.0.9
 
 ### Patch Changes
