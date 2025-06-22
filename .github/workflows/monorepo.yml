@@ -51,7 +51,7 @@ jobs:
         env:
           DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
 
-      - name: Pre-Render check
+      - name: Pre-Render test site (check command with seed)
         run: pnpm build:prerender
         env:
           DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_TEST }}
@@ -101,6 +101,12 @@ jobs:
         with:
           name: repo-performance-report
           path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
+
+      - name: Pre-Render report site
+        if: github.ref == 'refs/heads/main' # Only upload on main branch
+        run: pnpm build:prerender
+        env:
+          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
