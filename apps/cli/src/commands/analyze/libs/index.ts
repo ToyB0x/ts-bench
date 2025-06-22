@@ -3,6 +3,7 @@ export * from "./listCommits";
 export * from "./listPackages";
 export * from "./npxCommands";
 export * from "./parseTraceAnalyzeResult";
+export * from "./parseValueAndUnit";
 export * from "./readFiles";
 export * from "./runPrepareCommands";
 export * from "./saveResultsToDatabase";
