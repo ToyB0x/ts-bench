@@ -22,6 +22,7 @@
       "outputs": ["dist/**", "build/**"]
     },
     "build:prerender": {
+      "cache": false, // サイト生成したいのでキャッシュを無効化 (DBのパスを変更できるためoutputsの場所が変わのでキャッシュが誤作動しやすい)
       "dependsOn": ["build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
       "inputs": ["$TURBO_DEFAULT$", ".env*", "*.sqlite", "*.db"],
       "outputs": ["build/**"]
