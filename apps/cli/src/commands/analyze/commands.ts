@@ -76,9 +76,10 @@ export const makeAnalyzeCommand = () => {
       const recentCommits = commits.slice(0, Number(options.size));
 
       // check out to each commit
-      for (let i = 0; i < recentCommits.length; i++) {
-        const commit = recentCommits[i];
-        console.info(`${commit.hash} ( ${i + 1}/ ${recentCommits.length})`);
+      let count = 0;
+      for (const commit of commits) {
+        count += 1;
+        console.info(`${commit.hash} ( ${count}/ ${recentCommits.length})`);
         await simpleGit().checkout(commit.hash);
         await runPreprpareCommands(options.prepareCommands, options.workingDir);
         await runBench();
