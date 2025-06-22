@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      analyze-size:
+        description: 'analyze size of the repository'
+        required: false
+        type: number
+        default: 1
 
 permissions:
   contents: read # for checkout repository
@@ -85,7 +92,7 @@ jobs:
 
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - name: Check out
         uses: actions/checkout@v4
@@ -124,7 +131,7 @@ jobs:
 
       - name: Analyze check
         working-directory: apps/cli
-        run: pnpm execute analyze > report.md
+        run: pnpm execute analyze span --working-dir=../.. --size=${{ inputs.analyze-size }} > report.md
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
