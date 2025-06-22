@@ -4,7 +4,7 @@
 // #!/usr/bin/env node
 
 import * as process from "node:process";
-import { Command } from "commander";
+import { Command } from "@commander-js/extra-typings";
 import { makeAnalyzeCommand, makeDbCommand } from "./commands";
 
 const program = new Command();
