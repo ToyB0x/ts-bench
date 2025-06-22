@@ -1,6 +1,6 @@
 {
   "name": "@ts-bench/cli",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "type": "module",
   "main": "./src/index.ts",
   "bin": "./src/index.ts",

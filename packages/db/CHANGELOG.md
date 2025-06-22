@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.11
+
+### Patch Changes
+
+- 36e4022: feat: migrate db with owner version
+
 ## 0.0.10
 
 ### Patch Changes

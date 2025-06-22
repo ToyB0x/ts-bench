@@ -1,5 +1,14 @@
 # @ts-bench/web
 
+## 0.0.10
+
+### Patch Changes
+
+- 36e4022: feat: migrate db with owner version
+- 86f9842: feat: show git commit info on graph
+- Updated dependencies [36e4022]
+  - @ts-bench/db@0.0.11
+
 ## 0.0.9
 
 ### Patch Changes

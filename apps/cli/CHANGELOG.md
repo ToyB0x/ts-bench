@@ -1,5 +1,13 @@
 # @ts-bench/cli
 
+## 0.0.18
+
+### Patch Changes
+
+- 36e4022: feat: migrate db with owner version
+- Updated dependencies [36e4022]
+  - @ts-bench/db@0.0.11
+
 ## 0.0.17
 
 ### Patch Changes
