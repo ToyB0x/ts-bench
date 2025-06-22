@@ -46,3 +46,7 @@ npx @ts-bench/cli
   - https://turborepo.com/docs/reference/query
   - eg: add option for monorepo typecheck command that user already use (typecheck, check-types, tsc, tsc-check, etc...)
 - Add E2E tests
+- Consider using `--extendedDiagnostics` option for TSC command to get more detailed information about the type checking process
+- Add github action to deploy site
+- refactor database table models (decrease size, remove unused fields, etc.)
+- Add ability to show report web site without self-hosting (mostly large monorepos are belonging to companies with private repo, so it is a little bit difficult to self-host the report site with github-pages and so on)

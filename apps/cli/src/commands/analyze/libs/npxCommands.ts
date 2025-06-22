@@ -12,6 +12,7 @@ export const npxTscWithTrace = async (
 ) => {
   // TODO: add option to set maxOldSpaceSize via CLI argument
   const maxOldSpaceSize = 6144; // 6GB, adjust as needed
+  // TODO: consider using extendedDiagnostics option for more detailed diagnostics
   const command = `NODE_OPTIONS=--max-old-space-size=${maxOldSpaceSize} npx tsc --noEmit --incremental false --generateTrace ${TRACE_FILES_DIR}`;
   const { stdout, stderr } = await execPromise(command, {
     cwd: pkg.absolutePath,
