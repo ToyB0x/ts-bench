@@ -14,7 +14,7 @@ export const makeAnalyzeCommand = () => {
     .action(async () => {
       const enableForceMigrationConflict = true;
       await migrateDb(enableForceMigrationConflict);
-      await runBench();
+      await runBench().catch(console.error);
     });
 
   analyze

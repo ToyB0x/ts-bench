@@ -120,6 +120,9 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
+      - name: Generate Remix Types via Type check (run typegen command)
+        run: pnpm typecheck
+
       - name: Download previous main branch report
         uses: dawidd6/action-download-artifact@v11
         with:

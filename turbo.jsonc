@@ -37,7 +37,6 @@
       "inputs": ["$TURBO_DEFAULT$"]
     },
     "typecheck": {
-      "dependsOn": ["build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".react-router/**"]
     },
