@@ -46,6 +46,10 @@ export const saveResultsToDatabase = async (
       .onConflictDoUpdate({
         target: [scanTbl.repository, scanTbl.commitHash],
         set: {
+          version,
+          owner,
+          commitMessage: latest.message,
+          commitDate: new Date(latest.date),
           createdAt: new Date(),
           cpus: cpus.join(", "),
         },
