@@ -46,10 +46,12 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
               return filteredResults.map((result) => ({
                 ...result,
+                owner: scan.owner,
                 repo: scan.repository,
                 commitHash: scan.commitHash,
                 commitDate: scan.commitDate,
                 commitMessage: scan.commitMessage,
+                benchVersion: scan.version,
               }));
             })}
           />

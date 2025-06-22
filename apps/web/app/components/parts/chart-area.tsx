@@ -37,7 +37,9 @@ type ResultData = {
   commitHash: string;
   commitMessage: string;
   commitDate: Date;
+  owner: string;
   repo: string;
+  benchVersion: string;
 };
 
 type ChartAreaInteractiveProps = {
@@ -75,7 +77,9 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
       commitHash: result.commitHash.slice(0, 7),
       commitMessage: result.commitMessage,
       commitDate: `${result.commitDate.getMonth() + 1}/${result.commitDate.getDate()}`,
+      owner: result.owner,
       repo: result.repo,
+      benchVersion: result.benchVersion,
     }));
   }, [data]);
 
@@ -146,12 +150,14 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
           <AreaChart
             data={filteredData}
             onClick={(payload) => {
+              const owner = payload?.activePayload?.[0]?.payload.owner;
               const repo = payload?.activePayload?.[0]?.payload.repo;
               const commitHash =
                 payload?.activePayload?.[0]?.payload.commitHash;
 
-              if (!repo || !commitHash) return;
-              const githubUrl = `https://github.com/owner/${repo}/commit/${commitHash}`;
+              if (!owner || !repo || !commitHash) return;
+
+              const githubUrl = `https://github.com/${owner}/${repo}/commit/${commitHash}`;
               window.open(githubUrl, "_blank");
             }}
           >
@@ -201,7 +207,9 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                     if (!item) return value;
                     return (
                       <>
-                        <div>{value}</div>
+                        <div>
+                          {value} (v{item.payload.benchVersion})
+                        </div>
                         <div className="text-xs text-gray-500 w-48">
                           {item.payload.commitMessage}
                         </div>
