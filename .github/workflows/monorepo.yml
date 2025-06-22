@@ -12,9 +12,10 @@ permissions:
 env:
   DB_FILE_NAME_TEST: test.db # Default database file name for tests
   DB_FILE_NAME_REPORT: report.db # Default database file name for reports
+  UPLOAD_ARTIFACT_NAME: report
 
 jobs:
-  build-test:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -72,7 +73,7 @@ jobs:
           branch: main
           workflow: monorepo.yml
           workflow_conclusion: success
-          name: repo-performance-report
+          name: ${{ env.UPLOAD_ARTIFACT_NAME }}
           if_no_artifact_found: warn
           # automatically extracts the artifact to file "repo.sqlite"
 
@@ -81,6 +82,45 @@ jobs:
         run: pnpm execute db migrate --force
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
+
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup & Restore Node cache
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+          node-version-file: 'package.json'
+
+      - name: Install all packages
+        run: pnpm install --frozen-lockfile
+
+      - name: Restore turbo cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo/cache
+          key:
+            turbo/${{ github.job }}/${{ github.ref_name }}/${{ github.sha }}
+          restore-keys: |
+            turbo/${{ github.job }}/${{ github.ref_name }}/
+            turbo/${{ github.job }}/
+
+      - name: Download previous main branch report
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          branch: main
+          workflow: monorepo.yml
+          workflow_conclusion: success
+          name: ${{ env.UPLOAD_ARTIFACT_NAME }}
+          if_no_artifact_found: warn
+          # automatically extracts the artifact to file "repo.sqlite"
 
       - name: Analyze check
         working-directory: apps/cli
@@ -99,7 +139,7 @@ jobs:
         if: github.ref == 'refs/heads/main' # Only upload on main branch
         uses: actions/upload-artifact@v4
         with:
-          name: repo-performance-report
+          name: ${{ env.UPLOAD_ARTIFACT_NAME }}
           path: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Pre-Render report site
@@ -107,6 +147,15 @@ jobs:
         run: pnpm build:prerender
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
+
+      - name: ls
+        run: ls -la apps/
+      - name: ls
+        run: ls -la apps/web/
+      - name: ls
+        run: ls -la apps/web/build/
+      - name: ls
+        run: ls -la apps/web/build/client/
 
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
@@ -124,7 +173,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build-test
+    needs: analyze
     steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

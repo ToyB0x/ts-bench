@@ -10,7 +10,8 @@ permissions:
   pull-requests: write # for creating/updating PR comments
 
 env:
-  DB_FILE_NAME: ts-bench.sqlite # Default database file name
+  DB_FILE_NAME: market-place-test.sqlite
+  UPLOAD_ARTIFACT_NAME: market-place-test
 
 jobs:
   test:
@@ -38,7 +39,7 @@ jobs:
           branch: main
           workflow: marketplace.yml
           workflow_conclusion: success
-          name: repo-performance-report
+          name: ${{ env.UPLOAD_ARTIFACT_NAME }}
           if_no_artifact_found: warn
           # automatically extracts the artifact to file "repo.sqlite"
 
