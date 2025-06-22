@@ -6,8 +6,9 @@
   "scripts": {
     "// TODO": "NPM経由で利用するユーザのためにDBパスを.env以外のコマンドオプション等で渡せるよう改修",
     "dev": "react-router dev",
-    "// NOTE: prerender コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要": "",
     "build:prerender": "react-router build",
+    "// NOTE: prerender コマンド実行時に DB を読み込むため、rootから実行した場合にturbo経由で事前に自動でDBマイグレーション実行": "",
+    "build:prerender:with-seed": "react-router build",
     "start": "http-server -c-1 ./build/client",
     "typegen": "react-router typegen",
     "typecheck": "npm run typegen && tsc --noEmit"

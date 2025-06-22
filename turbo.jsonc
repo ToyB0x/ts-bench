@@ -22,7 +22,11 @@
       "outputs": ["dist/**", "build/**"]
     },
     "build:prerender": {
-      "dependsOn": ["db:seed", "build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
+      "dependsOn": ["build"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
+    "build:prerender:with-seed": {
+      "dependsOn": ["build", "db:seed"], // コマンド実行時に DB を読み込むため事前にDBマイグレーションが必要
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "test": {

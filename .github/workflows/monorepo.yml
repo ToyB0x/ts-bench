@@ -53,7 +53,7 @@ jobs:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Pre-Render test site (check command with seed)
-        run: pnpm build:prerender
+        run: pnpm build:prerender:with-seed
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
@@ -148,21 +148,12 @@ jobs:
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
-      - name: ls
-        run: ls -la apps/
-      - name: ls
-        run: ls -la apps/web/
-      - name: ls
-        run: ls -la apps/web/build/
-      - name: ls
-        run: ls -la apps/web/build/client/
-
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
         name: Upload static web files as artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/web/build/client/
+          path: apps/web/build/client
 
   deploy:
     if: github.ref == 'refs/heads/main' # Only upload on main branch
