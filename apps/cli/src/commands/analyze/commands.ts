@@ -1,7 +1,7 @@
 import { Command, Option } from "@commander-js/extra-typings";
 import { migrateDb } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
-import { listCommits } from "./libs";
+import { listCommits, runPreprpareCommands } from "./libs";
 import { runBench } from "./runBench";
 
 export const makeAnalyzeCommand = () => {
@@ -45,7 +45,7 @@ export const makeAnalyzeCommand = () => {
       new Option(
         "-p, --prepare-commands <commands...>",
         "prepare / setup commands to run before analyze",
-      ).default(["pnpm install", "pnpm build"]),
+      ).default(["pnpm install", "pnpm build"] as string[]),
     )
     // option: specify working directory for prepare commands
     .addOption(
@@ -75,38 +75,13 @@ export const makeAnalyzeCommand = () => {
       for (const commit of recentCommits) {
         console.info(`Checking out to commit: ${commit}`);
         await simpleGit().checkout(commit.hash);
-
-        for (const command of options.prepareCommands) {
-          console.info(`Running setup command: ${command}`);
-
-          // run setup commands via bash (eg., pnpm install, pnpm build)
-          const { exec } = await import("node:child_process");
-          await new Promise<void>((resolve, reject) => {
-            exec(
-              command,
-              {
-                cwd: options.workingDir,
-              },
-              (error, stdout, stderr) => {
-                if (error) {
-                  console.error(
-                    `Error executing command: ${command}`,
-                    error,
-                    stderr,
-                  );
-                  reject(error);
-                } else {
-                  console.info(`Command output: ${stdout}`);
-                  resolve();
-                }
-              },
-            );
-          });
-        }
-
-        // run bench
+        await runPreprpareCommands(options.prepareCommands, options.workingDir);
         await runBench();
       }
+
+      // restore to the latest commit
+      await simpleGit().checkout("HEAD");
+      await runPreprpareCommands(options.prepareCommands, options.workingDir);
     });
 
   return analyze;
