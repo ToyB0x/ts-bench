@@ -39,11 +39,22 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         {packages.map(({ package: pkg }) => (
           <ChartAreaInteractive
             key={pkg}
-            data={scansWithResults.flatMap((scan) =>
-              scan.results.filter((result) => result.package === pkg),
-            )}
+            data={scansWithResults.flatMap((scan) => {
+              const filteredResults = scan.results.filter(
+                (result) => result.package === pkg,
+              );
+
+              return filteredResults.map((result) => ({
+                ...result,
+                repo: scan.repository,
+                commitHash: scan.commitHash,
+                commitDate: scan.commitDate,
+                commitMessage: scan.commitMessage,
+              }));
+            })}
           />
         ))}
+
         <ChartAreaInteractiveExample />
       </div>
       <ul className="list-disc mt-4 pl-6">
