@@ -63,6 +63,10 @@ export const makeAnalyzeCommand = () => {
     )
     .action(async (options) => {
       // console.info({ options });
+      const restoreBranch = await simpleGit().revparse([
+        "--abbrev-ref",
+        "HEAD",
+      ]);
 
       const enableForceMigrationConflict = false;
       await migrateDb(enableForceMigrationConflict);
@@ -83,6 +87,7 @@ export const makeAnalyzeCommand = () => {
       // restore to the latest commit
       console.info("Restoring to the latest commit...");
       await simpleGit().checkout("HEAD");
+      await simpleGit().checkout(restoreBranch);
       await runPreprpareCommands(options.prepareCommands, options.workingDir);
     });
 
