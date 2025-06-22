@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.9
+
+### Patch Changes
+
+- 905291b: chore: improve UI
+
 ## 0.0.8
 
 ### Patch Changes
