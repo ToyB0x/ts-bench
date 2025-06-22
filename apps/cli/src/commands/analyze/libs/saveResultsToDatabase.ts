@@ -30,29 +30,28 @@ export const saveResultsToDatabase = async (
   const { latest } = await simpleGit().log();
   if (!latest) return;
 
+  const insertionScan: typeof scanTbl.$inferInsert = {
+    version,
+    owner,
+    changed: latest.diff?.changed,
+    files: latest.diff?.files.length,
+    insertions: latest.diff?.insertions,
+    deletions: latest.diff?.deletions,
+    repository: repoName,
+    commitHash: latest.hash,
+    commitMessage: latest.message,
+    commitDate: new Date(latest.date),
+    scannedAt: new Date(),
+    cpus: cpus.join(", "),
+  };
+
   await db.transaction(async (tx) => {
     const scan = await tx
       .insert(scanTbl)
-      .values({
-        version,
-        owner,
-        repository: repoName,
-        commitHash: latest.hash,
-        commitMessage: latest.message,
-        commitDate: new Date(latest.date),
-        createdAt: new Date(),
-        cpus: cpus.join(", "),
-      })
+      .values(insertionScan)
       .onConflictDoUpdate({
         target: [scanTbl.repository, scanTbl.commitHash],
-        set: {
-          version,
-          owner,
-          commitMessage: latest.message,
-          commitDate: new Date(latest.date),
-          createdAt: new Date(),
-          cpus: cpus.join(", "),
-        },
+        set: insertionScan,
       })
       .returning();
 
@@ -60,7 +59,7 @@ export const saveResultsToDatabase = async (
     if (!scanId)
       throw new Error("Failed to create scan entry in the database.");
 
-    const insertion: (typeof resultTbl.$inferInsert)[] = [
+    const insertionResults: (typeof resultTbl.$inferInsert)[] = [
       ...results
         .filter((r) => r.isSuccess)
         .map((r) => ({
@@ -85,17 +84,10 @@ export const saveResultsToDatabase = async (
 
     await tx
       .insert(resultTbl)
-      .values(insertion)
+      .values(insertionResults)
       .onConflictDoUpdate({
         target: [resultTbl.scanId, resultTbl.package],
-        set: {
-          numType: resultTbl.numType,
-          numTrace: resultTbl.numTrace,
-          numHotSpot: resultTbl.numHotSpot,
-          durationMs: resultTbl.durationMs,
-          durationMsHotSpot: resultTbl.durationMsHotSpot,
-          error: resultTbl.error,
-        },
+        set: resultTbl,
       });
   });
 };

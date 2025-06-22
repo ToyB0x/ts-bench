@@ -10,16 +10,24 @@ export const scanTbl = sqliteTable(
   "scan",
   {
     id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
-    version: text("version").notNull().default("alpha"), // scanner version (use default "alpha" as compatibility)
-    owner: text("owner").notNull().default(""), // owner of the repo (use default "" as compatibility)
+    version: text("version").notNull(), // scanner version
+    owner: text("owner").notNull(), // owner of the repo
     repository: text("repository").notNull(),
+    /** The total number of files changed as reported in the summary line */
+    changed: integer("changed"),
+    /** When present in the diff, lists the details of each file changed */
+    files: integer("files"),
+    /** The number of files changed with insertions */
+    insertions: integer("insertions"),
+    /** The number of files changed with deletions */
+    deletions: integer("deletions"),
     commitHash: text("commit_hash").notNull(),
     commitMessage: text("commit_message").notNull(),
     commitDate: integer("commit_data", { mode: "timestamp_ms" }).notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
+    scannedAt: integer("scanned_at", { mode: "timestamp_ms" })
       .default(sql`(CURRENT_TIMESTAMP)`)
       .notNull(),
-    cpus: text("cpus").notNull().default(""),
+    cpus: text("cpus").notNull(),
   },
   (tbl) => [
     uniqueIndex("uq_scan_repository_commit_hash").on(
