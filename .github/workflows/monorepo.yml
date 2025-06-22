@@ -132,4 +132,4 @@ jobs:
 
       - name: Show Skipped Deployment Message
         if: github.ref != 'refs/heads/main' # Only upload on main branch
-        uses: echo "Deployment web report is skipped for this branch (branch protection enabled)."
+        run: echo "Deployment web report is skipped for this branch (branch protection enabled)."
