@@ -1,0 +1,22 @@
+{
+  "name": "ts-bench",
+  "version": "0.0.1-alpha.0",
+  "private": true,
+  "description": "package for @ts-bench/cli handy commands, almost alias of @ts-bench/cli. (for matching command name and package name)",
+  "type": "module",
+  "bin": {
+    "ts-bench": "./index.ts"
+  },
+  "dependencies": {
+    "@ts-bench/cli": "workspace:*"
+  },
+  "author": "ToyB0x",
+  "license": "MIT",
+  "homepage": "https://github.com/ToyB0x/ts-bench",
+  "bugs": {
+    "url": "https://github.com/ToyB0x/ts-bench/issues"
+  },
+  "files": [
+    "index.ts"
+  ]
+}
