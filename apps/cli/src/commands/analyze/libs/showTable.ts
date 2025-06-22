@@ -45,9 +45,9 @@ export const showTable = async (results: TscResult[]) => {
               package: r.package.name,
               traceTypes: `${r.traceNumType} (${calcDiff(lastResult.traceNumType || 0, r.traceNumType)})`,
               traceTypeSize: `${r.traceFileSizeType} (${calcDiff(lastResult.traceFileSizeType || 0, r.traceFileSizeType)})`,
-              totalTime: `${r.totalTime} (${calcDiff(lastResult.totalTime || 0, r.totalTime || 0)})`,
-              memoryUsed: `${r.memoryUsed} (${calcDiff(lastResult.memoryUsed || 0, r.memoryUsed || 0)})`,
-              analyzeHotSpotMs: `${r.analyzeHotSpotMs} (${calcDiff(lastResult.analyzeHotSpotMs || 0, r.analyzeHotSpotMs)})`,
+              totalTime: `${r.totalTime}s (${calcDiff(lastResult.totalTime || 0, r.totalTime || 0)}s)`,
+              memoryUsed: `${r.memoryUsed}K (${calcDiff(lastResult.memoryUsed || 0, r.memoryUsed || 0)}K)`,
+              analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms (${calcDiff(lastResult.analyzeHotSpotMs || 0, r.analyzeHotSpotMs)}ms)`,
             }
           : {
               package: r.package.name,
