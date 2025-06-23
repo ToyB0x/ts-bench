@@ -172,8 +172,11 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                     return (
                       <div className="w-96 text-xs text-gray-500">
                         <div>PR: {item.payload.commitMessage}</div>
-                        <div className="text-gray-400 font-light">
-                          ({item.payload.cpus} v{item.payload.version})
+                        <div className="flex justify-between text-gray-400 font-light">
+                          <div>
+                            ({item.payload.cpus} v{item.payload.version})
+                          </div>
+                          <div>{item.payload.isCached && "cached"}</div>
                         </div>
                       </div>
                     );
