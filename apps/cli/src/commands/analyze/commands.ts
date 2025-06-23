@@ -1,7 +1,11 @@
 import { Command, Option } from "@commander-js/extra-typings";
 import { migrateDb } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
-import { listCommits, runPreprpareCommands } from "./libs";
+import {
+  listCachedPackagesByTurboTypeCheck,
+  listCommits,
+  runPreprpareCommands,
+} from "./libs";
 import { runBench } from "./runBench";
 
 export const makeAnalyzeCommand = () => {
@@ -47,13 +51,25 @@ export const makeAnalyzeCommand = () => {
         "prepare / setup commands to run before analyze",
       ).default(["pnpm install --reporter=silent", "pnpm build"] as string[]),
     )
+
+    // TODO: enable this in the future
     // option: specify commands for detect affected packages
+    // .addOption(
+    //   new Option(
+    //     "-d, --detect-affected-commands <commands...>",
+    //     "commands to run for detect affected packages",
+    //   ).default("turbo run typecheck --dry-run"),
+    // )
+
+    // option: enable turbo cache (hard coded commands)
+    // TODO: refactor this to pass commands as option (eg, typecheck, type-check, check-type, tsc, etc)
     .addOption(
       new Option(
-        "-d, --detect-affected-commands <commands...>",
-        "commands to run for detect affected packages",
-      ).default("turbo run typecheck --dry-run"),
+        "-c, --enable-turbo-cache-by-typecheck <boolean>",
+        "enable turbo cache by exist typecheck command (default: false)",
+      ).default(false),
     )
+
     // option: specify working directory for prepare commands
     .addOption(
       new Option(
@@ -95,12 +111,9 @@ export const makeAnalyzeCommand = () => {
             options.workingDir,
           );
 
-          const cachedPackages = [
-            "ts-bench",
-            "@ts-bench/db",
-            "@ts-bench/cli",
-            "@ts-bench/web",
-          ];
+          const cachedPackages: string[] = !options.enableTurboCacheByTypecheck
+            ? []
+            : listCachedPackagesByTurboTypeCheck();
 
           // NOTE: if enable cached mode, it will wait all affected packages scan in same git commit
           // eg: speed up case
