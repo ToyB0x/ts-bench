@@ -1,7 +1,7 @@
 import { db, resultTbl } from "@ts-bench/db";
 import { ChartAreaInteractive } from "~/components/parts/chart-area";
 import { ChartAreaInteractiveExample } from "~/components/parts/chart-area-example";
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/graph";
 
 // biome-ignore lint/correctness/noEmptyPattern: example code
 export function meta({}: Route.MetaArgs) {

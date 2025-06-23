@@ -20,8 +20,9 @@ export default function Page() {
 
       <main className="flex-1 mt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-16">
+          {/* NITS: update to remix Link (currently using prerender, so replace to Link component has no meaningful effect ) */}
           <a
-            href="/home"
+            href="/graph"
             className="group relative p-8 border border-gray-800 hover:border-gray-700 transition-colors duration-200"
           >
             <div className="flex items-start justify-between mb-6">
