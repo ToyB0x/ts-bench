@@ -31,5 +31,5 @@ const parseCachedPackages = (stdout: string): string[] => {
 
   return targetTasks
     .filter((task) => task["cache"]["status"] === "HIT")
-    .map(String);
+    .map((task) => String(task["package"]));
 };

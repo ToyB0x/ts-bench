@@ -12,7 +12,8 @@ export const npxTscWithTrace = async (
   isCached: boolean,
   debug = false,
 ) => {
-  if (isCached) console.info(pkg.name + " is cached, skipping tsc execution");
+  if (isCached)
+    console.info(pkg.name + " is cached, skipping tsc execution 🎉");
 
   // TODO: add option to set maxOldSpaceSize via CLI argument
   const maxOldSpaceSize = 6144; // 6GB, adjust as needed
@@ -38,7 +39,8 @@ export const npxAnalyzeTrace = async (
   isCached: boolean,
   debug = false,
 ) => {
-  if (isCached) console.info(pkg.name + " is cached, skipping tsc execution");
+  if (isCached)
+    console.info(pkg.name + " is cached, skipping tsc execution 🎉");
 
   const tracePath = path.join(pkg.absolutePath, TRACE_FILES_DIR);
   const analyzeOutFile = path.join(tracePath, "analyze.json");
