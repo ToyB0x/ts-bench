@@ -7,9 +7,14 @@ on:
   workflow_dispatch:
     inputs:
       analyze-size:
-        description: 'analyze size of the repository'
+        description: 'analyze size of ts-bench'
         required: false
         type: number
+      analyze-with-cache:
+        description: 'enable analyze with cache'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read # for checkout repository
@@ -143,7 +148,7 @@ jobs:
       - name: Analyze check (multiple sizes)
         working-directory: apps/cli
         if: ${{ inputs.analyze-size > 0 }} # Only run if analyze-size input is provided
-        run: pnpm execute analyze span --working-dir=../.. --size=${{ inputs.analyze-size }}
+        run: pnpm execute analyze span --working-dir=../.. --size=${{ inputs.analyze-size }} --enable-turbo-cache-by-typecheck=${{ inputs.analyze-with-cache }}
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
