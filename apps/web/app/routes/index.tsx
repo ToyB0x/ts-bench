@@ -1,4 +1,5 @@
-/** biome-ignore-all lint/a11y/noSvgWithoutTitle: temp */
+import { version } from "../../package.json";
+
 export default function Page() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 flex-1 flex flex-col">
@@ -25,6 +26,7 @@ export default function Page() {
           >
             <div className="flex items-start justify-between mb-6">
               <div className="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center">
+                {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
                 <svg
                   className="w-5 h-5 text-gray-400"
                   fill="none"
@@ -37,6 +39,7 @@ export default function Page() {
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
               </div>
+              {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
               <svg
                 className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors"
                 fill="none"
@@ -66,6 +69,7 @@ export default function Page() {
           >
             <div className="flex items-start justify-between mb-6">
               <div className="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center">
+                {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
                 <svg
                   className="w-5 h-5 text-gray-400"
                   fill="none"
@@ -78,6 +82,7 @@ export default function Page() {
                   <rect x="3" y="14" width="7" height="7" />
                 </svg>
               </div>
+              {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
               <svg
                 className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors"
                 fill="none"
@@ -118,8 +123,10 @@ export default function Page() {
 
       <footer className="mt-auto pt-8 border-t border-gray-900">
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500">Last scan: 2025-6-22</p>
-          <p className="text-xs text-gray-500">Version 0.0.12</p>
+          <p className="text-sm text-gray-500">
+            Last scan: {new Date().toLocaleDateString()}
+          </p>
+          <p className="text-xs text-gray-500">Version {version}</p>
         </div>
       </footer>
     </div>
