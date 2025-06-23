@@ -31,12 +31,12 @@ type ChartAreaInteractiveProps = {
 export const description = "Package analysis metrics over time";
 
 const chartConfig = {
-  totalTime: {
-    label: "ms",
-    color: "var(--chart-1)",
-  },
   traceNumType: {
     label: "traceNumType",
+    color: "var(--chart-1)",
+  },
+  totalTime: {
+    label: "totalTime",
     color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
@@ -96,7 +96,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
               All metrics
             </SelectItem>
             <SelectItem value="totalTime" className="rounded-lg">
-              Ms only
+              totalTime only
             </SelectItem>
             <SelectItem value="traceNumType" className="rounded-lg">
               Types only
@@ -113,7 +113,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             data={filteredData}
             onClick={(payload) => {
               const owner = payload?.activePayload?.[0]?.payload.owner;
-              const repo = payload?.activePayload?.[0]?.payload.repo;
+              const repo = payload?.activePayload?.[0]?.payload.repository;
               const commitHash =
                 payload?.activePayload?.[0]?.payload.commitHash;
 
@@ -141,12 +141,12 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
               <linearGradient id="fillTraceNumType" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-TraceNumType)"
+                  stopColor="var(--color-traceNumType)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-TraceNumType)"
+                  stopColor="var(--color-traceNumType)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -157,7 +157,9 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
               axisLine={false}
               tickMargin={8}
               minTickGap={32}
-              tickFormatter={(value) => `${value}`}
+              tickFormatter={
+                (value) => new Date(value).toLocaleDateString().slice(5) // remove year
+              }
             />
             <ChartTooltip
               cursor={false}
@@ -170,7 +172,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                     return (
                       <>
                         <div>
-                          {value} (v{item.payload.benchVersion})
+                          {value} (v{item.payload.version})
                         </div>
                         <div className="text-xs text-gray-500 w-48">
                           {item.payload.commitMessage}
@@ -189,8 +191,9 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 dataKey="traceNumType"
                 type="natural"
                 fill="url(#fillTraceNumType)"
-                stroke="var(--color-TraceNumType)"
+                stroke="var(--color-traceNumType)"
                 stackId="a"
+                yAxisId="traceNumType" // enable multiple y-axes
               />
             ) : null}
             {metricType === "all" || metricType === "totalTime" ? (
@@ -201,6 +204,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 fill="url(#fillTotalTime)"
                 stroke="var(--color-totalTime)"
                 stackId="a"
+                yAxisId="totalTime" // enable multiple y-axes
               />
             ) : null}
             <ChartLegend content={<ChartLegendContent />} />
