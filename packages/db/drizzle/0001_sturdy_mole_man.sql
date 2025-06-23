@@ -1,1 +1,0 @@
-ALTER TABLE `result` ADD `is_cached` integer NOT NULL;

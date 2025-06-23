@@ -2,6 +2,7 @@ CREATE TABLE `result` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`package` text NOT NULL,
 	`is_success` integer NOT NULL,
+	`is_cached` integer NOT NULL,
 	`scan_id` integer NOT NULL,
 	`trace_num_type` integer,
 	`trace_num_trace` integer,
