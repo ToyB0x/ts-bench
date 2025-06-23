@@ -1,66 +1,69 @@
-name: pre-marketplace
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+# NOTE: temporarily disabled: currently under development and not ready for production use.
+# (and, it duplicates gh comment overwrite on this repo)
 
-permissions:
-  contents: read # for checkout repository
-  pull-requests: write # for creating/updating PR comments
-
-env:
-  DB_FILE_NAME: market-place-test.sqlite
-  UPLOAD_ARTIFACT_NAME: market-place-test
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Check out
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup & Restore Node cache
-        uses: actions/setup-node@v4
-        with:
-          cache: 'pnpm'
-          node-version-file: 'package.json'
-
-      - name: Install all packages
-        run: pnpm install --frozen-lockfile
-
-      - name: Download previous main branch report
-        uses: dawidd6/action-download-artifact@v11
-        with:
-          branch: main
-          workflow: marketplace.yml
-          workflow_conclusion: success
-          name: ${{ env.UPLOAD_ARTIFACT_NAME }}
-          if_no_artifact_found: warn
-          # automatically extracts the artifact to file "repo.sqlite"
-
-      - name: Build & Type generation
-        run: pnpm build && pnpm --filter=@ts-bench/web typegen
-        env:
-          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
-
-      - id: ts-bench-actions
-        uses: './' # Uses an action in the root directory
-
-      - name: Create PR comment
-        if: github.event_name == 'pull_request' # Only create comment on pull requests
-        run: gh pr comment ${{ github.event.number }} --body-file ${{ github.workspace }}/report.md --edit-last --create-if-none # upsert the last comment
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Skipped steps for uploading artifacts (other workflows handle this)
-      # - name: Upload report artifact
-      #   if: github.ref == 'refs/heads/main' # Only upload on main branch
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #    name: repo-performance-report
-      #   path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
+#name: pre-marketplace
+#on:
+#  push:
+#    branches:
+#      - main
+#  pull_request:
+#
+#permissions:
+#  contents: read # for checkout repository
+#  pull-requests: write # for creating/updating PR comments
+#
+#env:
+#  DB_FILE_NAME: market-place-test.sqlite
+#  UPLOAD_ARTIFACT_NAME: market-place-test
+#
+#jobs:
+#  test:
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 10
+#    steps:
+#      - name: Check out
+#        uses: actions/checkout@v4
+#
+#      - name: Install pnpm
+#        uses: pnpm/action-setup@v4
+#
+#      - name: Setup & Restore Node cache
+#        uses: actions/setup-node@v4
+#        with:
+#          cache: 'pnpm'
+#          node-version-file: 'package.json'
+#
+#      - name: Install all packages
+#        run: pnpm install --frozen-lockfile
+#
+#      - name: Download previous main branch report
+#        uses: dawidd6/action-download-artifact@v11
+#        with:
+#          branch: main
+#          workflow: marketplace.yml
+#          workflow_conclusion: success
+#          name: ${{ env.UPLOAD_ARTIFACT_NAME }}
+#          if_no_artifact_found: warn
+#          # automatically extracts the artifact to file "repo.sqlite"
+#
+#      - name: Build & Type generation
+#        run: pnpm build && pnpm --filter=@ts-bench/web typegen
+#        env:
+#          DB_FILE_NAME: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
+#
+#      - id: ts-bench-actions
+#        uses: './' # Uses an action in the root directory
+#
+#      - name: Create PR comment
+#        if: github.event_name == 'pull_request' # Only create comment on pull requests
+#        run: gh pr comment ${{ github.event.number }} --body-file ${{ github.workspace }}/report.md --edit-last --create-if-none # upsert the last comment
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      # Skipped steps for uploading artifacts (other workflows handle this)
+#      # - name: Upload report artifact
+#      #   if: github.ref == 'refs/heads/main' # Only upload on main branch
+#      #   uses: actions/upload-artifact@v4
+#      #   with:
+#      #    name: repo-performance-report
+#      #   path: ${{ github.workspace  }}/${{ env.DB_FILE_NAME }}
