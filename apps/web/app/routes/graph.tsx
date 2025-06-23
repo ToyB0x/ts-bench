@@ -1,4 +1,5 @@
 import { db, resultTbl } from "@ts-bench/db";
+import { Link } from "react-router";
 import { ChartAreaInteractive } from "~/components/parts/chart-area";
 import { ChartAreaInteractiveExample } from "~/components/parts/chart-area-example";
 import type { Route } from "./+types/graph";
@@ -57,7 +58,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       <ul className="list-disc mt-4 pl-6">
         {packages.map(({ package: pkg }) => (
           <li key={pkg}>
-            <a href={`/packages/${pkg}`}>{pkg}</a>
+            <Link to={pkg}>{pkg}</Link>
           </li>
         ))}
       </ul>

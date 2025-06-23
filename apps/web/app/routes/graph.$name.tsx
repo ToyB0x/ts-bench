@@ -1,5 +1,5 @@
 import { db } from "@ts-bench/db";
-import type { Route } from "./+types/packages.$name";
+import type { Route } from "./+types/graph.$name";
 
 // biome-ignore lint/correctness/noEmptyPattern: example code
 export function meta({}: Route.MetaArgs) {

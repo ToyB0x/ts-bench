@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { version } from "../../package.json";
 
 export default function Page() {
@@ -21,8 +22,8 @@ export default function Page() {
       <main className="flex-1 mt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-16">
           {/* NITS: update to remix Link (currently using prerender, so replace to Link component has no meaningful effect ) */}
-          <a
-            href="/graph"
+          <Link
+            to="graph"
             className="group relative p-8 border border-gray-800 hover:border-gray-700 transition-colors duration-200"
           >
             <div className="flex items-start justify-between mb-6">
@@ -62,7 +63,7 @@ export default function Page() {
               Analyze repository performance metrics and insights on a monthly
               basis.
             </p>
-          </a>
+          </Link>
 
           <a
             href="https://app.devin.ai/wiki/3-shake/securify-portal"

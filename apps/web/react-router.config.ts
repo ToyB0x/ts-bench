@@ -11,7 +11,7 @@ export default {
       .from(resultTbl)
       .orderBy(resultTbl.package);
 
-    const packagePaths = pkgs.map((pkg) => `/packages/${pkg.package}`);
+    const packagePaths = pkgs.map((pkg) => `/graph/${pkg.package}`); // packageName may have scope slash
     return [...getStaticPaths(), ...packagePaths];
   },
 } satisfies Config;

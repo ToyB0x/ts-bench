@@ -7,6 +7,8 @@ import {
 
 export default [
   index("routes/index.tsx"),
-  route("graph", "routes/graph.tsx"),
-  ...prefix("packages", [route(":scope?/:name", "routes/packages.$name.tsx")]),
+  ...prefix("graph", [
+    index("routes/graph.tsx"),
+    route(":scope?/:name", "routes/graph.$name.tsx"),
+  ]),
 ] satisfies RouteConfig;
