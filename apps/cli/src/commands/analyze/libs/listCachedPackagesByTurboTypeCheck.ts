@@ -5,7 +5,7 @@ const targetCommand = "typecheck";
 export const listCachedPackagesByTurboTypeCheck = (
   workingDir: string,
 ): string[] => {
-  const dryRunCommand = `npm run ${targetCommand} --dry-run=json`;
+  const dryRunCommand = `turbo ${targetCommand} --dry-run=json`;
   console.info(`Running command: ${dryRunCommand}`);
 
   try {
