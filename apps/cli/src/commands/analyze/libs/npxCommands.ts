@@ -16,7 +16,7 @@ export const npxTscWithTrace = async (
   const maxOldSpaceSize = 6144; // 6GB, adjust as needed
 
   const command = isCached
-    ? "ehco 'Using cached tsc results, skipping tsc execution'"
+    ? "echo 'Using cached tsc results, skipping tsc execution'"
     : `NODE_OPTIONS=--max-old-space-size=${maxOldSpaceSize} npx tsc --noEmit --extendedDiagnostics --incremental false --generateTrace ${TRACE_FILES_DIR}`;
 
   const { stdout, stderr } = await execPromise(command, {
