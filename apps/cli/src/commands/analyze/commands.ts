@@ -102,6 +102,11 @@ export const makeAnalyzeCommand = () => {
             "@ts-bench/web",
           ];
 
+          // NOTE: if enable cached mode, it will wait all affected packages scan in same git commit
+          // eg: speed up case
+          // eg, cpu 4 / all package 12 / affected 4: 3x faster than no cache (cpu cycle count decrease to 1/3)
+          // eg, cpu 4 / all package 12 / affected 5: 2x faster than no cache (cpu cycle count decrease to 1/2)
+          // eg, cpu 4 / all package  4 / affected 1:  same speed as no cache (cpu cycle count never change)
           const enableShowTable = false;
           await runBench(enableShowTable, cachedPackages);
         } catch (error) {
