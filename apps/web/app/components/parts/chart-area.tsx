@@ -36,7 +36,7 @@ const chartConfig = {
     color: "var(--chart-1)",
   },
   totalTime: {
-    label: "totalTime",
+    label: "totalTime (sec)",
     color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
