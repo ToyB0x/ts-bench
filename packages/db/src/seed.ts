@@ -21,6 +21,7 @@ const SEED_RESULTS: (typeof resultTbl.$inferInsert)[] = [
   {
     package: "@repo/cli",
     isSuccess: true,
+    isCached: true,
     scanId: SEED_SCAN.id,
     /* trace */
     traceNumType: 1,
@@ -68,6 +69,7 @@ const SEED_RESULTS: (typeof resultTbl.$inferInsert)[] = [
   {
     package: "@repo/db",
     isSuccess: true,
+    isCached: false,
     scanId: SEED_SCAN.id,
     /* trace */
     traceNumType: 1,
