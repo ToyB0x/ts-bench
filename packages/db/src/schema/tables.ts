@@ -45,6 +45,7 @@ export const resultTbl = sqliteTable(
     id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
     package: text("package").notNull(), // デバッグ頻度が高いため、単一テーブルのみでデバッグしやすいように非正規化しない
     isSuccess: integer("is_success", { mode: "boolean" }).notNull(),
+    isCached: integer("is_cached", { mode: "boolean" }).notNull(),
     scanId: integer("scan_id")
       .notNull()
       .references(() => scanTbl.id, {
