@@ -113,7 +113,7 @@ export const makeAnalyzeCommand = () => {
 
           const cachedPackages: string[] = !options.enableTurboCacheByTypecheck
             ? []
-            : listCachedPackagesByTurboTypeCheck();
+            : listCachedPackagesByTurboTypeCheck(options.workingDir);
 
           // NOTE: if enable cached mode, it will wait all affected packages scan in same git commit
           // eg: speed up case

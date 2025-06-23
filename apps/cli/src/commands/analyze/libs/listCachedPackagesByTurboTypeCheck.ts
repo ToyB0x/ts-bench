@@ -2,13 +2,18 @@ import { execSync } from "node:child_process";
 
 const targetCommand = "typecheck";
 
-export const listCachedPackagesByTurboTypeCheck = (): string[] => {
-  const dryRunCommand = `turbo run ${targetCommand} --dry-run`;
+export const listCachedPackagesByTurboTypeCheck = (
+  workingDir: string,
+): string[] => {
+  const dryRunCommand = `npm run ${targetCommand} --dry-run`;
   console.info(`Running command: ${dryRunCommand}`);
 
   try {
     // Execute the command and capture the output
-    const output = execSync(dryRunCommand, { encoding: "utf-8" });
+    const output = execSync(dryRunCommand, {
+      encoding: "utf-8",
+      cwd: workingDir,
+    });
     return parseCachedPackages(output);
   } catch (error) {
     console.error(`Error executing command: ${dryRunCommand}`, error);
