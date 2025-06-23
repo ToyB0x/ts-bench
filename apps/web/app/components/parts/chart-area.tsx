@@ -170,14 +170,12 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                     const item = payload?.[0];
                     if (!item) return value;
                     return (
-                      <>
-                        <div>
-                          {value} (v{item.payload.version})
+                      <div className="w-96 text-xs text-gray-500">
+                        <div>PR: {item.payload.commitMessage}</div>
+                        <div className="text-gray-400 font-light">
+                          ({item.payload.cpus} v{item.payload.version})
                         </div>
-                        <div className="text-xs text-gray-500 w-48">
-                          {item.payload.commitMessage}
-                        </div>
-                      </>
+                      </div>
                     );
                   }}
                   isAnimationActive={false}
