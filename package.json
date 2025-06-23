@@ -15,17 +15,17 @@
     "ci:publish": "pnpm publish --recursive --access=public"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.4",
+    "@biomejs/biome": "2.0.5",
     "@changesets/cli": "2.29.5",
     "turbo": "2.5.4"
   },
   "engines": {
     "node": "24.2.0"
   },
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.12.2",
   "volta": {
     "node": "24.2.0",
-    "pnpm": "10.12.1"
+    "pnpm": "10.12.2"
   },
   "author": "ToyB0x",
   "license": "MIT",
