@@ -7,7 +7,10 @@ import {
   tscAndAnalyze,
 } from "./libs";
 
-export const runBench = async (enableShowTable = true): Promise<void> => {
+export const runBench = async (
+  enableShowTable = true,
+  cachedPackages: string[] = [],
+): Promise<void> => {
   // Step 1: List packages in the git repository
   const packages = await listPackages();
 
@@ -31,7 +34,7 @@ CPU: ${cpuModelAndSpeeds.join(", ")}`,
   // Step 3: Run tsc for each package with multicore support
   const { results } = await PromisePool.withConcurrency(maxConcurrency)
     .for(packages)
-    .process((pkg) => tscAndAnalyze(pkg));
+    .process((pkg) => tscAndAnalyze(pkg, cachedPackages));
 
   // Step 4: Write result to sqlite (with multicore support)
   await saveResultsToDatabase(results, cpuModelAndSpeeds).catch(console.error);

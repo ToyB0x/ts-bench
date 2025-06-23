@@ -17,11 +17,6 @@ npx @ts-bench/cli
 
 # TODO: high priority
 - Implement features to rapid scan
-  - use the monorepo dependencies topology (speed up analyze)
-  - Use intelligent code analysis to run analyze command for specific files that affected by the changes
-    - https://turborepo.com/docs/reference/run#--dry----dry-run
-    - https://turborepo.com/docs/reference/query
-    - eg: add option for monorepo typecheck command that user already use (typecheck, check-types, tsc, tsc-check, etc...)
   - limit the packages (this is useful for large monorepos, but difficult to analyze if type dependent package build is needed, also but, turborepo can help build cache)
     - specify the paths to scan directory
     - specify the package names to scan

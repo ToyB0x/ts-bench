@@ -28,11 +28,14 @@ export type TscResult =
 
 export const tscAndAnalyze = async (
   pkg: Awaited<ReturnType<typeof listPackages>>[number],
+  cachedPackages: string[],
 ): Promise<TscResult> => {
+  const isCached = cachedPackages.includes(pkg.name);
+
   try {
     // execute tsc with trace
-    const tscResults = await npxTscWithTrace(pkg);
-    await npxAnalyzeTrace(pkg);
+    const tscResults = await npxTscWithTrace(pkg, isCached);
+    await npxAnalyzeTrace(pkg, isCached);
 
     // read results from files
     const { trace, types } = await readTraceFiles(pkg);
