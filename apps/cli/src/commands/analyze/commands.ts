@@ -96,6 +96,7 @@ export const makeAnalyzeCommand = () => {
           );
 
           const cachedPackages = [
+            "ts-bench",
             "@ts-bench/db",
             "@ts-bench/cli",
             "@ts-bench/web",
