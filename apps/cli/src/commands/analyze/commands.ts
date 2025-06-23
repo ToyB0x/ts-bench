@@ -95,7 +95,11 @@ export const makeAnalyzeCommand = () => {
             options.workingDir,
           );
 
-          const cachedPackages = [""];
+          const cachedPackages = [
+            "@ts-bench/db",
+            "@ts-bench/cli",
+            "@ts-bench/web",
+          ];
 
           const enableShowTable = false;
           await runBench(enableShowTable, cachedPackages);
