@@ -23,6 +23,7 @@ export const generateReportMarkdown = async (
 
   let mdContent = `
 **Tsc benchmark ${maxConcurrency} / ${totalCPUs} CPUs** (compared to ${prevScan ? prevScan.commitHash : "N/A"})
+
 `;
 
   mdContent += tablemark(
@@ -41,16 +42,14 @@ export const generateReportMarkdown = async (
               totalTime: `${r.totalTime}s (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)})`,
               memoryUsed: `${r.memoryUsed}K (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)})`,
               analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)})`,
-              error: "",
             }
           : {
               package: r.package,
-              traceTypes: "",
+              traceTypes: "Error",
               traceTypesSize: "",
               totalTime: "",
               memoryUsed: "",
               analyzeHotSpotMs: "",
-              error: String(r.error),
             },
       ),
     {
