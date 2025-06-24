@@ -4,6 +4,12 @@ description: 'Analyze repository metrics'
 branding:
   color: 'blue'
   icon: 'activity'
+inputs:
+  CLI_VERSION:
+    description: "ts-bench CLI version to use for analyze"
+    required: false
+    default: "0.0.19"
+
 runs:
   using: "composite"
   steps:
@@ -11,14 +17,16 @@ runs:
       run: npm install -g tsx
       shell: bash
 
+      # NOTE: Must pin version to avoid breaking changes
     - name: Run migrations
-      run: npx @ts-bench/cli@latest db migrate
+      run: npx @ts-bench/cli@${{ inputs.CLI_VERSION }} db migrate
       shell: bash
       env:
         DB_FILE_NAME: "ts-bench.sqlite"
 
+      # NOTE: Must pin version to avoid breaking changes
     - name: Run performance analysis
-      run: npx @ts-bench/cli@latest analyze > report.md
+      run: npx @ts-bench/cli@${{ inputs.CLI_VERSION }} analyze > report.md
       shell: bash
       env:
         DB_FILE_NAME: "ts-bench.sqlite"
