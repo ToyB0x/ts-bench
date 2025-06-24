@@ -20,11 +20,11 @@
     "turbo": "2.5.4"
   },
   "engines": {
-    "node": "24.2.0"
+    "node": "24.3.0"
   },
   "packageManager": "pnpm@10.12.3",
   "volta": {
-    "node": "24.2.0",
+    "node": "24.3.0",
     "pnpm": "10.12.3"
   },
   "author": "ToyB0x",
