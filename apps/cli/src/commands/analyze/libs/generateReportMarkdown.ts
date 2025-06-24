@@ -22,8 +22,7 @@ export const generateReportMarkdown = async (
   }
 
   let mdContent = `
-**Tsc benchmark ${maxConcurrency} / ${totalCPUs} CPUs** (${cpuModelAndSpeeds.join(", ")})
-Parent commit: ${prevScan ? prevScan.commitHash : "N/A"} (${prevScan ? prevScan.commitDate.toISOString() : "N/A"})
+**Tsc benchmark ${maxConcurrency} / ${totalCPUs} CPUs** (compared to ${prevScan ? prevScan.commitHash : "N/A"})
 `;
 
   mdContent += tablemark(
@@ -68,7 +67,7 @@ Parent commit: ${prevScan ? prevScan.commitHash : "N/A"} (${prevScan ? prevScan.
   );
 
   mdContent += `
-<p align="right">(version: ${version})</p>
+<p align="right">v${version} (${cpuModelAndSpeeds.join(", ")})</p>
 `;
 
   // write to ts-bench-report.md file
