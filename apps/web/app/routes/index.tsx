@@ -126,7 +126,8 @@ export default function Page() {
       <footer className="mt-auto pt-8 border-t border-gray-900">
         <div className="flex items-center justify-between">
           <p className="text-sm text-gray-500">
-            Last scan: {new Date().toLocaleDateString()}
+            Last scan: {new Date().toLocaleDateString()}{" "}
+            {new Date().toLocaleTimeString()}
           </p>
           <p className="text-xs text-gray-500">Version {version}</p>
         </div>
