@@ -9,6 +9,6 @@ export default [
   index("routes/index.tsx"),
   ...prefix("graph", [
     index("routes/graph.tsx"),
-    route(":scope?/:name", "routes/graph.$name.tsx"),
+    route("/:scope?/:name", "routes/graph.$name.tsx"),
   ]),
 ] satisfies RouteConfig;

@@ -55,13 +55,17 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
         <ChartAreaInteractiveExample />
       </div>
-      <ul className="list-disc mt-4 pl-6">
-        {packages.map(({ package: pkg }) => (
-          <li key={pkg}>
-            <Link to={pkg}>{pkg}</Link>
-          </li>
-        ))}
-      </ul>
+
+      <div className="mt-8 p-6">
+        <h2 className="text-2xl font-bold">Packages Detail Insight</h2>
+        <ul className="list-disc mt-4 pl-6">
+          {packages.map(({ package: pkg }) => (
+            <li key={pkg}>
+              <Link to={`./${pkg}`}>{pkg}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }
