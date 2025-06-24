@@ -40,7 +40,7 @@ export async function loader({ params }: Route.LoaderArgs) {
       // extract result
       packageResults.map((r) => ({
         ...r.result,
-        ...r.scan, // result id iw overwritten by scan id
+        ...r.scan, // result id is overwritten by scan id
       })),
   };
 }
