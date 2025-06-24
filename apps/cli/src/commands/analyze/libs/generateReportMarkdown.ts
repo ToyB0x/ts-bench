@@ -18,13 +18,12 @@ export const generateReportMarkdown = async (
 
   const [currentScan, prevScan] = recentScans;
   if (!currentScan) {
-    console.warn("No current scan results found to show table.");
-    return;
+    throw Error("No current scan results found to show table.");
   }
 
   let mdContent = `
-**Tsc benchmark: Using ${maxConcurrency} / ${totalCPUs} CPUs** (${cpuModelAndSpeeds.join(", ")})
-Parent commit: \`${currentScan.commitHash.slice(0, 7)}\` (bench version: ${version})
+**Tsc benchmark ${maxConcurrency} / ${totalCPUs} CPUs** (${cpuModelAndSpeeds.join(", ")})
+Parent commit: ${prevScan ? prevScan.commitHash : "N/A"} (${prevScan ? prevScan.commitDate.toISOString() : "N/A"})
 `;
 
   mdContent += tablemark(
@@ -67,6 +66,10 @@ Parent commit: \`${currentScan.commitHash.slice(0, 7)}\` (bench version: ${versi
       ],
     },
   );
+
+  mdContent += `
+<p align="right">(version: ${version})</p>
+`;
 
   // write to ts-bench-report.md file
   const reportPath = "ts-bench-report.md";
