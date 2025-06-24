@@ -6,7 +6,7 @@ branding:
   icon: 'activity'
 inputs:
   CLI_VERSION:
-    description: "ts-bench CLI version to use for analyze"
+    description: "ts-bench CLI version to use for analysis"
     required: false
     default: "0.0.19"
 
