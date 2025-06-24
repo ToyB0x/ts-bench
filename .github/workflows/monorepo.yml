@@ -155,7 +155,7 @@ jobs:
       - name: Create PR comment
         if: github.event_name == 'pull_request' # Only create comment on pull requests
         working-directory: apps/cli
-        run: gh pr comment ${{ github.event.number }} --body-file report.md --edit-last --create-if-none # upsert the last comment
+        run: gh pr comment ${{ github.event.number }} --body-file ts-bench-report.md --edit-last --create-if-none # upsert the last comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

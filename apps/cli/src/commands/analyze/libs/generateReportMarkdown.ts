@@ -1,6 +1,10 @@
+import { writeFileSync } from "node:fs";
 import { db } from "@ts-bench/db";
+import tablemark from "tablemark";
 
 export const generateReportMarkdown = async () => {
+  let mdContent = "No results found to show table.";
+
   const recentScans = await db.query.scanTbl.findMany({
     limit: 2,
     orderBy: (scan, { desc }) => desc(scan.commitDate),
@@ -15,8 +19,7 @@ export const generateReportMarkdown = async () => {
     return;
   }
 
-  console.log("```");
-  console.table(
+  mdContent = tablemark(
     currentScan.results
       .sort((a, b) =>
         a.isSuccess && b.isSuccess && a.traceNumType && b.traceNumType
@@ -39,7 +42,10 @@ export const generateReportMarkdown = async () => {
             },
       ),
   );
-  console.log("```");
+
+  // write to ts-bench-report.md file
+  const reportPath = "ts-bench-report.md";
+  writeFileSync(reportPath, mdContent, "utf8");
 };
 
 // calculate the difference between two numbers
