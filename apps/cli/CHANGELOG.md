@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.21
+
+### Patch Changes
+
+- 9223cbe: feat: update report generation
+
 ## 0.0.20
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.12
+
+### Patch Changes
+
+- 9223cbe: feat: update report generation
+
 ## 0.0.11
 
 ### Patch Changes
