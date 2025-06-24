@@ -26,10 +26,9 @@ export const runBench = async (
 
   const NUM_RESERVE_CPUS = 0; // Reserve some CPUs for the system to ensure accuracy
   const maxConcurrency = totalCPUs - NUM_RESERVE_CPUS;
-  console.log(
-    `**Tsc benchmark: Using ${maxConcurrency} / ${totalCPUs} CPUs (${NUM_RESERVE_CPUS ? `reserving ${NUM_RESERVE_CPUS} CPU for accuracy` : "Full-Throttle!"})**
-CPU: ${cpuModelAndSpeeds.join(", ")}`,
-  );
+
+  const headerString = `Tsc benchmark: Using ${maxConcurrency} / ${totalCPUs} CPUs (CPU: ${cpuModelAndSpeeds.join(", ")})`;
+  console.log(headerString);
 
   // Step 3: Run tsc for each package with multicore support
   const { results } = await PromisePool.withConcurrency(maxConcurrency)
@@ -40,5 +39,6 @@ CPU: ${cpuModelAndSpeeds.join(", ")}`,
   await saveResultsToDatabase(results, cpuModelAndSpeeds).catch(console.error);
 
   // Step 5: Show results
-  if (enableShowTable) await generateReportMarkdown();
+  if (enableShowTable)
+    await generateReportMarkdown(cpuModelAndSpeeds, maxConcurrency, totalCPUs);
 };

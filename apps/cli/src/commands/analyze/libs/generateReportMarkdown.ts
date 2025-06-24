@@ -1,10 +1,13 @@
 import { writeFileSync } from "node:fs";
 import { db } from "@ts-bench/db";
 import tablemark from "tablemark";
+import { version } from "../../../../package.json";
 
-export const generateReportMarkdown = async () => {
-  let mdContent = "No results found to show table.";
-
+export const generateReportMarkdown = async (
+  cpuModelAndSpeeds: string[],
+  maxConcurrency: number,
+  totalCPUs: number,
+) => {
   const recentScans = await db.query.scanTbl.findMany({
     limit: 2,
     orderBy: (scan, { desc }) => desc(scan.commitDate),
@@ -19,7 +22,12 @@ export const generateReportMarkdown = async () => {
     return;
   }
 
-  mdContent = tablemark(
+  let mdContent = `
+**Tsc benchmark: Using ${maxConcurrency} / ${totalCPUs} CPUs** (${cpuModelAndSpeeds.join(", ")})
+Parent commit: \`${currentScan.commitHash.slice(0, 7)}\` (bench version: ${version})
+`;
+
+  mdContent += tablemark(
     currentScan.results
       .sort((a, b) =>
         a.isSuccess && b.isSuccess && a.traceNumType && b.traceNumType
