@@ -1,5 +1,15 @@
 # @ts-bench/cli
 
+## 0.0.20
+
+### Patch Changes
+
+- d58cef2: feat: update db with extended diag mode
+- 343037b: feat: add caching support for tsc and analysis commands (with db flag)
+- Updated dependencies [d58cef2]
+- Updated dependencies [343037b]
+  - @ts-bench/db@0.0.12
+
 ## 0.0.19
 
 ### Patch Changes

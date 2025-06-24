@@ -1,5 +1,17 @@
 # @ts-bench/web
 
+## 0.0.11
+
+### Patch Changes
+
+- c224032: feat: add detail page for interactive chart
+- d58cef2: feat: update db with extended diag mode
+- 343037b: feat: add caching support for tsc and analysis commands (with db flag)
+- 87ad3e3: feat: multi axis graph
+- Updated dependencies [d58cef2]
+- Updated dependencies [343037b]
+  - @ts-bench/db@0.0.12
+
 ## 0.0.10
 
 ### Patch Changes

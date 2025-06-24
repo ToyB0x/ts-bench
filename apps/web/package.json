@@ -1,6 +1,6 @@
 {
   "name": "@ts-bench/web",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "type": "module",
   "bin": "render.sh",
   "scripts": {

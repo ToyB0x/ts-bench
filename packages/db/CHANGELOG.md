@@ -1,5 +1,12 @@
 # @ts-bench/db
 
+## 0.0.12
+
+### Patch Changes
+
+- d58cef2: feat: update db with extended diag mode
+- 343037b: feat: add caching support for tsc and analysis commands (with db flag)
+
 ## 0.0.11
 
 ### Patch Changes
