@@ -1,6 +1,6 @@
 import { db } from "@ts-bench/db";
 
-export const showTable = async () => {
+export const generateReportMarkdown = async () => {
   const recentScans = await db.query.scanTbl.findMany({
     limit: 2,
     orderBy: (scan, { desc }) => desc(scan.commitDate),

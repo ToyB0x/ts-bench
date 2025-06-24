@@ -1,9 +1,9 @@
 import { cpus } from "node:os";
 import { PromisePool } from "@supercharge/promise-pool";
 import {
+  generateReportMarkdown,
   listPackages,
   saveResultsToDatabase,
-  showTable,
   tscAndAnalyze,
 } from "./libs";
 
@@ -40,5 +40,5 @@ CPU: ${cpuModelAndSpeeds.join(", ")}`,
   await saveResultsToDatabase(results, cpuModelAndSpeeds).catch(console.error);
 
   // Step 5: Show results
-  if (enableShowTable) await showTable();
+  if (enableShowTable) await generateReportMarkdown();
 };
