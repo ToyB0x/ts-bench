@@ -90,8 +90,8 @@ export const generateReportMarkdown = async (
   mdContent += `
 ${summaryText}
  
-${tables.minus.length ? "#### Reduced types :zap:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
-${tables.plus.length ? "#### Increased types :fire:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+${tables.minus.length ? "#### Reduced types :tada:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
+${tables.plus.length ? "#### Increased types :rotating_light:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
 <p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
 TSC-Bench v${version} (${maxConcurrency} / ${totalCPUs} CPUs)<br/>
 ${cpuModelAndSpeeds.join(", ")}</p>
