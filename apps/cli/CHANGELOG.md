@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.22
+
+### Patch Changes
+
+- 2b1a72d: feat: enhance markdown report with categorized package trace types
+
 ## 0.0.21
 
 ### Patch Changes
