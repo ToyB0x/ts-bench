@@ -92,8 +92,8 @@ ${summaryText}
  
 ${tables.minus.length ? "#### Reduced types :+1:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
 ${tables.plus.length ? "#### Increased types :bangbang:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
-${tables.noChange.length ? "<details><summary>No changes</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
-${tables.error.length ? "<details><summary>Errors</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
 `;
 
   mdContent += `<p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
