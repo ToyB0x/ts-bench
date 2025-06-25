@@ -91,8 +91,8 @@ export const generateReportMarkdown = async (
   mdContent += `
 ${summaryText}
  
-${tables.minus.length ? "#### :tada: Reduced types\n" + tablemark(tables.minus, tablemarkOptions) : ""}
-${tables.plus.length ? "#### :rotating_light: Increased types\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+${tables.minus.length ? "#### :sparkles: Faster packages\n" + tablemark(tables.minus, tablemarkOptions) : ""}
+${tables.plus.length ? "#### :rotating_light: Slower packages \n" + tablemark(tables.plus, tablemarkOptions) : ""}
 
 <p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
 
@@ -103,17 +103,15 @@ ${tables.plus.length ? "#### :rotating_light: Increased types\n" + tablemark(tab
 - TSC Benchmark version: ${version}
 - CPU: ${cpuModelAndSpeeds.join(", ")} (${maxConcurrency} / ${totalCPUs})
 
-${tables.noChange.length ? "<details><summary>Open No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+${tables.noChange.length ? "<details><summary>Open: No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
 
-${tables.error.length ? "<details><summary>Open Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+${tables.error.length ? "<details><summary>Open: Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
 
 <details><summary>Open Full Analysis</summary>
 <pre>
 # Current
 ${printSimpleTable(currentScan.results)}
-</pre>
 
-<pre>
 # Prev
 ${prevScan ? printSimpleTable(prevScan.results) : "N/A"}
 </pre>
