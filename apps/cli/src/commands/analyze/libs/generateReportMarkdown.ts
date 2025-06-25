@@ -41,7 +41,7 @@ export const generateReportMarkdown = async (
             traceTypesSize: `${r.traceFileSizeType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceFileSizeType || 0, r.traceFileSizeType || 0)}`,
             totalTime: `${r.totalTime}s${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)}`,
             memoryUsed: `${r.memoryUsed}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)}`,
-            analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)}`,
+            // analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)}`,
           }
         : {
             package: r.package,
@@ -49,7 +49,7 @@ export const generateReportMarkdown = async (
             traceTypesSize: "",
             totalTime: "",
             memoryUsed: "",
-            analyzeHotSpotMs: "",
+            // analyzeHotSpotMs: "",
           },
     );
 
