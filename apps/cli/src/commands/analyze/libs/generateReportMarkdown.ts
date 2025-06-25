@@ -96,8 +96,20 @@ ${tables.plus.length ? "#### Increased types :fire:\n" + tablemark(tables.plus, 
 ---
 <details><summary><strong>Open Details</strong></summary>
 
-${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
-${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+  ${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+  ${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+
+  <details><summary>Full Analysis</summary>
+    <p>Current commit: ${currentScan.commitHash} (${currentScan.commitDate})</p>
+    <pre>
+        {JSON.stringify(currentScan.results, null, 2)}
+    </pre>
+    
+    <p>Prev commit: ${prevScan ? `${prevScan.commitHash} (${prevScan.commitDate})` : "N/A"}</p>
+    <pre>
+        ${prevScan ? JSON.stringify(prevScan.results, null, 2) : "N/A"}
+    </pre>
+  </details>
 
 </details>
 `;
