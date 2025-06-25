@@ -105,7 +105,7 @@ jobs:
 
       - name: Init PR comment
         if: github.event_name == 'pull_request' # Only create comment on pull requests
-        run: gh pr comment ${{ github.event.number }} --body 'TSC-bench Analysis in progress...' --edit-last --create-if-none # upsert the last comment
+        run: gh pr comment ${{ github.event.number }} --body '🔍️ TSC-bench Analysis in progress...' --edit-last --create-if-none # upsert the last comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
