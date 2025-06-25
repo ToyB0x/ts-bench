@@ -75,10 +75,10 @@ export const generateReportMarkdown = async (
   } satisfies TablemarkOptions;
 
   mdContent += `
-${tables.minus.length ? "### Packages with reduced trace types (Good)\n" + tablemark(tables.minus, tablemarkOptions) : ""}
-${tables.plus.length ? "### Packages with increased trace types (Bad)\n" + tablemark(tables.plus, tablemarkOptions) : ""}
-${tables.noChange.length ? "### Packages with no change in trace types\n" + tablemark(tables.noChange, tablemarkOptions) : ""}
-${tables.error.length ? "### Packages with errors\n" + tablemark(tables.error, tablemarkOptions) : ""}
+${tables.minus.length ? "#### Packages with reduced trace types (Good)\n" + tablemark(tables.minus, tablemarkOptions) : ""}
+${tables.plus.length ? "#### Packages with increased trace types (Bad)\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+${tables.noChange.length ? "#### Packages with no change in trace types\n" + tablemark(tables.noChange, tablemarkOptions) : ""}
+${tables.error.length ? "#### Packages with errors\n" + tablemark(tables.error, tablemarkOptions) : ""}
 `;
 
   mdContent += `
@@ -97,8 +97,9 @@ const calcDiff = (before: number, after: number): string => {
   if (before === 0) return "N/A"; // Avoid division by zero
 
   const diff = ((after - before) / Math.abs(before)) * 100;
-  if (diff === 0) return ""; // No change, return empty string
+  const diffFixedLength = Math.abs(diff).toFixed(1);
+  if (diffFixedLength === "0") return ""; // No change, return empty string
 
   const sign = diff >= 0 ? "+" : "-";
-  return ` (${sign}${Math.abs(diff).toFixed(1)}%)`; // eg: 半角スペース (1.1%)
+  return ` (${sign}${diffFixedLength}%)`; // eg: 半角スペース (1.1%)
 };
