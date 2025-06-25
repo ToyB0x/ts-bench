@@ -92,8 +92,14 @@ ${summaryText}
  
 ${tables.minus.length ? "#### Reduced types :zap:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
 ${tables.plus.length ? "#### Increased types :fire:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+
+---
+<details><summary><strong>Open Details</strong></summary>
+
 ${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
 ${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+
+</details>
 `;
 
   mdContent += `<p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
