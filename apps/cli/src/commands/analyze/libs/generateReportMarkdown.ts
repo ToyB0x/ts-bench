@@ -22,7 +22,7 @@ export const generateReportMarkdown = async (
     throw Error("No current scan results found to show table.");
   }
 
-  let mdContent = `### Tsc benchmark :zap:
+  let mdContent = `## :zap: Tsc benchmark
 `;
 
   const tableRows = currentScan.results
@@ -90,28 +90,30 @@ export const generateReportMarkdown = async (
   mdContent += `
 ${summaryText}
  
-${tables.minus.length ? "#### Reduced types :tada:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
-${tables.plus.length ? "#### Increased types :rotating_light:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
-<p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
-TSC-Bench v${version} (${maxConcurrency} / ${totalCPUs} CPUs)<br/>
+${tables.minus.length ? "#### :tada: Reduced types\n" + tablemark(tables.minus, tablemarkOptions) : ""}
+${tables.plus.length ? "#### :rotating_light: Increased types\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+
+<p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
 ${cpuModelAndSpeeds.join(", ")}</p>
+
 ---
-<details><summary><strong>Open Details</strong></summary>
 
-  ${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
-  ${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+<details><summary><strong>Open Details (v${version} ${maxConcurrency}/${totalCPUs} CPUs)</strong></summary>
 
-  <details><summary>Full Analysis</summary>
-    <p>Current commit: ${currentScan.commitHash} (${currentScan.commitDate})</p>
-    <pre>
-        {JSON.stringify(currentScan.results, null, 2)}
-    </pre>
-    
-    <p>Prev commit: ${prevScan ? `${prevScan.commitHash} (${prevScan.commitDate})` : "N/A"}</p>
-    <pre>
-        ${prevScan ? JSON.stringify(prevScan.results, null, 2) : "N/A"}
-    </pre>
-  </details>
+${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+
+<details><summary>Full Analysis</summary>
+<p>Current</p>
+<pre>
+${getTable(currentScan.results)}
+</pre>
+
+<p>Prev</p>
+<pre>
+${prevScan ? getTable(prevScan.results) : "N/A"}
+</pre>
+</details>
 
 </details>
 `;
@@ -134,3 +136,18 @@ const calcDiff = (before: number, after: number): string => {
   const sign = diff >= 0 ? "+" : "-";
   return ` (${sign}${diffFixedLength}%)`; // eg: 半角スペース (1.1%)
 };
+
+import { Console } from "node:console";
+import { Transform } from "node:stream";
+
+const ts = new Transform({
+  transform(chunk, _enc, cb) {
+    cb(null, chunk);
+  },
+});
+const logger = new Console({ stdout: ts });
+
+function getTable(data: never) {
+  logger.table(data);
+  return (ts.read() || "").toString();
+}
