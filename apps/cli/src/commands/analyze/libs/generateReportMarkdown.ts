@@ -7,7 +7,7 @@ import { version } from "../../../../package.json";
 export const generateReportMarkdown = async (
   cpuModelAndSpeeds: string[],
   maxConcurrency: number,
-  totalCPUs: number,
+  _totalCPUs: number,
 ) => {
   const recentScans = await db.query.scanTbl.findMany({
     limit: 2,
@@ -98,7 +98,7 @@ ${cpuModelAndSpeeds.join(", ")}</p>
 
 ---
 
-<details><summary><strong>Open Details (v${version} ${maxConcurrency}/${totalCPUs} CPUs)</strong></summary>
+<details><summary><strong>Open Details (v${version} ${maxConcurrency}CPUs)</strong></summary>
 
 ${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
 ${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
@@ -147,7 +147,8 @@ const ts = new Transform({
 });
 const logger = new Console({ stdout: ts });
 
-function getTable(data: never) {
+// biome-ignore lint/complexity/noBannedTypes: temp
+function getTable(data: Object) {
   logger.table(data);
   return (ts.read() || "").toString();
 }
