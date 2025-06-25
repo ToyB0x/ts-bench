@@ -73,7 +73,7 @@ export const generateReportMarkdown = async (
   } satisfies TablemarkOptions;
 
   let summaryText = "**Summary** \n";
-  if (tables.plus.length || tables.minus.length || tables.error.length) {
+  if (!tables.plus.length || !tables.minus.length || !tables.error.length) {
     summaryText += "- This PR has no significant changes\n";
   } else {
     if (tables.plus.length) {
