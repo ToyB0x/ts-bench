@@ -3,3 +3,6 @@
 
 # Ignore SQLite database file
 ts-bench.sqlite
+
+# report files
+ts-bench-report.md
