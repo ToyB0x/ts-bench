@@ -80,8 +80,7 @@ export const generateReportMarkdown = async (
     summaryText += `
 - ${tables.minus.length} packages become faster
 - ${tables.plus.length} packages become slower
-- ${tables.error.length} packages have errors
-`;
+- ${tables.error.length} packages have errors`;
   }
 
   mdContent += `
