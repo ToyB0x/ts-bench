@@ -75,10 +75,18 @@ export const generateReportMarkdown = async (
   } satisfies TablemarkOptions;
 
   mdContent += `
-${tables.minus.length ? "#### Reduced types (Good)\n" + tablemark(tables.minus, tablemarkOptions) : ""}
-${tables.plus.length ? "#### Increased types (Bad)\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+${!tables.minus.length ? "#### Reduced types (Good :+1:)\n" + tablemark(tables.minus, tablemarkOptions) : ""}
+${!tables.plus.length ? "#### Increased types (Bad :-1:)\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+
+<details>
+<summary>No change</summary>
 ${tables.noChange.length ? "#### No change\n" + tablemark(tables.noChange, tablemarkOptions) : ""}
+</details>
+
+<details>
+<summary>Error</summary>
 ${tables.error.length ? "#### Error\n" + tablemark(tables.error, tablemarkOptions) : ""}
+</details>
 `;
 
   mdContent += `
