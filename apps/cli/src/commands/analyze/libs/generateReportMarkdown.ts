@@ -22,9 +22,7 @@ export const generateReportMarkdown = async (
     throw Error("No current scan results found to show table.");
   }
 
-  let mdContent = `
-**Tsc benchmark ${maxConcurrency} / ${totalCPUs} CPUs** (compared to ${prevScan ? prevScan.commitHash : "N/A"})
-
+  let mdContent = `**Tsc benchmark**: v${version})
 `;
 
   const tableRows = currentScan.results
@@ -77,12 +75,12 @@ export const generateReportMarkdown = async (
   mdContent += `
 ${tables.minus.length ? "#### Reduced types :+1:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
 ${tables.plus.length ? "#### Increased types :bangbang:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
-${tables.noChange.length ? "<details><summary>No change</summary>\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
-${tables.error.length ? "<details><summary>Error</summary>\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+${tables.noChange.length ? "<details><summary>No change</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+${tables.error.length ? "<details><summary>Error</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
 `;
 
-  mdContent += `
-<p align="right">v${version} (${cpuModelAndSpeeds.join(", ")})</p>
+  mdContent += `<p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
+${cpuModelAndSpeeds.join(", ")}(${maxConcurrency} / ${totalCPUs} CPUs)</p>
 `;
 
   // write to ts-bench-report.md file
