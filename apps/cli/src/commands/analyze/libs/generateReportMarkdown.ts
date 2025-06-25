@@ -101,5 +101,5 @@ const calcDiff = (before: number, after: number): string => {
   if (diffFixedLength === "0" || diffFixedLength === "0.0") return ""; // No change, return empty string
 
   const sign = diff >= 0 ? "+" : "-";
-  return ` (${sign}${diffFixedLength}%)`; // eg: 半角スペース (1.1%)
+  return `<br/>(${sign}${diffFixedLength}%)`; // eg: 改行+(1.1%)
 };
