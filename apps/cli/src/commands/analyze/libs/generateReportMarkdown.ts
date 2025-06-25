@@ -94,15 +94,14 @@ ${summaryText}
 ${tables.minus.length ? "#### :tada: Reduced types\n" + tablemark(tables.minus, tablemarkOptions) : ""}
 ${tables.plus.length ? "#### :rotating_light: Increased types\n" + tablemark(tables.plus, tablemarkOptions) : ""}
 
-<p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
-${cpuModelAndSpeeds.join(", ")}</p>
+<p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
 
 ---
 
 <details><summary><strong>Open Details</strong></summary>
 
-- TSC Benchmark Report v${version}
-- CPUs ${maxConcurrency} / ${totalCPUs}
+- TSC Benchmark version: ${version}
+- CPU: ${cpuModelAndSpeeds.join(", ")} (${maxConcurrency} / ${totalCPUs})
 
 ${tables.noChange.length ? "<details><summary>Open No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
 
