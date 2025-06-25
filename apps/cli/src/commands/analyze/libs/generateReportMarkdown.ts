@@ -77,10 +77,10 @@ export const generateReportMarkdown = async (
   if (!tables.plus.length && !tables.minus.length && !tables.error.length) {
     summaryText += "- This PR has no significant changes\n";
   } else {
-    if (tables.plus.length) {
+    if (tables.minus.length) {
       summaryText += `- ${tables.minus.length} packages become faster`;
     }
-    if (tables.minus.length) {
+    if (tables.plus.length) {
       summaryText += `- ${tables.plus.length} packages become slower`;
     }
     if (tables.error.length) {
