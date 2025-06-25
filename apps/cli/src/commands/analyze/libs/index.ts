@@ -7,6 +7,7 @@ export * from "./npxCommands";
 export * from "./parseExtendedDiagnostics";
 export * from "./parseTraceAnalyzeResult";
 export * from "./parseValueAndUnit";
+export * from "./printSimpleTable";
 export * from "./readFiles";
 export * from "./runPrepareCommands";
 export * from "./saveResultsToDatabase";

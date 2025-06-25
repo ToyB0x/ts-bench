@@ -3,11 +3,12 @@ import { db } from "@ts-bench/db";
 import type { TablemarkOptions } from "tablemark";
 import tablemark from "tablemark";
 import { version } from "../../../../package.json";
+import { printSimpleTable } from "./printSimpleTable";
 
 export const generateReportMarkdown = async (
   cpuModelAndSpeeds: string[],
   maxConcurrency: number,
-  _totalCPUs: number,
+  totalCPUs: number,
 ) => {
   const recentScans = await db.query.scanTbl.findMany({
     limit: 2,
@@ -73,7 +74,7 @@ export const generateReportMarkdown = async (
   } satisfies TablemarkOptions;
 
   let summaryText = "";
-  if (!tables.plus.length || !tables.minus.length || !tables.error.length) {
+  if (!tables.plus.length && !tables.minus.length && !tables.error.length) {
     summaryText += "- This PR has no significant changes\n";
   } else {
     if (tables.plus.length) {
@@ -98,20 +99,24 @@ ${cpuModelAndSpeeds.join(", ")}</p>
 
 ---
 
-<details><summary><strong>Open Details (v${version} ${maxConcurrency}CPUs)</strong></summary>
+<details><summary><strong>Open Details</strong></summary>
 
-${tables.noChange.length ? "<details><summary>No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
-${tables.error.length ? "<details><summary>Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+- TSC Benchmark Report v${version}
+- CPUs ${maxConcurrency} / ${totalCPUs}
 
-<details><summary>Full Analysis</summary>
-<p>Current</p>
+${tables.noChange.length ? "<details><summary>Open No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+
+${tables.error.length ? "<details><summary>Open Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+
+<details><summary>Open Full Analysis</summary>
 <pre>
-${getTable(currentScan.results)}
+# Current
+${printSimpleTable(currentScan.results)}
 </pre>
 
-<p>Prev</p>
 <pre>
-${prevScan ? getTable(prevScan.results) : "N/A"}
+# Prev
+${prevScan ? printSimpleTable(prevScan.results) : "N/A"}
 </pre>
 </details>
 
@@ -136,19 +141,3 @@ const calcDiff = (before: number, after: number): string => {
   const sign = diff >= 0 ? "+" : "-";
   return ` (${sign}${diffFixedLength}%)`; // eg: 半角スペース (1.1%)
 };
-
-import { Console } from "node:console";
-import { Transform } from "node:stream";
-
-const ts = new Transform({
-  transform(chunk, _enc, cb) {
-    cb(null, chunk);
-  },
-});
-const logger = new Console({ stdout: ts });
-
-// biome-ignore lint/complexity/noBannedTypes: temp
-function getTable(data: Object) {
-  logger.table(data);
-  return (ts.read() || "").toString();
-}
