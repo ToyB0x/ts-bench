@@ -91,7 +91,7 @@ export const generateReportMarkdown = async (
   mdContent += `
 ${summaryText}
  
-${tables.minus.length ? "#### :sparkles: Faster packages\n" + tablemark(tables.minus, tablemarkOptions) : ""}
+${tables.minus.length ? "#### :tada: Faster packages\n" + tablemark(tables.minus, tablemarkOptions) : ""}
 ${tables.plus.length ? "#### :rotating_light: Slower packages \n" + tablemark(tables.plus, tablemarkOptions) : ""}
 
 <p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
@@ -111,7 +111,6 @@ ${tables.error.length ? "<details><summary>Open: Error packages</summary>\n\n" +
 <pre>
 # Current
 ${printSimpleTable(currentScan.results)}
-
 # Prev
 ${prevScan ? printSimpleTable(prevScan.results) : "N/A"}
 </pre>
