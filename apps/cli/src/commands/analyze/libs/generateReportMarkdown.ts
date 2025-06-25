@@ -22,7 +22,7 @@ export const generateReportMarkdown = async (
     throw Error("No current scan results found to show table.");
   }
 
-  let mdContent = `**Tsc benchmark**: v${version})
+  let mdContent = `#### Tsc benchmark: v${version}
 `;
 
   const tableRows = currentScan.results
@@ -72,11 +72,28 @@ export const generateReportMarkdown = async (
     ],
   } satisfies TablemarkOptions;
 
+  let summaryText = "**Summary** \n";
+  if (tables.plus.length || tables.minus.length || tables.error.length) {
+    summaryText += "- This PR has no significant changes\n";
+  } else {
+    if (tables.plus.length) {
+      summaryText += `- ${tables.minus.length} packages become faster`;
+    }
+    if (tables.minus.length) {
+      summaryText += `- ${tables.plus.length} packages become slower`;
+    }
+    if (tables.error.length) {
+      summaryText += `- ${tables.error.length} packages have errors`;
+    }
+  }
+
   mdContent += `
+${summaryText}
+ 
 ${tables.minus.length ? "#### Reduced types :+1:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
 ${tables.plus.length ? "#### Increased types :bangbang:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
-${tables.noChange.length ? "<details><summary>No change</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
-${tables.error.length ? "<details><summary>Error</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+${tables.noChange.length ? "<details><summary>No changes</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+${tables.error.length ? "<details><summary>Errors</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
 `;
 
   mdContent += `<p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
