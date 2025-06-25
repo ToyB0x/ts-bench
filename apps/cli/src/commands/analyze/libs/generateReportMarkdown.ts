@@ -1,5 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { db } from "@ts-bench/db";
+import type { TablemarkOptions } from "tablemark";
 import tablemark from "tablemark";
 import { version } from "../../../../package.json";
 
@@ -26,44 +27,59 @@ export const generateReportMarkdown = async (
 
 `;
 
-  mdContent += tablemark(
-    currentScan.results
-      .sort((a, b) =>
-        a.isSuccess && b.isSuccess && a.traceNumType && b.traceNumType
-          ? b.traceNumType - a.traceNumType
-          : b.package.localeCompare(a.package),
-      )
-      .map((r) =>
-        r.isSuccess
-          ? {
-              package: r.package,
-              traceTypes: `${r.traceNumType} (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceNumType || 0, r.traceNumType || 0)})`,
-              traceTypesSize: `${r.traceFileSizeType} (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceFileSizeType || 0, r.traceFileSizeType || 0)})`,
-              totalTime: `${r.totalTime}s (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)})`,
-              memoryUsed: `${r.memoryUsed}K (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)})`,
-              analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms (${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)})`,
-            }
-          : {
-              package: r.package,
-              traceTypes: "Error",
-              traceTypesSize: "",
-              totalTime: "",
-              memoryUsed: "",
-              analyzeHotSpotMs: "",
-            },
-      ),
-    {
-      columns: [
-        { align: "left" }, // package
-        { align: "right" }, // traceTypes
-        { align: "right" }, // traceTypesSize
-        { align: "right" }, // totalTime
-        { align: "right" }, // memoryUsed
-        { align: "right" }, // analyzeHotSpotMs
-        { align: "left" }, // error
-      ],
-    },
-  );
+  const tableRows = currentScan.results
+    .sort((a, b) =>
+      a.isSuccess && b.isSuccess && a.traceNumType && b.traceNumType
+        ? b.traceNumType - a.traceNumType
+        : b.package.localeCompare(a.package),
+    )
+    .map((r) =>
+      r.isSuccess
+        ? {
+            package: r.package,
+            traceTypes: `${r.traceNumType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceNumType || 0, r.traceNumType || 0)}`,
+            traceTypesSize: `${r.traceFileSizeType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceFileSizeType || 0, r.traceFileSizeType || 0)}`,
+            totalTime: `${r.totalTime}s${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)}`,
+            memoryUsed: `${r.memoryUsed}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)}`,
+            analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)}`,
+          }
+        : {
+            package: r.package,
+            traceTypes: "Error",
+            traceTypesSize: "",
+            totalTime: "",
+            memoryUsed: "",
+            analyzeHotSpotMs: "",
+          },
+    );
+
+  const tables = {
+    plus: tableRows.filter((r) => r.traceTypes.includes("+")),
+    minus: tableRows.filter((r) => r.traceTypes.includes("-")),
+    noChange: tableRows.filter(
+      (r) => !r.traceTypes.includes("+") && !r.traceTypes.includes("-"),
+    ),
+    error: tableRows.filter((r) => r.traceTypes === "Error"),
+  };
+
+  const tablemarkOptions = {
+    columns: [
+      { align: "left" }, // package
+      { align: "right" }, // traceTypes
+      { align: "right" }, // traceTypesSize
+      { align: "right" }, // totalTime
+      { align: "right" }, // memoryUsed
+      { align: "right" }, // analyzeHotSpotMs
+      { align: "left" }, // error
+    ],
+  } satisfies TablemarkOptions;
+
+  mdContent += `
+${tables.minus.length ? "### Packages with reduced trace types (Good)\n" + tablemark(tables.minus, tablemarkOptions) : ""}
+${tables.plus.length ? "### Packages with increased trace types (Bad)\n" + tablemark(tables.plus, tablemarkOptions) : ""}
+${tables.noChange.length ? "### Packages with no change in trace types\n" + tablemark(tables.noChange, tablemarkOptions) : ""}
+${tables.error.length ? "### Packages with errors\n" + tablemark(tables.error, tablemarkOptions) : ""}
+`;
 
   mdContent += `
 <p align="right">v${version} (${cpuModelAndSpeeds.join(", ")})</p>
@@ -81,6 +97,8 @@ const calcDiff = (before: number, after: number): string => {
   if (before === 0) return "N/A"; // Avoid division by zero
 
   const diff = ((after - before) / Math.abs(before)) * 100;
+  if (diff === 0) return ""; // No change, return empty string
+
   const sign = diff >= 0 ? "+" : "-";
-  return `${sign}${Math.abs(diff).toFixed(1)}%`;
+  return ` (${sign}${Math.abs(diff).toFixed(1)}%)`; // eg: 半角スペース (1.1%)
 };
