@@ -77,15 +77,9 @@ export const generateReportMarkdown = async (
   if (!tables.plus.length && !tables.minus.length && !tables.error.length) {
     summaryText += "- This PR has no significant changes\n";
   } else {
-    if (tables.minus.length) {
-      summaryText += `- ${tables.minus.length} packages become faster`;
-    }
-    if (tables.plus.length) {
-      summaryText += `- ${tables.plus.length} packages become slower`;
-    }
-    if (tables.error.length) {
-      summaryText += `- ${tables.error.length} packages have errors`;
-    }
+    summaryText += `- ${tables.minus.length} packages become faster`;
+    summaryText += `- ${tables.plus.length} packages become slower`;
+    summaryText += `- ${tables.error.length} packages have errors`;
   }
 
   mdContent += `
