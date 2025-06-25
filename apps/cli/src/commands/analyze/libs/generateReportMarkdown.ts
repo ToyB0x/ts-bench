@@ -22,7 +22,7 @@ export const generateReportMarkdown = async (
     throw Error("No current scan results found to show table.");
   }
 
-  let mdContent = `#### Tsc benchmark: v${version}
+  let mdContent = `### Tsc benchmark :zap:
 `;
 
   const tableRows = currentScan.results
@@ -92,7 +92,9 @@ ${summaryText}
  
 ${tables.minus.length ? "#### Reduced types :zap:\n" + tablemark(tables.minus, tablemarkOptions) : ""}
 ${tables.plus.length ? "#### Increased types :fire:\n" + tablemark(tables.plus, tablemarkOptions) : ""}
-
+<p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
+TSC-Bench v${version} (${maxConcurrency} / ${totalCPUs} CPUs)<br/>
+${cpuModelAndSpeeds.join(", ")}</p>
 ---
 <details><summary><strong>Open Details</strong></summary>
 
@@ -112,10 +114,6 @@ ${tables.plus.length ? "#### Increased types :fire:\n" + tablemark(tables.plus, 
   </details>
 
 </details>
-`;
-
-  mdContent += `<p align="right">compared to ${prevScan ? prevScan.commitHash : "N/A"}<br/>
-${cpuModelAndSpeeds.join(", ")}(${maxConcurrency} / ${totalCPUs} CPUs)</p>
 `;
 
   // write to ts-bench-report.md file
