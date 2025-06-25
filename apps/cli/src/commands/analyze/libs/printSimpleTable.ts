@@ -2,7 +2,7 @@ import { Console } from "node:console";
 import { Transform } from "node:stream";
 
 // biome-ignore lint/complexity/noBannedTypes: temp
-export const printSimpleTable = (obj: Object) => {
+export const printSimpleTable = (obj: Object): string => {
   const ts = new Transform({
     transform(chunk, _enc, cb) {
       cb(null, chunk);
