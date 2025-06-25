@@ -110,9 +110,9 @@ ${tables.error.length ? "<details><summary>Open: Error packages</summary>\n\n" +
 <details><summary>Open Full Analysis</summary>
 <pre>
 # Current
-${printSimpleTable(currentScan.results)}
+${printSimpleTable(currentScan.results).strip()}
 # Prev
-${prevScan ? printSimpleTable(prevScan.results) : "N/A"}
+${prevScan ? printSimpleTable(prevScan.results).strip() : "N/A"}
 </pre>
 </details>
 
