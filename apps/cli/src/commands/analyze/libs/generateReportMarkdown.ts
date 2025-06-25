@@ -98,7 +98,7 @@ const calcDiff = (before: number, after: number): string => {
 
   const diff = ((after - before) / Math.abs(before)) * 100;
   const diffFixedLength = Math.abs(diff).toFixed(1);
-  if (diffFixedLength === "0") return ""; // No change, return empty string
+  if (diffFixedLength === "0" || diffFixedLength === "0.0") return ""; // No change, return empty string
 
   const sign = diff >= 0 ? "+" : "-";
   return ` (${sign}${diffFixedLength}%)`; // eg: 半角スペース (1.1%)
