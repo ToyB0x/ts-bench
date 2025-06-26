@@ -53,11 +53,17 @@ export const generateReportMarkdown = async (
     );
 
   const tables = {
-    plus: tableRows.filter((r) => r.traceTypes.includes("+")),
-    minus: tableRows.filter((r) => r.traceTypes.includes("-")),
-    noChange: tableRows.filter(
-      (r) => !r.traceTypes.includes("+") && !r.traceTypes.includes("-"),
-    ),
+    plus: tableRows
+      .filter((r) => r.traceTypes !== "Error")
+      .filter((r) => r.traceTypes.includes("+")),
+    minus: tableRows
+      .filter((r) => r.traceTypes !== "Error")
+      .filter((r) => r.traceTypes.includes("-")),
+    noChange: tableRows
+      .filter((r) => r.traceTypes !== "Error")
+      .filter(
+        (r) => !r.traceTypes.includes("+") && !r.traceTypes.includes("-"),
+      ),
     error: tableRows.filter((r) => r.traceTypes === "Error"),
   };
 
