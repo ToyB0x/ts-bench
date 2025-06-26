@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.24
+
+### Patch Changes
+
+- 25bfc38: feat: exclude error trace types from report tables
+
 ## 0.0.23
 
 ### Patch Changes
