@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.25
+
+### Patch Changes
+
+- 8359d19: feat: add detailed diff summary for report generation
+
 ## 0.0.24
 
 ### Patch Changes
