@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.23
+
+### Patch Changes
+
+- 41081a9: feat: simplify summary text generation in markdown report
+
 ## 0.0.22
 
 ### Patch Changes
