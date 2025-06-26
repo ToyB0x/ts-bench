@@ -79,6 +79,43 @@ export const generateReportMarkdown = async (
     ],
   } satisfies TablemarkOptions;
 
+  const currentSummary = {
+    totalTimes: currentScan.results.reduce((total, current) => {
+      return total + (current.totalTime || 0);
+    }, 0),
+    numSuccessPackage: currentScan.results.filter((r) => r.isSuccess).length,
+    successPackagesNames: currentScan.results
+      .filter((r) => r.isSuccess)
+      .map((r) => r.package),
+  };
+
+  const prevSummary = {
+    totalTimes: prevScan
+      ? prevScan.results.reduce((total, current) => {
+          return total + (current.totalTime || 0);
+        }, 0)
+      : 0,
+    numSuccessPackage: prevScan
+      ? prevScan.results.filter((r) => r.isSuccess).length
+      : 0,
+    successPackagesNames: prevScan
+      ? prevScan.results.filter((r) => r.isSuccess).map((r) => r.package)
+      : [],
+  };
+
+  const diffSummary = {
+    totalTimes: `${currentSummary.totalTimes - prevSummary.totalTimes}s ${calcDiff(prevSummary.totalTimes, currentSummary.totalTimes)}`,
+    numSuccessPackage: `${currentSummary.numSuccessPackage - prevSummary.numSuccessPackage}`,
+    diffPackageNames: {
+      added: currentSummary.successPackagesNames.filter(
+        (pkg) => !prevSummary.successPackagesNames.includes(pkg),
+      ),
+      deleted: prevSummary.successPackagesNames.filter(
+        (pkg) => !currentSummary.successPackagesNames.includes(pkg),
+      ),
+    },
+  };
+
   let summaryText = "";
   if (!tables.plus.length && !tables.minus.length && !tables.error.length) {
     summaryText += "- This PR has no significant changes";
@@ -103,6 +140,10 @@ ${tables.plus.length ? "#### :rotating_light: Slower packages \n" + tablemark(ta
 
 - TSC Benchmark version: ${version}
 - CPU: ${cpuModelAndSpeeds.join(", ")} (${maxConcurrency} / ${totalCPUs})
+- Diff: 
+  - TotalTime: ${diffSummary.totalTimes} (${diffSummary.numSuccessPackage} packages)
+  - Packages: ${diffSummary.diffPackageNames.added.length} added, ${diffSummary.diffPackageNames.deleted.length} deleted
+    ${diffSummary.diffPackageNames.added ? "added: " + diffSummary.diffPackageNames.added.join(", ") : ""}, ${diffSummary.diffPackageNames.deleted ? "deleted: " + diffSummary.diffPackageNames.deleted.join(", ") : ""})
 
 ${tables.noChange.length ? "<details><summary>Open: No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
 
