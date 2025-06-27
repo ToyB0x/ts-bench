@@ -61,6 +61,13 @@ export const makeAnalyzeCommand = () => {
     //   ).default("turbo run typecheck --dry-run"),
     // )
 
+    // NOTE: cache check は　実際にTurboでtypecheck コマンドを実行したログがファイルとして出力された前と後しか比べられない
+    // (そのために毎回cache checkを実行するのは大変 / 数回に1度だけ実行するとそこそこ効果はあるかもしれない？)
+    // Turbo管理の管理下になるようにコマンドによるpackage.jsonやturbo.jsonの自動modifyまたは、マニュアルに記載して手動変更してもらうことで高速化はできる？
+    // mode: handle by turbo cache のようなモードオプションをつける
+    // 1日間隔などのキャッシュが近い場合は効果があるが、1ヶ月ごとなどだとキャッシュが古くなっていて再利用割合が減ってあまり意味がなさそうなことには注意
+    // 本来はパッケージ単位のtrace fileがどのcommitで生成されたかを記録しておいた上で、現在のcommitでは依存パッケージや依存ファイルが変更されていないかを確認して、キャッシュを再利用するのが理想的な実装 (ただしパッケージのワークスペースやtsのproject referenceを見なければならないとしたらかなり高度なので、高速化対応は後回しとする)
+
     // option: enable turbo cache (hard coded commands)
     // TODO: refactor this to pass commands as option (eg, typecheck, type-check, check-type, tsc, etc)
     .addOption(
@@ -96,7 +103,7 @@ export const makeAnalyzeCommand = () => {
 
       // list commits
       const commits = await listCommits();
-      const recentCommits = commits.slice(0, Number(options.size));
+      const recentCommits = commits.slice(0, Number(options.size)).reverse(); // reverse to start from the oldest commit (キャッシュは古いものから生き残るはずなので、キャッシュの利用順序を古い時系列から扱うようにする)
 
       // check out to each commit
       let count = 0;
