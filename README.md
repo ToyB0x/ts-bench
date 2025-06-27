@@ -16,28 +16,51 @@ npx @ts-bench/cli
   - Provide measurement tools
 
 # TODO: high priority
-- Implement features to rapid scan
+- 🚧🔨⏳ Implement features to rapid scan
   - limit the packages (this is useful for large monorepos, but difficult to analyze if type dependent package build is needed, also but, turborepo can help build cache)
     - specify the paths to scan directory
     - specify the package names to scan
-- Add Human(or AI) readable / and "Actionable" report (including hotspots summary)
+- 🚧🔨⏳ Add Human(or AI) readable / and "Actionable" report (including hotspots summary)
   - Provide a way to generate a report that is easy to understand and actionable
   - Provide a way to generate a report that can be used for code review
   - Provide report for LLM First 
-- Add MCP
+- 🚧🔨⏳ Add MCP
   - Add MCP to find .ts / .ts file that import specific package (find positive reason for split export / import)
   - Add MCP to find .ts / .ts file that does not generate .d.ts file (find positive reason for not generating .d.ts file and import them)
 
 # TODO: mid-priority
-- Implement a feature to check the size of the debug files (trace, types, analysis) in the repository
 - Implement features to bulk scan
   - specify the time range for the scan (e.g., last 24 hours, last week, last months)
   - specify the skip span (e.g., skip each odd commit, skip each even commit, skip every 10th commit, scan only 1st each day, scan only 1st commit each week etc.)
+- Speed up analyze
+  - Use turbo cache to speed up the analysis
+  - Consider using custom dependency resolution to utilize cache for other ecosystems (e.g., pnpm, yarn, etc.), of self implemented dependency resolution, cache system.
+  - If using turbo, is it much easier than the above? (But is it difficult to sync with the target repository?)
 
 # TODO: low priority
-- Add github action to deploy site
 - refactor database table models (decrease size, remove unused fields, etc.)
 - Add dark mode support
 - Add E2E tests
 - Add Graph / Split Graph recent 10, recent 1year (or drill down to specific range)
 - Add ability to show report web site without self-hosting (mostly large monorepos are belonging to companies with private repo, so it is a little bit difficult to self-host the report site with github-pages and so on)
+- Notification 
+  - Add notification feature to notify when the metrics are deteriorated (e.g., Slack notification)
+- Documentation
+  - Provide documentation for each metric
+  - Provide metrics that are recommended to prioritize (stability, correlation with IDE load, correlation with build time monitoring)
+  - Provide instructions on how to run locally (including db init, etc.)
+- git depth check on bulk scan
+  - Add a feature to check the git depth of the repository before running the bulk scan
+  - If the git depth is too shallow, prompt the user to increase it
+- 🚧🔨⏳ Fix render.sh
+  - Fix the render.sh script to handle absolute paths correctly (currently, it concatenates paths incorrectly)
+  - Ensure that the script works correctly after the release and that it can be adjusted for other repositories (check use repository works correctly)
+
+# TODO: WIP
+- 🚧🔨⏳ Add AI comment feature to provide insights and suggestions based on the analysis results
+  - This feature use analyze results metrics diff, dependency graph diff, file changes diff, PR content diff, etc.
+  - Providing insights and suggestions as below:
+    - Impact of the changes on the repository (Notify what will happen if the PR is merged)
+    - Suggesting improvements based on the analysis results
+    - Highlighting potential issues or areas for optimization
+    - Providing insights into the structure and dependencies of the codebase
