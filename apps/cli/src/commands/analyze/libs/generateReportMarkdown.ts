@@ -141,9 +141,12 @@ ${tables.plus.length ? "#### :rotating_light: Slower packages \n" + tablemark(ta
 - TSC Benchmark version: ${version}
 - CPU: ${cpuModelAndSpeeds.join(", ")} (${maxConcurrency} / ${totalCPUs})
 - Diff: 
+<!-- TODO: 絶対値(リアル秒)表示追加を検討 -->
   - TotalTime: ${diffSummary.totalTimes}
   - Analyzed Packages: +${diffSummary.diffPackageNames.added.length} -${diffSummary.diffPackageNames.deleted.length}  
     ${diffSummary.diffPackageNames.added.length ? "added: " + diffSummary.diffPackageNames.added.join(", ") : ""} ${diffSummary.diffPackageNames.deleted.length ? "deleted: " + diffSummary.diffPackageNames.deleted.join(", ") : ""}
+<!-- TODO: マシンに影響されたないtypesの合計変動表示追加を検討 -->
+- 
 
 ${tables.noChange.length ? "<details><summary>Open: No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
 
@@ -166,6 +169,7 @@ ${prevScan ? printSimpleTable(prevScan.results).trim() : "N/A"}
   writeFileSync(reportPath, mdContent, "utf8");
 };
 
+// TODO: diff だけではなく、元の数値も出すと便利かも(パーセンテージではなく、絶対値も表示することを検討)
 // calculate the difference between two numbers
 // - case:plus  before 100, after 121 --> +21.0%)
 // - case:minus before 100, after 92 --> -8.0%)
