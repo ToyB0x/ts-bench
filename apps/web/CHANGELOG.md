@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.14
+
+### Patch Changes
+
+- be6bd48: fix: improve database file path handling in render script
+
 ## 0.0.13
 
 ### Patch Changes

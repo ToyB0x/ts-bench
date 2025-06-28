@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.28
+
+### Patch Changes
+
+- be6bd48: fix: improve database file path handling in render script
+
 ## 0.0.27
 
 ### Patch Changes
