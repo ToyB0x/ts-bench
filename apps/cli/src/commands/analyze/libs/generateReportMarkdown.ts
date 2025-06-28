@@ -1,14 +1,28 @@
 import { writeFileSync } from "node:fs";
+import { GoogleGenAI } from "@google/genai";
 import { db } from "@ts-bench/db";
+import { simpleGit } from "simple-git";
 import type { TablemarkOptions } from "tablemark";
 import tablemark from "tablemark";
 import { version } from "../../../../package.json";
 import { printSimpleTable } from "./printSimpleTable";
 
+type ReportContent = {
+  title: string; // "## :zap: Tsc benchmark";
+  text: string | null; // null content will be filtered out
+};
+
+// type Report = {
+//   summary: ReportContent;
+//   contents: ReportContent[];
+// };
+
 export const generateReportMarkdown = async (
   cpuModelAndSpeeds: string[],
   maxConcurrency: number,
   totalCPUs: number,
+  // TODO: pass option with CLI (currently always true)
+  enableAiReport = true,
 ) => {
   const recentScans = await db.query.scanTbl.findMany({
     limit: 2,
@@ -23,9 +37,6 @@ export const generateReportMarkdown = async (
     throw Error("No current scan results found to show table.");
   }
 
-  let mdContent = `## :zap: Tsc benchmark
-`;
-
   const tableRows = currentScan.results
     .sort((a, b) =>
       a.isSuccess && b.isSuccess && a.traceNumType && b.traceNumType
@@ -36,7 +47,9 @@ export const generateReportMarkdown = async (
       r.isSuccess
         ? {
             package: r.package,
-            traceTypes: `${r.traceNumType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceNumType || 0, r.traceNumType || 0)}`,
+            types: `${r.types}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.types || 0, r.types || 0)}`,
+            instantiations: `${r.instantiations}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.instantiations || 0, r.instantiations || 0)}`,
+            // traceTypes: `${r.traceNumType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceNumType || 0, r.traceNumType || 0)}`,
             traceTypesSize: `${r.traceFileSizeType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceFileSizeType || 0, r.traceFileSizeType || 0)}`,
             totalTime: `${r.totalTime}s${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)}`,
             memoryUsed: `${r.memoryUsed}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)}`,
@@ -44,7 +57,9 @@ export const generateReportMarkdown = async (
           }
         : {
             package: r.package,
-            traceTypes: "Error",
+            types: "Error",
+            instantiations: "",
+            // traceTypes: "Error",
             traceTypesSize: "",
             totalTime: "",
             memoryUsed: "",
@@ -54,23 +69,23 @@ export const generateReportMarkdown = async (
 
   const tables = {
     plus: tableRows
-      .filter((r) => r.traceTypes !== "Error")
-      .filter((r) => r.traceTypes.includes("+")),
+      .filter((r) => r.types !== "Error")
+      .filter((r) => r.types.includes("+")),
     minus: tableRows
-      .filter((r) => r.traceTypes !== "Error")
-      .filter((r) => r.traceTypes.includes("-")),
+      .filter((r) => r.types !== "Error")
+      .filter((r) => r.types.includes("-")),
     noChange: tableRows
-      .filter((r) => r.traceTypes !== "Error")
-      .filter(
-        (r) => !r.traceTypes.includes("+") && !r.traceTypes.includes("-"),
-      ),
-    error: tableRows.filter((r) => r.traceTypes === "Error"),
+      .filter((r) => r.types !== "Error")
+      .filter((r) => !r.types.includes("+") && !r.types.includes("-")),
+    error: tableRows.filter((r) => r.types === "Error"),
   };
 
   const tablemarkOptions = {
     columns: [
       { align: "left" }, // package
-      { align: "right" }, // traceTypes
+      { align: "right" }, // types
+      { align: "right" }, // instantiations
+      // { align: "right" }, // traceTypes
       { align: "right" }, // traceTypesSize
       { align: "right" }, // totalTime
       { align: "right" }, // memoryUsed
@@ -116,9 +131,11 @@ export const generateReportMarkdown = async (
     },
   };
 
+  const NO_CHANGE_SUMMARY_TEXT = "- This PR has no significant changes";
+
   let summaryText = "";
   if (!tables.plus.length && !tables.minus.length && !tables.error.length) {
-    summaryText += "- This PR has no significant changes";
+    summaryText += NO_CHANGE_SUMMARY_TEXT;
   } else {
     summaryText += `
 - ${tables.minus.length} packages become faster
@@ -126,11 +143,85 @@ export const generateReportMarkdown = async (
 - ${tables.error.length} packages have errors`;
   }
 
-  mdContent += `
-${summaryText}
- 
-${tables.minus.length ? "#### :tada: Faster packages\n" + tablemark(tables.minus, tablemarkOptions) : ""}
-${tables.plus.length ? "#### :rotating_light: Slower packages \n" + tablemark(tables.plus, tablemarkOptions) : ""}
+  const summaryContent: ReportContent = {
+    title: "## :zap: Tsc benchmark",
+    text: summaryText,
+  };
+
+  const contentTablePlus: ReportContent = {
+    title: "#### :tada: Faster packages",
+    text: tables.minus.length
+      ? tablemark(tables.minus, tablemarkOptions)
+      : null,
+  };
+
+  const contentTableMinus: ReportContent = {
+    title: "#### :rotating_light: Slower packages",
+    text: tables.plus.length ? tablemark(tables.plus, tablemarkOptions) : null,
+  };
+
+  let aiResponse = null;
+  // 静的解析で影響がない場合はAI利用を省略し高速化 / コスト削減
+  if (enableAiReport && summaryContent.text !== NO_CHANGE_SUMMARY_TEXT) {
+    const GEMINI_API_KEY = process.env["GEMINI_API_KEY"];
+    if (!GEMINI_API_KEY)
+      throw Error(
+        "GEMINI_API_KEY is not set. Please set it in your environment variables.",
+      );
+
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+
+    const diff = await simpleGit().diff();
+
+    aiResponse = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `
+# What users want:
+1. ユーザはTSCコマンドやIDEの型推論、インテリセンスが遅くなるのを防止したい(機能追加やリファクタ内容に見合った性能劣化は許容するが、無駄に遅くなるのは避けたい)
+2. ユーザはTSCコマンドやIDEの型推論、インテリセンスが遅くなる可能性がありそうな場合にその理由をしりたい
+3. ユーザはもしも改善や対応、判断が必要であれば何をすべきか知りたい
+
+# YOUR TASK:
+以下のそれぞれの項目を、簡潔さを重視し記載してください(1~2センテンス程に収めることを目指す)
+- 影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(このPRがマージされた場合に何が起こるかを通知する。上記1に対応し、必ず記載すること)
+- 原因(必ず1行以内に収めて記載): 変更が生じた理由(上記2に対応する。Impactsがない場合は記載しなくてよい)
+- 提案(必ず1行以内に収めて記載): もしも改善や対応、判断が必要であれば、何をすべきかを提案する(上記3に対応する。Impactsがない場合は記載しなくてよい)
+- 備考(よほど重要な補足が必要なければ項目自体を省略): ユーザの理解を助けるための補足情報など
+
+# 考慮点
+- レポートの指標は"tsc --extendedDiagnostics"コマンドの分析結果を利用しています
+- 分析結果の指標は計測マシンのCPUやメモリ、OSの影響を受けるため不安定であることを考慮し、これらの影響を受けにくいTypesとInstantiationsの指標を中心に分析
+- 指標が悪化または改善した場合は、その理由をgit diffの結果から推測
+
+# 技術的な情報:
+- Types: 型定義の複雑さを示します(コンパイラがプログラム内で認識または作成した型の総数)
+- Instantiations: ジェネリック型の使用頻度と複雑さを示し、コンパイル時間への影響が特に大きい項目です(ジェネリックな型定義に対して、Tの部分に具体的な型を当てはめて新しい型を作成するプロセスです。この数値が極端に大きい場合、複雑なジェネリック型や型定義の再帰的な参照などが多用されており、それがコンパイル時間の増加の主な原因である可能性が高いことを示唆します。型定義の最適化を検討する際の重要な指標となります)
+- コンパイルパフォーマンスの改善を目指す際には、特に Instantiations と Types の数値を注視し、型定義をシンプルにできないか検討することが有効です。
+  
+# Report:
+${summaryContent.title}
+${summaryContent.text}
+
+${contentTablePlus.text ? contentTablePlus.title : ""}
+${contentTablePlus.text || ""}
+
+${contentTableMinus.text ? contentTableMinus.title : ""}
+${contentTableMinus.text || ""}
+
+# Git diff:
+${diff}`,
+    });
+  }
+
+  const mdContent = `
+${summaryContent.title}
+${aiResponse ? aiResponse.text : summaryContent.text}
+
+${contentTablePlus.text ? contentTablePlus.title : ""}
+${contentTablePlus.text || ""}
+
+${contentTableMinus.text ? contentTableMinus.title : ""}
+${contentTableMinus.text || ""}
 
 <p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
 
