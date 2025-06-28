@@ -247,8 +247,9 @@ xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少�
             },
             reason: {
               type: "string",
-              description:
-                "Git diffの結果から推測される影響が生じた理由となった変更内容",
+              description: `Git diffの結果から推測される影響が生じた理由となった変更内容(出来るだけ以下フォーマットで簡潔に記載。複数の原因がありそうな場合は適宜フォーマットを調整)
+xxxのファイルに対するyyyの変更により、zzzが変動した可能性があります
+          `,
             },
             suggestion: {
               type: "string",
