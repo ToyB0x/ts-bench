@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.13
+
+### Patch Changes
+
+- 89efc49: feat: add AI comment fields to database schema
+
 ## 0.0.12
 
 ### Patch Changes

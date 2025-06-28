@@ -1,5 +1,16 @@
 # @ts-bench/cli
 
+## 0.0.26
+
+### Patch Changes
+
+- 89efc49: feat: add AI comment fields to database schema
+- cb8ea2d: feat: enhance AI response structure for report generation
+- 219af91: feat: add AI comment
+- 4220164: feat: enhance chart area to display AI comment impact and reason
+- Updated dependencies [89efc49]
+  - @ts-bench/db@0.0.13
+
 ## 0.0.25
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @ts-bench/web
 
+## 0.0.13
+
+### Patch Changes
+
+- 4220164: feat: enhance chart area to display AI comment impact and reason
+- Updated dependencies [89efc49]
+  - @ts-bench/db@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes
