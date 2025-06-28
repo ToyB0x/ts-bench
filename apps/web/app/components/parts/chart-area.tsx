@@ -37,8 +37,8 @@ type ChartAreaInteractiveProps = {
 export const description = "Package analysis metrics over time";
 
 const chartConfig = {
-  traceNumType: {
-    label: "traceNumType",
+  types: {
+    label: "types",
     color: "var(--chart-1)",
   },
   totalTime: {
@@ -52,14 +52,14 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
   const chartData = React.useMemo(() => data, [data]);
 
   const [metricType, setMetricType] = React.useState<
-    "all" | "traceNumType" | "totalTime"
+    "all" | "types" | "totalTime"
   >("all");
 
   const filteredData = React.useMemo(() => {
     if (metricType === "totalTime") {
-      return chartData.map((item) => ({ ...item, traceNumType: 0 }));
+      return chartData.map((item) => ({ ...item, types: 0 }));
     }
-    if (metricType === "traceNumType") {
+    if (metricType === "types") {
       return chartData.map((item) => ({ ...item, totalTime: 0 }));
     }
     return chartData;
@@ -104,7 +104,7 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             <SelectItem value="totalTime" className="rounded-lg">
               totalTime only
             </SelectItem>
-            <SelectItem value="traceNumType" className="rounded-lg">
+            <SelectItem value="types" className="rounded-lg">
               Types only
             </SelectItem>
           </SelectContent>
@@ -144,15 +144,15 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 />
               </linearGradient>
               {/* biome-ignore lint/nursery/useUniqueElementIds: chart gradients */}
-              <linearGradient id="fillTraceNumType" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillTypes" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-traceNumType)"
+                  stopColor="var(--color-types)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-traceNumType)"
+                  stopColor="var(--color-types)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -208,15 +208,15 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 />
               }
             />
-            {metricType === "all" || metricType === "traceNumType" ? (
+            {metricType === "all" || metricType === "types" ? (
               <Area
                 isAnimationActive={false}
-                dataKey="traceNumType"
+                dataKey="types"
                 type="natural"
-                fill="url(#fillTraceNumType)"
-                stroke="var(--color-traceNumType)"
+                fill="url(#fillTypes)"
+                stroke="var(--color-types)"
                 stackId="a"
-                yAxisId="traceNumType" // enable multiple y-axes
+                yAxisId="types" // enable multiple y-axes
               />
             ) : null}
             {metricType === "all" || metricType === "totalTime" ? (
