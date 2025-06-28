@@ -78,13 +78,19 @@ export const generateReportMarkdown = async (
   const tables = {
     plus: tableRows
       .filter((r) => r.types !== "Error")
-      .filter((r) => r.types.includes("+")),
+      .filter((r) => r.types.includes("+") || r.instantiations.includes("+")),
     minus: tableRows
       .filter((r) => r.types !== "Error")
-      .filter((r) => r.types.includes("-")),
+      .filter((r) => r.types.includes("-") || r.instantiations.includes("-")),
     noChange: tableRows
       .filter((r) => r.types !== "Error")
-      .filter((r) => !r.types.includes("+") && !r.types.includes("-")),
+      .filter(
+        (r) =>
+          !r.types.includes("+") &&
+          !r.types.includes("-") &&
+          !r.instantiations.includes("+") &&
+          !r.instantiations.includes("-"),
+      ),
     error: tableRows.filter((r) => r.types === "Error"),
   };
 
@@ -98,6 +104,10 @@ export const generateReportMarkdown = async (
       { align: "right" }, // totalTime
       { align: "right" }, // memoryUsed
       { align: "right" }, // analyzeHotSpotMs
+      { align: "right" }, // assignabilityCacheSize
+      { align: "right" }, // identityCacheSize
+      { align: "right" }, // subtypeCacheSize
+      { align: "right" }, // strictSubtypeCacheSize
       { align: "left" }, // error
     ],
   } satisfies TablemarkOptions;
