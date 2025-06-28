@@ -315,9 +315,11 @@ ${summaryContent.title}
 ${
   aiResponseStructured
     ? `
-- Impact: ${aiResponseStructured.impact}
+<details><summary>${aiResponseStructured.impact}</summary>
 - Reason: ${aiResponseStructured.reason}
 - Suggestion: ${aiResponseStructured.suggestion}
+<details/>
+
 `
     : summaryContent.text
 }
@@ -366,14 +368,7 @@ ${prevScan ? printSimpleTable(prevScan.results).trim() : "N/A"}
   writeFileSync(reportPath, mdContent, "utf8");
 
   // TODO: refactor (レポート生成の中でDB更新しているのはよくない)
-  await db
-    .update(scanTbl)
-    .set({
-      aiCommentImpact: aiResponseStructured?.impact,
-      aiCommentReason: aiResponseStructured?.reason,
-      aiCommentSuggestion: aiResponseStructured?.suggestion,
-    })
-    .where(eq(scanTbl.id, currentScan.id));
+  await updateDatabaseWithAIComments(currentScan.id, aiResponseStructured);
 };
 
 // TODO: diff だけではなく、元の数値も出すと便利かも(パーセンテージではなく、絶対値も表示することを検討)
@@ -389,4 +384,21 @@ const calcDiff = (before: number, after: number): string => {
 
   const sign = diff >= 0 ? "+" : "-";
   return ` (${sign}${diffFixedLength}%)`; // eg: 半角スペース (1.1%)
+};
+
+const updateDatabaseWithAIComments = async (
+  scanId: number,
+  aiResponse:
+    | { impact?: string; reason?: string; suggestion?: string }
+    | undefined,
+): Promise<void> => {
+  if (!aiResponse) return;
+  await db
+    .update(scanTbl)
+    .set({
+      aiCommentImpact: aiResponse.impact,
+      aiCommentReason: aiResponse.reason,
+      aiCommentSuggestion: aiResponse.suggestion,
+    })
+    .where(eq(scanTbl.id, scanId));
 };
