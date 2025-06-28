@@ -37,6 +37,27 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   return (
     <>
       <div className="mt-4 p-6 grid grid-cols-2 gap-5">
+        {/* 全パッケージの指標の合計を表示 */}
+        <ChartAreaInteractive
+          data={scansWithResults.map((scan) => {
+            // calculate the total values with each metrics for all packages
+            return scan.results.reduce(
+              (acc, result) => {
+                // Sum up the metrics for all packages
+                acc.totalTime += result.totalTime || 0;
+                acc.traceNumType += result.traceNumType || 0;
+                return acc;
+              },
+              {
+                ...scan,
+                package: "⭐️ ALL Packages",
+                totalTime: 0,
+                traceNumType: 0,
+              },
+            );
+          })}
+        />
+
         {packages.map(({ package: pkg }) => (
           <ChartAreaInteractive
             key={pkg}
