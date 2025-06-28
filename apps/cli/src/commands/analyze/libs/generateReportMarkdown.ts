@@ -54,10 +54,10 @@ export const generateReportMarkdown = async (
             totalTime: `${r.totalTime}s${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)}`,
             memoryUsed: `${r.memoryUsed}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)}`,
             // analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)}`,
-            // Assignability cache size:    15975
-            // Identity cache size:           194
-            // Subtype cache size:            275
-            // Strict subtype cache size:     806
+            assignabilityCacheSize: `${r.assignabilityCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.assignabilityCacheSize || 0, r.assignabilityCacheSize || 0)}`,
+            identityCacheSize: `${r.identityCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.identityCacheSize || 0, r.identityCacheSize || 0)}`,
+            subtypeCacheSize: `${r.subtypeCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.subtypeCacheSize || 0, r.subtypeCacheSize || 0)}`,
+            strictSubtypeCacheSize: `${r.strictSubtypeCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.strictSubtypeCacheSize || 0, r.strictSubtypeCacheSize || 0)}`,
           }
         : {
             package: r.package,
@@ -68,6 +68,10 @@ export const generateReportMarkdown = async (
             totalTime: "",
             memoryUsed: "",
             // analyzeHotSpotMs: "",
+            assignabilityCacheSize: "",
+            identityCacheSize: "",
+            subtypeCacheSize: "",
+            strictSubtypeCacheSize: "",
           },
     );
 
