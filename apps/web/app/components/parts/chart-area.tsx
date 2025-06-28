@@ -26,11 +26,11 @@ import {
 
 type ChartAreaInteractiveProps = {
   data: Array<
-    Pick<
-      typeof resultTbl.$inferSelect,
-      "package" | "totalTime" | "traceNumType"
-    > &
-      typeof scanTbl.$inferSelect
+    typeof scanTbl.$inferSelect &
+      Pick<
+        typeof resultTbl.$inferSelect,
+        "package" | "totalTime" | "traceNumType"
+      >
   >;
 };
 
