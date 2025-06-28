@@ -37,7 +37,7 @@ export const generateReportMarkdown = async (
     throw Error("No current scan results found to show table.");
   }
 
-  const tableRowsBuild = currentScan.results
+  const tableRows = currentScan.results
     .sort((a, b) =>
       a.isSuccess && b.isSuccess && a.traceNumType && b.traceNumType
         ? b.traceNumType - a.traceNumType
@@ -54,6 +54,10 @@ export const generateReportMarkdown = async (
             totalTime: `${r.totalTime}s${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)}`,
             memoryUsed: `${r.memoryUsed}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)}`,
             // analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)}`,
+            // Assignability cache size:    15975
+            // Identity cache size:           194
+            // Subtype cache size:            275
+            // Strict subtype cache size:     806
           }
         : {
             package: r.package,
@@ -68,16 +72,16 @@ export const generateReportMarkdown = async (
     );
 
   const tables = {
-    plus: tableRowsBuild
+    plus: tableRows
       .filter((r) => r.types !== "Error")
       .filter((r) => r.types.includes("+")),
-    minus: tableRowsBuild
+    minus: tableRows
       .filter((r) => r.types !== "Error")
       .filter((r) => r.types.includes("-")),
-    noChange: tableRowsBuild
+    noChange: tableRows
       .filter((r) => r.types !== "Error")
       .filter((r) => !r.types.includes("+") && !r.types.includes("-")),
-    error: tableRowsBuild.filter((r) => r.types === "Error"),
+    error: tableRows.filter((r) => r.types === "Error"),
   };
 
   const tablemarkOptions = {
