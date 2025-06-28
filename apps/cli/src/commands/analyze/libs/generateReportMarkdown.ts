@@ -75,39 +75,25 @@ export const generateReportMarkdown = async (
           },
     );
 
+  // Helper function to generate metric summary
+  const generateMetricSummary = (
+    currentResults: typeof currentScan.results,
+    prevResults: typeof prevScan.results | null,
+    metric: string
+  ) => {
+    const currentTotal = calculateTotal(currentResults, metric);
+    const prevTotal = prevResults ? calculateTotal(prevResults, metric) : 0;
+    return `${currentTotal}${calcDiff(prevTotal, currentTotal)}`;
+  };
+
   // summary row for all packages (Total)
   const totalSummaryRow = {
     package: "Total Summary",
-    types:
-      calculateTotal(currentScan.results, "types") +
-      `${calcDiff(
-        !prevScan ? 0 : calculateTotal(prevScan.results, "types"),
-        calculateTotal(currentScan.results, "types"),
-      )}`,
-    instantiations:
-      calculateTotal(currentScan.results, "instantiations") +
-      `${calcDiff(
-        !prevScan ? 0 : calculateTotal(prevScan.results, "instantiations"),
-        calculateTotal(currentScan.results, "instantiations"),
-      )}`,
-    traceTypesSize:
-      calculateTotal(currentScan.results, "traceNumType") +
-      `${calcDiff(
-        !prevScan ? 0 : calculateTotal(prevScan.results, "traceNumType"),
-        calculateTotal(currentScan.results, "traceNumType"),
-      )}`,
-    totalTime:
-      calculateTotal(currentScan.results, "totalTime") +
-      `${calcDiff(
-        !prevScan ? 0 : calculateTotal(prevScan.results, "totalTime"),
-        calculateTotal(currentScan.results, "totalTime"),
-      )}`,
-    memoryUsed:
-      calculateTotal(currentScan.results, "memoryUsed") +
-      `${calcDiff(
-        !prevScan ? 0 : calculateTotal(prevScan.results, "memoryUsed"),
-        calculateTotal(currentScan.results, "memoryUsed"),
-      )}`,
+    types: generateMetricSummary(currentScan.results, prevScan?.results || null, "types"),
+    instantiations: generateMetricSummary(currentScan.results, prevScan?.results || null, "instantiations"),
+    traceTypesSize: generateMetricSummary(currentScan.results, prevScan?.results || null, "traceNumType"),
+    totalTime: generateMetricSummary(currentScan.results, prevScan?.results || null, "totalTime"),
+    memoryUsed: generateMetricSummary(currentScan.results, prevScan?.results || null, "memoryUsed"),
     analyzeHotSpotMs:
       calculateTotal(currentScan.results, "analyzeHotSpotMs") +
       `${calcDiff(
