@@ -168,14 +168,7 @@ export const generateReportMarkdown = async (
   );
 
   let summaryText = "";
-  if (
-    !hasAnyImportantChanges ||
-    // TODO: refactor (maybe better to use hasAnyImportantChanges only)
-    (tables.minus.length === 0 &&
-      tables.plus.length === 0 &&
-      tables.error.length === 0 &&
-      tables.noChange.length > 0)
-  ) {
+  if (!hasAnyImportantChanges) {
     summaryText += NO_CHANGE_SUMMARY_TEXT;
   } else {
     summaryText += `
