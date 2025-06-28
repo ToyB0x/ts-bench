@@ -53,6 +53,11 @@ export const resultTbl = sqliteTable(
         onUpdate: "cascade",
       }),
 
+    /** AI comments (optional AI config) */
+    aiCommentImpact: text("ai_comment_impact"),
+    aiCommentReason: text("ai_comment_reason"),
+    aiCommentSuggestion: text("ai_comment_suggestion"),
+
     /* trace */
     traceNumType: integer("trace_num_type"),
     traceNumTrace: integer("trace_num_trace"),

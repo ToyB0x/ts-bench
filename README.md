@@ -72,4 +72,3 @@ npx @ts-bench/cli
     - Suggesting improvements based on the analysis results
     - Highlighting potential issues or areas for optimization
     - Providing insights into the structure and dependencies of the codebase
-- 🚧🔨⏳ Add AI comment to DB
