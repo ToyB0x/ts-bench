@@ -37,7 +37,7 @@ export const generateReportMarkdown = async (
     throw Error("No current scan results found to show table.");
   }
 
-  const tableRows = currentScan.results
+  const tableRowsBuild = currentScan.results
     .sort((a, b) =>
       a.isSuccess && b.isSuccess && a.traceNumType && b.traceNumType
         ? b.traceNumType - a.traceNumType
@@ -68,16 +68,16 @@ export const generateReportMarkdown = async (
     );
 
   const tables = {
-    plus: tableRows
+    plus: tableRowsBuild
       .filter((r) => r.types !== "Error")
       .filter((r) => r.types.includes("+")),
-    minus: tableRows
+    minus: tableRowsBuild
       .filter((r) => r.types !== "Error")
       .filter((r) => r.types.includes("-")),
-    noChange: tableRows
+    noChange: tableRowsBuild
       .filter((r) => r.types !== "Error")
       .filter((r) => !r.types.includes("+") && !r.types.includes("-")),
-    error: tableRows.filter((r) => r.types === "Error"),
+    error: tableRowsBuild.filter((r) => r.types === "Error"),
   };
 
   const tablemarkOptions = {
@@ -195,7 +195,7 @@ export const generateReportMarkdown = async (
 
 # 技術的な情報:
 - Types: 型定義の複雑さを示します(コンパイラがプログラム内で認識または作成した型の総数)
-- Instantiations: ジェネリック型の使用頻度と複雑さを示し、コンパイル時間への影響が特に大きい項目です(ジェネリックな型定義に対して、Tの部分に具体的な型を当てはめて新しい型を作成するプロセスです。この数値が極端に大きい場合、複雑なジェネリック型や型定義の再帰的な参照などが多用されており、それがコンパイル時間の増加の主な原因である可能性が高いことを示唆します。型定義の最適化を検討する際の重要な指標となります)
+- Instantiations: ジェネリック型の使用頻度と複雑さを示し、コンパイル時間への影響が特に大きい項目です(ジェネリックな型定義に対して、Tの部分に具体的な型を当てはめて新しい型を作成するプロセスです。この数値が極端に大きい場合、複雑なジェネリック型や型定義の再帰的な参照などが多用されており、それがコンパイル時間の増加の主な原因である可能性が高いことを示唆します。型定義の最適化を検討する際の最重要指標で、Check timeと直接相関し、コンパイル速度の主要な決定要因となる)
 - コンパイルパフォーマンスの改善を目指す際には、特に Instantiations と Types の数値を注視し、型定義をシンプルにできないか検討することが有効です。
   
 # Report:
