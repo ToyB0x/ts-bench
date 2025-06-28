@@ -82,6 +82,19 @@ export const generateReportMarkdown = async (
     minus: tableRows
       .filter((r) => r.types !== "Error")
       .filter((r) => r.types.includes("-") || r.instantiations.includes("-")),
+    cacheChanges: tableRows
+      .filter((r) => r.types !== "Error")
+      .filter(
+        (r) =>
+          r.assignabilityCacheSize.includes("+") ||
+          r.assignabilityCacheSize.includes("-") ||
+          r.identityCacheSize.includes("+") ||
+          r.identityCacheSize.includes("-") ||
+          r.subtypeCacheSize.includes("+") ||
+          r.subtypeCacheSize.includes("-") ||
+          r.strictSubtypeCacheSize.includes("+") ||
+          r.strictSubtypeCacheSize.includes("-"),
+      ),
     noChange: tableRows
       .filter((r) => r.types !== "Error")
       .filter(
@@ -150,26 +163,11 @@ export const generateReportMarkdown = async (
   };
 
   const NO_CHANGE_SUMMARY_TEXT = "- This PR has no significant changes";
-  // check if there are any important changes (types, instantiations, cache sizes)
-  const hasAnyImportantBuildChanges = tableRows.some(
-    (row) =>
-      row.types.includes("+") ||
-      row.types.includes("-") ||
-      row.instantiations.includes("+") ||
-      row.instantiations.includes("-"),
-  );
-
-  const hasAnyImportantCacheChanges = tableRows.some(
-    (row) =>
-      row.assignabilityCacheSize.includes("+") ||
-      row.assignabilityCacheSize.includes("-") ||
-      row.identityCacheSize.includes("+") ||
-      row.identityCacheSize.includes("-") ||
-      row.subtypeCacheSize.includes("+") ||
-      row.subtypeCacheSize.includes("-") ||
-      row.strictSubtypeCacheSize.includes("+") ||
-      row.strictSubtypeCacheSize.includes("-"),
-  );
+  const hasAnyImportantBuildChanges =
+    tables.minus.length > 0 ||
+    tables.plus.length > 0 ||
+    tables.error.length > 0;
+  const hasAnyImportantCacheChanges = tables.cacheChanges.length > 0;
 
   let summaryText = "";
   if (!hasAnyImportantBuildChanges && !hasAnyImportantCacheChanges) {
@@ -180,6 +178,7 @@ export const generateReportMarkdown = async (
 - ${tables.minus.length} packages become faster
 - ${tables.plus.length} packages become slower
 - ${tables.error.length} packages have errors
+- ${tables.cacheChanges.length} packages cache changes
 `
       : "";
     summaryText += hasAnyImportantCacheChanges
@@ -226,7 +225,7 @@ export const generateReportMarkdown = async (
 3. ユーザはもしも改善や対応、判断が必要であれば何をすべきか知りたい
 
 # YOUR TASK:
-以下のそれぞれの項目を、簡潔さを重視し記載してください(1~2センテンス程に収めることを目指す。以下項目以外の記載は避ける)
+以下のそれぞれの項目を、簡潔さを重視し記載してください(1~2センテンス程に収めることを目指す。以下項目以外の出力は必ず避ける)
 - 影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(このPRがマージされた場合に何が起こるかを通知する。上記1に対応し、必ず記載すること)
 - 原因(必ず1行以内に収めて記載): 変更が生じた理由(上記2に対応する。Impactsがない場合は記載しなくてよい)
 - 提案(必ず1行以内に収めて記載): もしも改善や対応、判断が必要であれば、何をすべきかを提案する(上記3に対応する。Impactsがない場合は記載しなくてよい)
