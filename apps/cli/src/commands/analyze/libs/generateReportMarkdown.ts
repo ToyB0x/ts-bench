@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { GoogleGenAI } from "@google/genai";
-import { db } from "@ts-bench/db";
+import { db, eq, scanTbl } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
 import type { TablemarkOptions } from "tablemark";
 import tablemark from "tablemark";
@@ -356,6 +356,16 @@ ${prevScan ? printSimpleTable(prevScan.results).trim() : "N/A"}
   // write to ts-bench-report.md file
   const reportPath = "ts-bench-report.md";
   writeFileSync(reportPath, mdContent, "utf8");
+
+  // TODO: refactor (レポート生成の中でDB更新しているのはよくない)
+  await db
+    .update(scanTbl)
+    .set({
+      aiCommentImpact: aiResponseStructured?.impact,
+      aiCommentReason: aiResponseStructured?.reason,
+      aiCommentSuggestion: aiResponseStructured?.suggestion,
+    })
+    .where(eq(scanTbl.id, currentScan.id));
 };
 
 // TODO: diff だけではなく、元の数値も出すと便利かも(パーセンテージではなく、絶対値も表示することを検討)
