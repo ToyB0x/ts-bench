@@ -78,8 +78,8 @@ export const generateReportMarkdown = async (
   // Helper function to generate metric summary
   const generateMetricSummary = (
     currentResults: typeof currentScan.results,
-    prevResults: typeof prevScan.results | null,
-    metric: string
+    prevResults: NonNullable<typeof prevScan>["results"] | undefined,
+    metric: keyof typeof resultTbl.$inferSelect,
   ) => {
     const currentTotal = calculateTotal(currentResults, metric);
     const prevTotal = prevResults ? calculateTotal(prevResults, metric) : 0;
@@ -89,11 +89,31 @@ export const generateReportMarkdown = async (
   // summary row for all packages (Total)
   const totalSummaryRow = {
     package: "Total Summary",
-    types: generateMetricSummary(currentScan.results, prevScan?.results || null, "types"),
-    instantiations: generateMetricSummary(currentScan.results, prevScan?.results || null, "instantiations"),
-    traceTypesSize: generateMetricSummary(currentScan.results, prevScan?.results || null, "traceNumType"),
-    totalTime: generateMetricSummary(currentScan.results, prevScan?.results || null, "totalTime"),
-    memoryUsed: generateMetricSummary(currentScan.results, prevScan?.results || null, "memoryUsed"),
+    types: generateMetricSummary(
+      currentScan.results,
+      prevScan?.results,
+      "types",
+    ),
+    instantiations: generateMetricSummary(
+      currentScan.results,
+      prevScan?.results,
+      "instantiations",
+    ),
+    traceTypesSize: generateMetricSummary(
+      currentScan.results,
+      prevScan?.results,
+      "traceNumType",
+    ),
+    totalTime: generateMetricSummary(
+      currentScan.results,
+      prevScan?.results,
+      "totalTime",
+    ),
+    memoryUsed: generateMetricSummary(
+      currentScan.results,
+      prevScan?.results,
+      "memoryUsed",
+    ),
     analyzeHotSpotMs:
       calculateTotal(currentScan.results, "analyzeHotSpotMs") +
       `${calcDiff(
