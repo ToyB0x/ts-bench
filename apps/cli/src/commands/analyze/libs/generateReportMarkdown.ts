@@ -236,7 +236,8 @@ export const generateReportMarkdown = async (
     console.info({ diff });
 
     const aiResponse = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      // TODO: enable switch to gemini-2.5-flash or other models via CLI option
+      model: "gemini-2.5-pro",
       config: {
         responseMimeType: "application/json",
         responseSchema: {
