@@ -88,7 +88,11 @@ export const generateReportMarkdown = async (
 
   // summary row for all packages (Total)
   const totalSummaryRow = {
-    package: "Total Summary",
+    // 増減のあったパッケージ数
+    numAffectedPackages: tableRows.filter(
+      (r) =>
+        r.types !== "Error" && (r.types.includes("+") || r.types.includes("-")),
+    ).length,
     types: generateMetricSummary(
       currentScan.results,
       prevScan?.results,
