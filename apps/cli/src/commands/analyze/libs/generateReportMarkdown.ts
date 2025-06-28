@@ -150,9 +150,32 @@ export const generateReportMarkdown = async (
   };
 
   const NO_CHANGE_SUMMARY_TEXT = "- This PR has no significant changes";
+  // check if there are any important changes (types, instantiations, cache sizes)
+  const hasAnyImportantChanges = tableRows.some(
+    (row) =>
+      row.types.includes("+") ||
+      row.types.includes("-") ||
+      row.instantiations.includes("+") ||
+      row.instantiations.includes("-") ||
+      row.assignabilityCacheSize.includes("+") ||
+      row.assignabilityCacheSize.includes("-") ||
+      row.identityCacheSize.includes("+") ||
+      row.identityCacheSize.includes("-") ||
+      row.subtypeCacheSize.includes("+") ||
+      row.subtypeCacheSize.includes("-") ||
+      row.strictSubtypeCacheSize.includes("+") ||
+      row.strictSubtypeCacheSize.includes("-"),
+  );
 
   let summaryText = "";
-  if (!tables.plus.length && !tables.minus.length && !tables.error.length) {
+  if (
+    !hasAnyImportantChanges ||
+    // TODO: refactor (maybe better to use hasAnyImportantChanges only)
+    (tables.minus.length === 0 &&
+      tables.plus.length === 0 &&
+      tables.error.length === 0 &&
+      tables.noChange.length > 0)
+  ) {
     summaryText += NO_CHANGE_SUMMARY_TEXT;
   } else {
     summaryText += `
