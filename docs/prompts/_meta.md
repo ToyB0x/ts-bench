@@ -32,7 +32,7 @@ TypeScript開発における性能課題は開発体験に直接影響する：
 
 ### TypeScript公式ドキュメント
 - **Performance Wiki**: https://github.com/microsoft/TypeScript/wiki/Performance  
-  コンパイル性能の基本原則とベストプラクティス（interfaces優先、型注釈追加、project references等）
+  コンパイル性能の基本原則とベストプラクティス（interfaces優先、型注釈追加等）
 - **Performance Tracing**: https://github.com/microsoft/TypeScript/wiki/Performance-Tracing  
   `--generateTrace`を用いた詳細な性能分析手法（TypeScript 4.1+の高精度トレース機能）
 - **VS Code Language Service**: https://github.com/microsoft/TypeScript/wiki/Debugging-Language-Service-in-VS-Code  
@@ -58,14 +58,35 @@ TypeScript開発における性能課題は開発体験に直接影響する：
   TypeScriptトレースファイルの自動解析
 
 ### 実践的な改善事例
-- **明示的型注釈**: https://zenn.dev/cybozu_frontend/articles/ts-explicit-type-annotation  
-  型推論負荷軽減のための具体的手法
 - **大規模プロジェクト最適化**: https://zenn.dev/forcia_tech/articles/20231017_tsuji  
-  実際のプロダクションでの性能改善事例
-- **TypeScript高速化**: https://qiita.com/knjname/items/fc83a4248f459f1b052e  
-  コンパイル速度向上のテクニック集
+  Zodスキーマ事前コンパイルによる14秒→8秒改善など、実際のプロダクションでの性能改善事例
+- **型展開防止**: https://qiita.com/knjname/items/fc83a4248f459f1b052e  
+  複雑な再帰型による6分→数秒の劇的なコンパイル速度向上テクニック
+- **明示的型注釈**: https://zenn.dev/cybozu_frontend/articles/ts-explicit-type-annotation  
+  isolatedDeclarationsと組み合わせた型推論負荷軽減の具体的手法
 
-## TypeScript最適化手法一覧
+## AI実装戦略と最適化手法
+
+### 実装方針
+
+1. **段階的アプローチ**: 低リスクな設定変更から開始
+   - ⭐⭐⭐⭐⭐ 実装容易度の手法を優先実装  
+   - 設定ファイル変更 → コード構造改善 → 大規模リファクタリングの順序
+
+2. **測定駆動開発**: 各変更前後での客観的性能測定を必須とする
+   - `ts-bench`による継続的ベンチマーク実施
+   - `tsc --generateTrace`と`@typescript/analyze-trace`による詳細分析
+   - 改善効果の定量化と手法評価の継続的更新
+
+3. **AI自動化優先**: 人間判断を最小化した実装戦略
+   - ⭐⭐⭐⭐ 以上のAI自動化評価手法を体系的に活用
+   - コードレビューとリスク評価の自動化
+   - 段階的ロールバック機能の実装
+
+4. **安全性重視**: 本番環境への影響リスクを最小化
+   - デグレリスク⭐⭐以下の手法から段階的実装
+   - フィーチャーフラグによる安全な展開
+   - 継続的インテグレーションでの性能回帰検知
 
 ### 評価基準
 各手法を以下の5段階基準で評価し、AIによる自動実装の優先順位を決定する：
@@ -76,6 +97,8 @@ TypeScript開発における性能課題は開発体験に直接影響する：
 - **AI自動化**: ⭐⭐⭐⭐⭐（完全自動）⭐⭐⭐⭐（ほぼ自動）⭐⭐⭐（半自動）⭐⭐（限定サポート）⭐（人間判断必須）
 - **性能影響**: ⭐⭐⭐⭐⭐（50%以上改善）⭐⭐⭐⭐（20-50%改善）⭐⭐⭐（10-20%改善）⭐⭐（5-10%改善）⭐（5%未満改善）
 - **デグレリスク**: ⭐（ほぼなし）⭐⭐（低い）⭐⭐⭐（中程度）⭐⭐⭐⭐（高い）⭐⭐⭐⭐⭐（非常に高い）
+
+### TypeScript最適化手法一覧
 
 
 ### 1. 設定最適化
@@ -131,30 +154,9 @@ TypeScript開発における性能課題は開発体験に直接影響する：
 | Chrome Tracing活用 | ⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐ | chrome://tracingでの視覚的性能分析。generateTraceの出力を詳細に解析し、時間とメモリ使用量を可視化 |
 | @typescript/analyze-trace | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐ | TypeScript公式の自動トレース解析ツール。コマンドライン実行で性能ボトルネックの自動特定と改善提案 |
 
-### 実装プロンプト生成方針
-
-1. **段階的アプローチ**: 低リスクな設定変更から開始
-   - ⭐⭐⭐⭐⭐ 実装容易度の手法を優先実装
-   - 設定ファイル変更 → コード構造改善 → 大規模リファクタリングの順序
-   
-2. **測定駆動開発**: 各変更前後での客観的性能測定を必須とする
-   - `ts-bench`による継続的ベンチマーク実施
-   - `tsc --generateTrace`と`@typescript/analyze-trace`による詳細分析
-   - 改善効果の定量化と手法評価の継続的更新
-
-3. **AI自動化優先**: 人間判断を最小化した実装戦略
-   - ⭐⭐⭐⭐ 以上のAI自動化評価手法を体系的に活用
-   - コードレビューとリスク評価の自動化
-   - 段階的ロールバック機能の実装
-
-4. **安全性重視**: 本番環境への影響リスクを最小化
-   - デグレリスク⭐⭐以下の手法から段階的実装
-   - フィーチャーフラグによる安全な展開
-   - 継続的インテグレーションでの性能回帰検知
-
 ### AI実装時の注意事項
 
 - **isolatedDeclarations採用時**: TypeScript 5.5+ 要求、明示的型注釈の大量追加が必要
-- **Project References**: Turborepoでの非推奨状況を考慮、他手法を優先検討
+- **Project References**: Turborepoでの非推奨状況を考慮、他手法を優先検討  
 - **型展開防止**: 劇的改善可能だが、手動での型定義見直しが必要
 - **測定必須**: 全ての変更で事前事後の性能測定とts-benchでの検証実施
