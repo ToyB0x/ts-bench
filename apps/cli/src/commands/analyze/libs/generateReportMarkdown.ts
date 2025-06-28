@@ -227,7 +227,11 @@ export const generateReportMarkdown = async (
 
     const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
-    const diff = await simpleGit().diff();
+    const diff = process.env["CI"]
+      ? // use gh command to get diff in GitHub Actions
+        await simpleGit().raw(["diff", "--no-color", "HEAD^", "HEAD"])
+      : await simpleGit().diff();
+
     console.info({ diff });
 
     const aiResponse = await ai.models.generateContent({
