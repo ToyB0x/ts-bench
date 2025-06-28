@@ -31,23 +31,23 @@ TypeScript開発における性能課題は開発体験に直接影響する：
 ## 技術リソースと参考資料
 
 ### TypeScript公式ドキュメント
-- **Performance Wiki**: https://github.com/microsoft/Typescript/wiki/Performance  
-  コンパイル性能の基本原則とベストプラクティス
+- **Performance Wiki**: https://github.com/microsoft/TypeScript/wiki/Performance  
+  コンパイル性能の基本原則とベストプラクティス（interfaces優先、型注釈追加、project references等）
 - **Performance Tracing**: https://github.com/microsoft/TypeScript/wiki/Performance-Tracing  
-  `--generateTrace`を用いた詳細な性能分析手法
+  `--generateTrace`を用いた詳細な性能分析手法（TypeScript 4.1+の高精度トレース機能）
 - **VS Code Language Service**: https://github.com/microsoft/TypeScript/wiki/Debugging-Language-Service-in-VS-Code  
-  IDE統合における性能問題の診断
+  IDE統合における性能問題の診断（TSServer デバッグとパフォーマンス最適化）
 - **Issue #30235**: https://github.com/microsoft/TypeScript/issues/30235  
-  大規模プロジェクトにおける性能課題の議論
+  大規模プロジェクトにおける性能課題の議論（マルチスレッド コンパイルの必要性と制約）
 
 ### モノレポ・ビルドツール
 - **Turborepo Compiled Packages**: https://turborepo.com/docs/core-concepts/internal-packages#compiled-packages  
-  モノレポでの効率的なTypeScriptビルド戦略
+  モノレポでの効率的なTypeScriptビルド戦略（Just-in-Time vs Compiled vs Publishable パッケージ）
 - **TypeScript Project References**: https://turborepo.com/docs/guides/tools/typescript#you-likely-dont-need-typescript-project-references  
-  プロジェクト参照の適切な使用判断
-- **Turborepo Discussions**: 
-  - https://github.com/vercel/turborepo/discussions/10325
-  - https://github.com/vercel/turborepo/discussions/4143
+  Turborepo の Project References 非推奨指針（設定複雑化とキャッシュ層の問題）
+- **Turborepo Discussions**: TypeScript パフォーマンスとキャッシュ戦略の実践的議論
+  - https://github.com/vercel/turborepo/discussions/10325 （TypeScript 設定の最適化とIDE統合）
+  - https://github.com/vercel/turborepo/discussions/4143 （重複型チェック問題と並列処理の課題）
 
 ### 測定・分析ツール
 - **ts-bench**: https://github.com/ToyB0x/ts-bench (このリポジトリ)  
@@ -87,22 +87,24 @@ TypeScript開発における性能課題は開発体験に直接影響する：
 | 型定義絞り込み | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ | 使用しない@typesパッケージの除外、必要な型定義のみの selective import により型チェック対象を最小化 |
 | コンパイラオプション最適化 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | strict系設定、skipLibCheck、incremental等の適切な組み合わせで型チェック負荷を調整 |
 | excludeパターン最適化 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐ | node_modules、dist、test等の不要ディレクトリを効率的に除外し、型チェック対象ファイルを削減 |
+| baseUrl/paths最適化 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | モジュール解決の効率化。baseUrlとpathsによる短縮エイリアスで型解決パスを最適化し、コンパイル速度を向上 |
+| extendedDiagnostics活用 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐ | tsc --extendedDiagnosticsによる詳細な性能診断。ボトルネック特定のための基本的なコンパイル時間とメモリ使用量分析 |
 
 ### 2. コード構造最適化
 | 手法 | 実装容易度 | 段階実装 | AI自動化 | 性能影響 | デグレリスク | 説明 |
 |------|------------|----------|----------|----------|-------------|------|
-| 明示的型注釈 | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ | 関数戻り値、変数、パラメータに明示的な型注釈を追加。型推論処理を削減し、コンパイル時間とIDE応答性を向上 |
-| 型展開防止 | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐ | 複雑な再帰型による指数的型計算を防止。typeofや明示的型名で型推論を制限し、6分→数秒のコンパイル改善事例あり |
+| 明示的型注釈 | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ | 関数戻り値、変数、パラメータに明示的な型注釈を追加。型推論処理を削減し、isolatedDeclarationsと組合せで劇的なコンパイル時間とIDE応答性を向上 |
+| 型展開防止 | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | 複雑な再帰型による指数的型計算を防止。typeofや明示的型名で型推論を制限し、6分→数秒のコンパイル改善事例あり（劇的なパフォーマンス向上） |
 | const assertions最適化 | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐ | `as const`による型推論の最適化。リテラル型の固定化により型計算を削減し、オブジェクトや配列の型推論コストを軽減 |
 | Interface vs Union最適化 | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | TypeScript公式推奨：interfaceの型関係キャッシュ活用。unionタイプよりもinterfaceを優先して型チェック効率を向上 |
 | 型エイリアス最適化 | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐ | 複雑な型定義を名前付きエイリアスで簡素化。匿名型の計算負荷を削減し、型キャッシュ機能を有効活用 |
-| 生成コード事前コンパイル | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐ | Zodスキーマ等の自動生成TypeScriptファイルを事前に.js/.d.tsに変換。14秒→8秒の改善事例、型推論負荷を大幅削減 |
+| 生成コード事前コンパイル | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐ | Zodスキーマ等の自動生成TypeScriptファイルを事前に.js/.d.tsに変換。14秒→8秒の改善事例（43%改善）、型推論負荷を大幅削減 |
 | Conditional Types削減 | ⭐ | ⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐ | 高度な条件付き型や映射型の使用を最小限に抑制。型レベル計算の複雑さを削減して処理時間を短縮 |
 
 ### 3. プロジェクト構造最適化
 | 手法 | 実装容易度 | 段階実装 | AI自動化 | 性能影響 | デグレリスク | 説明 |
 |------|------------|----------|----------|----------|-------------|------|
-| Project References | ⭐ | ⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐ | 大規模プロジェクトで複数のtsconfig.jsonを連携。依存関係に基づく増分ビルドとキャッシュ活用で劇的な性能向上 |
+| Project References | ⭐ | ⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐ | 大規模プロジェクトで複数のtsconfig.jsonを連携。理論的には増分ビルド効果があるが、実際の改善は限定的。Turborepoでは非推奨（設定複雑化とキャッシュ問題） |
 | モノレポ最適化 | ⭐ | ⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Turborepo/Nxによるタスク並列化とキャッシュ戦略。パッケージ間の型依存関係を最適化してビルド時間を短縮 |
 | package.json exports最適化 | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ | exportsフィールドによる公開API制御。利用側で最小限のコードと型のみimport可能とし、不要な依存解決を排除 |
 | 内部パッケージdts生成 | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐ | モノレポ内パッケージの型定義ファイルを事前生成。依存側での型チェック負荷を削減し、開発時の応答性を向上 |
@@ -130,7 +132,29 @@ TypeScript開発における性能課題は開発体験に直接影響する：
 | @typescript/analyze-trace | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐ | TypeScript公式の自動トレース解析ツール。コマンドライン実行で性能ボトルネックの自動特定と改善提案 |
 
 ### 実装プロンプト生成方針
+
 1. **段階的アプローチ**: 低リスクな設定変更から開始
-2. **測定駆動**: 各変更前後でts-benchによる測定実施
-3. **自動化優先**: AI実装容易度の高い手法を優先的に体系化
-4. **安全性重視**: 本番影響を最小化する段階的実装パス提供
+   - ⭐⭐⭐⭐⭐ 実装容易度の手法を優先実装
+   - 設定ファイル変更 → コード構造改善 → 大規模リファクタリングの順序
+   
+2. **測定駆動開発**: 各変更前後での客観的性能測定を必須とする
+   - `ts-bench`による継続的ベンチマーク実施
+   - `tsc --generateTrace`と`@typescript/analyze-trace`による詳細分析
+   - 改善効果の定量化と手法評価の継続的更新
+
+3. **AI自動化優先**: 人間判断を最小化した実装戦略
+   - ⭐⭐⭐⭐ 以上のAI自動化評価手法を体系的に活用
+   - コードレビューとリスク評価の自動化
+   - 段階的ロールバック機能の実装
+
+4. **安全性重視**: 本番環境への影響リスクを最小化
+   - デグレリスク⭐⭐以下の手法から段階的実装
+   - フィーチャーフラグによる安全な展開
+   - 継続的インテグレーションでの性能回帰検知
+
+### AI実装時の注意事項
+
+- **isolatedDeclarations採用時**: TypeScript 5.5+ 要求、明示的型注釈の大量追加が必要
+- **Project References**: Turborepoでの非推奨状況を考慮、他手法を優先検討
+- **型展開防止**: 劇的改善可能だが、手動での型定義見直しが必要
+- **測定必須**: 全ての変更で事前事後の性能測定とts-benchでの検証実施
