@@ -1,5 +1,4 @@
-# This file is just symlink to root .env file
-!.env
+.env
 
 # Ignore SQLite database file
 ts-bench.sqlite
