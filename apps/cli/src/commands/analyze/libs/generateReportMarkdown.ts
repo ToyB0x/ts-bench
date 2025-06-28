@@ -230,7 +230,8 @@ export const generateReportMarkdown = async (
     const diff = process.env["CI"]
       ? // use gh command to get diff in GitHub Actions
         await simpleGit().raw(["diff", "--no-color", "HEAD^", "HEAD"])
-      : await simpleGit().diff();
+      : // in local development, use diff from current branch last commit to main branch head commit
+        await simpleGit().raw(["diff", "--no-color", "HEAD^", "origin/main"]);
 
     console.info({ diff });
 
