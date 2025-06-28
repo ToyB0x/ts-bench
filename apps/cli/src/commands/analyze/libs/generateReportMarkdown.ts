@@ -247,7 +247,7 @@ export const generateReportMarkdown = async (
             impact: {
               type: "string",
               description: `影響: types、instantiationsまたはキャッシュ関連の指標から推測される、分析対象のコード変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載し、インパクトの程度に応じて危険性を表す絵文字を付与)
-xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります
+xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります(変動がある場合は z.z%程度という記載を末尾に追加)
 `,
             },
             reason: {
