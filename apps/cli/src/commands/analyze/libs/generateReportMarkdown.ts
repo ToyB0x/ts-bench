@@ -239,12 +239,16 @@ export const generateReportMarkdown = async (
           // - 提案: suggestion
           type: "object",
           properties: {
-            impact: { type: "string", description: "影響を1行以内に記載" },
-            reason: {
+            impact: {
               type: "string",
-              description: `影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載)
+              description: `影響: 変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載)
 xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります
 `,
+            },
+            reason: {
+              type: "string",
+              description:
+                "Git diffの結果から推測される影響が生じた理由となった変更内容",
             },
             suggestion: {
               type: "string",
