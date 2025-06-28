@@ -243,7 +243,7 @@ export const generateReportMarkdown = async (
             reason: {
               type: "string",
               description: `影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載)
-xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる程度)程度遅くなります
+xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる)遅くなります
 `,
             },
             suggestion: {
@@ -316,17 +316,21 @@ ${summaryContent.title}
 ${
   aiResponseStructured
     ? `
-- 影響: ${aiResponseStructured.impact}
+- ${aiResponseStructured.impact}
 
 <details><summary>原因と提案</summary>
 
-- 原因: ${aiResponseStructured.reason}
-- 提案: ${aiResponseStructured.suggestion}
+- **原因**:  
+  ${aiResponseStructured.reason}
+- **提案**:  
+  ${aiResponseStructured.suggestion}
 </details>
 
 `
     : summaryContent.text
 }
+
+<details><summary>Change Details</summary>
 
 ${contentTablePlus.text ? contentTablePlus.title : ""}
 ${contentTablePlus.text || ""}
@@ -336,6 +340,7 @@ ${contentTableMinus.text || ""}
 
 ${contentTableCache.text ? contentTableCache.title : ""}
 ${contentTableCache.text || ""}
+</details>
 
 <p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
 
