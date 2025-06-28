@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.27
+
+### Patch Changes
+
+- 7aa8e49: fix: refine change summary logic in report generation
+
 ## 0.0.26
 
 ### Patch Changes
