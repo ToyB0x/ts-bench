@@ -362,10 +362,11 @@ ${contentTableCache.text || ""}
 - TSC Benchmark version: ${version}
 - CPU: ${cpuModelAndSpeeds.join(", ")} (${maxConcurrency} / ${totalCPUs})
 - Diff: 
+    - TotalTime: ${diffSummary.totalTimes}
+    - Analyzed Packages: +${diffSummary.diffPackageNames.added.length} -${diffSummary.diffPackageNames.deleted.length}  
+      ${diffSummary.diffPackageNames.added.length ? "added: " + diffSummary.diffPackageNames.added.join(", ") : ""} ${diffSummary.diffPackageNames.deleted.length ? "deleted: " + diffSummary.diffPackageNames.deleted.join(", ") : ""}
+
 <!-- TODO: 絶対値(リアル秒)表示追加を検討 -->
-  - TotalTime: ${diffSummary.totalTimes}
-  - Analyzed Packages: +${diffSummary.diffPackageNames.added.length} -${diffSummary.diffPackageNames.deleted.length}  
-    ${diffSummary.diffPackageNames.added.length ? "added: " + diffSummary.diffPackageNames.added.join(", ") : ""} ${diffSummary.diffPackageNames.deleted.length ? "deleted: " + diffSummary.diffPackageNames.deleted.join(", ") : ""}
 <!-- TODO: マシンに影響されたないtypesの合計変動表示追加を検討 -->
 ${tables.noChange.length ? "<details><summary>Open: No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
 
