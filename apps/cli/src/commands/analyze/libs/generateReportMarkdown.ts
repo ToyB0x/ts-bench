@@ -228,6 +228,7 @@ export const generateReportMarkdown = async (
     const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
     const diff = await simpleGit().diff();
+    console.info({ diff });
 
     const aiResponse = await ai.models.generateContent({
       model: "gemini-2.5-flash",
