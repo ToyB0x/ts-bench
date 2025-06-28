@@ -340,7 +340,10 @@ ${aiResponseStructured.impact}
     : summaryContent.text
 }
 
-<details><summary>Details</summary>
+${
+  !hasAnyImportantBuildChanges && !hasAnyImportantCacheChanges
+    ? ""
+    : `<details><summary>Details</summary>
 
 ${contentTablePlus.text ? contentTablePlus.title : ""}
 ${contentTablePlus.text || ""}
@@ -350,8 +353,8 @@ ${contentTableMinus.text || ""}
 
 ${contentTableCache.text ? contentTableCache.title : ""}
 ${contentTableCache.text || ""}
-
-${!(contentTablePlus.text || contentTableMinus.text || contentTableCache.text) ? NO_CHANGE_SUMMARY_TEXT : ""}
+`
+}
 </details>
 
 <details><summary>Full Details</summary>
