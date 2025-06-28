@@ -29,7 +29,7 @@ type ChartAreaInteractiveProps = {
     typeof scanTbl.$inferSelect &
       Pick<
         typeof resultTbl.$inferSelect,
-        "package" | "totalTime" | "traceNumType"
+        "package" | "types" | "instantiations" | "totalTime"
       >
   >;
 };
@@ -37,8 +37,8 @@ type ChartAreaInteractiveProps = {
 export const description = "Package analysis metrics over time";
 
 const chartConfig = {
-  types: {
-    label: "types",
+  typeAndInstantiations: {
+    label: "typeAndInstantiations",
     color: "var(--chart-1)",
   },
   totalTime: {
@@ -49,17 +49,24 @@ const chartConfig = {
 
 export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
   const packageName = data[0]?.package || "Unknown Package";
-  const chartData = React.useMemo(() => data, [data]);
+  const chartData = React.useMemo(
+    () =>
+      data.map((item) => ({
+        ...item,
+        typeAndInstantiations: (item.types || 0) + (item.instantiations || 0),
+      })),
+    [data],
+  );
 
   const [metricType, setMetricType] = React.useState<
-    "all" | "types" | "totalTime"
+    "all" | "typeAndInstantiations" | "totalTime"
   >("all");
 
   const filteredData = React.useMemo(() => {
     if (metricType === "totalTime") {
-      return chartData.map((item) => ({ ...item, types: 0 }));
+      return chartData.map((item) => ({ ...item, typeAndInstantiations: 0 }));
     }
-    if (metricType === "types") {
+    if (metricType === "typeAndInstantiations") {
       return chartData.map((item) => ({ ...item, totalTime: 0 }));
     }
     return chartData;
@@ -104,8 +111,8 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             <SelectItem value="totalTime" className="rounded-lg">
               totalTime only
             </SelectItem>
-            <SelectItem value="types" className="rounded-lg">
-              Types only
+            <SelectItem value="typeAndInstantiations" className="rounded-lg">
+              Types + Instantiations only
             </SelectItem>
           </SelectContent>
         </Select>
@@ -144,15 +151,21 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 />
               </linearGradient>
               {/* biome-ignore lint/nursery/useUniqueElementIds: chart gradients */}
-              <linearGradient id="fillTypes" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                id="fillTypeAndInstantiations"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
                 <stop
                   offset="5%"
-                  stopColor="var(--color-types)"
+                  stopColor="var(--color-typeAndInstantiations)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-types)"
+                  stopColor="var(--color-typeAndInstantiations)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -208,15 +221,15 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                 />
               }
             />
-            {metricType === "all" || metricType === "types" ? (
+            {metricType === "all" || metricType === "typeAndInstantiations" ? (
               <Area
                 isAnimationActive={false}
-                dataKey="types"
+                dataKey="typeAndInstantiations"
                 type="natural"
-                fill="url(#fillTypes)"
-                stroke="var(--color-types)"
+                fill="url(#fillTypeAndInstantiations)"
+                stroke="var(--color-typeAndInstantiations)"
                 stackId="a"
-                yAxisId="types" // enable multiple y-axes
+                yAxisId="typeAndInstantiations" // enable multiple y-axes
               />
             ) : null}
             {metricType === "all" || metricType === "totalTime" ? (

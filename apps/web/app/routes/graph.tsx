@@ -45,14 +45,16 @@ export default function Page({ loaderData }: Route.ComponentProps) {
               (acc, result) => {
                 // Sum up the metrics for all packages
                 acc.totalTime += result.totalTime || 0;
-                acc.traceNumType += result.traceNumType || 0;
+                acc.types += result.types || 0;
+                acc.instantiations += result.instantiations || 0;
                 return acc;
               },
               {
                 ...scan,
                 package: "⭐️ ALL Packages",
+                types: 0,
+                instantiations: 0,
                 totalTime: 0,
-                traceNumType: 0,
               },
             );
           })}
