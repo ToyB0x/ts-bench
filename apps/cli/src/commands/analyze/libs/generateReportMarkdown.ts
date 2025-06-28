@@ -239,9 +239,17 @@ export const generateReportMarkdown = async (
           // - 提案: suggestion
           type: "object",
           properties: {
-            impact: { type: "string" },
-            reason: { type: "string" },
-            suggestion: { type: "string" },
+            impact: { type: "string", description: "影響を1行以内に記載" },
+            reason: {
+              type: "string",
+              description:
+                "影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(このPRがマージされた場合に何が起こるかを通知する。ビルドかIDE(型推論やインテリセンス)に影響がある場合はそのどちらが対象かを記載)",
+            },
+            suggestion: {
+              type: "string",
+              description:
+                "提案(必ず1行以内に収めて記載): もしも改善や対応、判断が必要であれば、何をすべきかを提案する",
+            },
           },
           required: ["impact", "reason", "suggestion"],
         },
