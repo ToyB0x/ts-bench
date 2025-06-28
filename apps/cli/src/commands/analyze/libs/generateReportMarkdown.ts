@@ -283,6 +283,9 @@ ${contentTablePlus.text || ""}
 ${contentTableMinus.text ? contentTableMinus.title : ""}
 ${contentTableMinus.text || ""}
 
+${contentTableCache.text ? contentTableCache.title : ""}
+${contentTableCache.text || ""}
+
 <p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
 
 ---
