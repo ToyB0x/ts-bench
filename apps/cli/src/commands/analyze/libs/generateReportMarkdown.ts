@@ -151,12 +151,16 @@ export const generateReportMarkdown = async (
 
   const NO_CHANGE_SUMMARY_TEXT = "- This PR has no significant changes";
   // check if there are any important changes (types, instantiations, cache sizes)
-  const hasAnyImportantChanges = tableRows.some(
+  const hasAnyImportantBuildChanges = tableRows.some(
     (row) =>
       row.types.includes("+") ||
       row.types.includes("-") ||
       row.instantiations.includes("+") ||
-      row.instantiations.includes("-") ||
+      row.instantiations.includes("-"),
+  );
+
+  const hasAnyImportantCacheChanges = tableRows.some(
+    (row) =>
       row.assignabilityCacheSize.includes("+") ||
       row.assignabilityCacheSize.includes("-") ||
       row.identityCacheSize.includes("+") ||
@@ -168,13 +172,19 @@ export const generateReportMarkdown = async (
   );
 
   let summaryText = "";
-  if (!hasAnyImportantChanges) {
+  if (!hasAnyImportantBuildChanges && !hasAnyImportantCacheChanges) {
     summaryText += NO_CHANGE_SUMMARY_TEXT;
   } else {
-    summaryText += `
+    summaryText += hasAnyImportantBuildChanges
+      ? `
 - ${tables.minus.length} packages become faster
 - ${tables.plus.length} packages become slower
-- ${tables.error.length} packages have errors`;
+- ${tables.error.length} packages have errors
+`
+      : "";
+    summaryText += hasAnyImportantCacheChanges
+      ? "- Cache sizes have changed"
+      : "";
   }
 
   const summaryContent: ReportContent = {
