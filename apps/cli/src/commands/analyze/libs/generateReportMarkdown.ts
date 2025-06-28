@@ -247,13 +247,13 @@ export const generateReportMarkdown = async (
           properties: {
             impact: {
               type: "string",
-              description: `影響: 変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載)
+              description: `影響: types、instantiationsまたはキャッシュ関連の指標から推測される、分析対象のコード変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載)
 xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります
 `,
             },
             reason: {
               type: "string",
-              description: `Git diffの結果から推測される影響が生じた理由となった変更内容(出来るだけ以下フォーマットで簡潔に記載。複数の原因がありそうな場合は適宜フォーマットを調整)
+              description: `Git diffの結果から推測される、types、instantiationsまたはキャッシュ関連の指標に変動が影響が生じた理由(出来るだけ以下フォーマットで簡潔に記載。複数の原因がありそうな場合は適宜フォーマットを調整)
 xxxのファイルに対するyyyの変更により、zzzが変動した可能性があります
           `,
             },
