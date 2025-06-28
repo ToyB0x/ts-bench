@@ -318,7 +318,7 @@ ${
     ? `
 ${aiResponseStructured.impact}
 
-<details><summary>原因と提案</summary>
+<details><summary><strong>原因と提案</strong></summary>
 
 - **原因**:  
   ${aiResponseStructured.reason}
@@ -342,7 +342,7 @@ ${contentTableCache.text ? contentTableCache.title : ""}
 ${contentTableCache.text || ""}
 </details>
 
-<details><summary><strong>Full Details</strong></summary>
+<details><summary>Full Details</summary>
 
 - TSC Benchmark version: ${version}
 - CPU: ${cpuModelAndSpeeds.join(", ")} (${maxConcurrency} / ${totalCPUs})
