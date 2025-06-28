@@ -29,6 +29,10 @@ export const scanTbl = sqliteTable(
       .default(sql`(CURRENT_TIMESTAMP)`)
       .notNull(),
     cpus: text("cpus").notNull(),
+    /** AI comments (optional AI config) */
+    aiCommentImpact: text("ai_comment_impact"),
+    aiCommentReason: text("ai_comment_reason"),
+    aiCommentSuggestion: text("ai_comment_suggestion"),
   },
   (tbl) => [
     uniqueIndex("uq_scan_repository_commit_hash").on(
@@ -52,11 +56,6 @@ export const resultTbl = sqliteTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       }),
-
-    /** AI comments (optional AI config) */
-    aiCommentImpact: text("ai_comment_impact"),
-    aiCommentReason: text("ai_comment_reason"),
-    aiCommentSuggestion: text("ai_comment_suggestion"),
 
     /* trace */
     traceNumType: integer("trace_num_type"),
