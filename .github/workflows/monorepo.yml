@@ -101,7 +101,7 @@ jobs:
       - name: Check out
         uses: actions/checkout@v4
         with:
-          fetch-depth: ${{ inputs.analyze-size != '' && inputs.analyze-size || 1 }}
+          fetch-depth: ${{ inputs.analyze-size != '' && inputs.analyze-size || 2 }} # 変更差分の原因分析のため、最低2のfetch-depthが必要
 
       - name: Init PR comment
         if: github.event_name == 'pull_request' # Only create comment on pull requests
