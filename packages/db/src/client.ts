@@ -13,6 +13,8 @@ const DEFAULT_DB_FILE_NAME = "ts-bench.sqlite";
 const DB_FILE_NAME_ENV = process.env["DB_FILE_NAME"]; // Use the environment variable or .env file via dotenv
 const DB_FILE_NAME = DB_FILE_NAME_ENV || DEFAULT_DB_FILE_NAME;
 
+console.info("USING DB:", { DB_FILE_NAME });
+
 export const db = drizzle(createClient({ url: `file:${DB_FILE_NAME}` }), {
   schema,
 });
