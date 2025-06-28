@@ -170,11 +170,27 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                     const item = payload?.[0];
                     if (!item) return value;
                     return (
-                      <div className="w-96 text-xs text-gray-500">
-                        <div>PR: {item.payload.commitMessage}</div>
-                        <div className="flex justify-between text-gray-400 font-light">
+                      <div className="flex flex-col gap-4 w-96 text-xs text-gray-500">
+                        <div>
+                          PR:
+                          <br />
+                          {item.payload.commitMessage}
+                        </div>
+                        {item.payload.aiCommentImpact && (
+                          <div className="flex flex-col">
+                            <div>
+                              Reason:
+                              <br />
+                              {item.payload.aiCommentReason}
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex justify-between text-gray-400 font-light mb-2">
                           <div>
-                            ({item.payload.cpus} v{item.payload.version})
+                            CPUs:
+                            <br />
+                            {item.payload.cpus} v{item.payload.version}
                           </div>
                           <div>{item.payload.isCached && "cached"}</div>
                         </div>
