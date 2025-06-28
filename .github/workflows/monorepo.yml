@@ -150,6 +150,7 @@ jobs:
         run: pnpm execute analyze
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
+          GEMINI_API_KEY: $${{ secrets.GEMINI_API_KEY }} # Optional: Set your Gemini API key if AI analysis is enabled
 
       - name: Analyze check (multiple sizes)
         working-directory: apps/cli
