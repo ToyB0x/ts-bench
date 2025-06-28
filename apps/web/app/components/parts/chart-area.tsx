@@ -27,9 +27,10 @@ import {
 type ChartAreaInteractiveProps = {
   data: Array<
     Pick<
-      typeof resultTbl.$inferSelect & typeof scanTbl.$inferSelect,
+      typeof resultTbl.$inferSelect,
       "package" | "totalTime" | "traceNumType"
-    >
+    > &
+      typeof scanTbl.$inferSelect
   >;
 };
 
