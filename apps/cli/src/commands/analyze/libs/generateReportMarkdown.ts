@@ -318,7 +318,7 @@ ${
 <details><summary>${aiResponseStructured.impact}</summary>
 - Reason: ${aiResponseStructured.reason}
 - Suggestion: ${aiResponseStructured.suggestion}
-<details/>
+</details>
 
 `
     : summaryContent.text
