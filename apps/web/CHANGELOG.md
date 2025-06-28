@@ -1,5 +1,13 @@
 # @ts-bench/web
 
+## 0.0.15
+
+### Patch Changes
+
+- 983549d: feat: add total metrics display for all packages in chart area
+- d7740ff: feat: update chart metrics to include types and instantiations
+- 983549d: feat: add total metrics display for all packages in chart area
+
 ## 0.0.14
 
 ### Patch Changes

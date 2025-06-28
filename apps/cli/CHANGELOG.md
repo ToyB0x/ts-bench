@@ -1,5 +1,12 @@
 # @ts-bench/cli
 
+## 0.0.29
+
+### Patch Changes
+
+- ace3748: feat: add total metrics
+- 983549d: feat: add total metrics display for all packages in chart area
+
 ## 0.0.28
 
 ### Patch Changes
