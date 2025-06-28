@@ -316,7 +316,7 @@ ${summaryContent.title}
 ${
   aiResponseStructured
     ? `
-- ${aiResponseStructured.impact}
+${aiResponseStructured.impact}
 
 <details><summary>原因と提案</summary>
 
@@ -330,7 +330,7 @@ ${
     : summaryContent.text
 }
 
-<details><summary>Change Details</summary>
+<details><summary>Details</summary>
 
 ${contentTablePlus.text ? contentTablePlus.title : ""}
 ${contentTablePlus.text || ""}
@@ -342,11 +342,7 @@ ${contentTableCache.text ? contentTableCache.title : ""}
 ${contentTableCache.text || ""}
 </details>
 
-<p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
-
----
-
-<details><summary><strong>Open Details</strong></summary>
+<details><summary><strong>Full Details</strong></summary>
 
 - TSC Benchmark version: ${version}
 - CPU: ${cpuModelAndSpeeds.join(", ")} (${maxConcurrency} / ${totalCPUs})
@@ -370,6 +366,9 @@ ${prevScan ? printSimpleTable(prevScan.results).trim() : "N/A"}
 </details>
 
 </details>
+
+<p align="right">Compared to ${prevScan ? prevScan.commitHash : "N/A"}</p>
+
 `;
 
   // write to ts-bench-report.md file
