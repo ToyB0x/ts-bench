@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.30
+
+### Patch Changes
+
+- f77c616: chore: enhance impact description examples in report generation
+
 ## 0.0.29
 
 ### Patch Changes
