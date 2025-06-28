@@ -242,8 +242,9 @@ export const generateReportMarkdown = async (
             impact: { type: "string", description: "影響を1行以内に記載" },
             reason: {
               type: "string",
-              description:
-                "影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(このPRがマージされた場合に何が起こるかを通知する。ビルドかIDE(型推論やインテリセンス)に影響がある場合はそのどちらが対象かを記載)",
+              description: `影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載)
+xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる程度)程度遅くなります
+`,
             },
             suggestion: {
               type: "string",
@@ -315,9 +316,12 @@ ${summaryContent.title}
 ${
   aiResponseStructured
     ? `
-<details><summary>${aiResponseStructured.impact}</summary>
-- Reason: ${aiResponseStructured.reason}
-- Suggestion: ${aiResponseStructured.suggestion}
+- 影響: ${aiResponseStructured.impact}
+
+<details><summary>原因と提案</summary>
+
+- 原因: ${aiResponseStructured.reason}
+- 提案: ${aiResponseStructured.suggestion}
 </details>
 
 `
