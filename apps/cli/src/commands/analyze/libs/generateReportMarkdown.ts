@@ -243,7 +243,7 @@ export const generateReportMarkdown = async (
             reason: {
               type: "string",
               description: `影響(必ず1行以内に収めて記載): 変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載)
-xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる)遅くなります
+xxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります
 `,
             },
             suggestion: {
