@@ -203,6 +203,13 @@ export const generateReportMarkdown = async (
     text: tables.plus.length ? tablemark(tables.plus, tablemarkOptions) : null,
   };
 
+  const contentTableCache: ReportContent = {
+    title: "#### :package: Cache size changes",
+    text: tables.cacheChanges.length
+      ? tablemark(tables.cacheChanges, tablemarkOptions)
+      : null,
+  };
+
   let aiResponse = null;
   // 静的解析で影響がない場合はAI利用を省略し高速化 / コスト削減
   if (enableAiReport && summaryContent.text !== NO_CHANGE_SUMMARY_TEXT) {
@@ -258,6 +265,9 @@ ${contentTablePlus.text || ""}
 
 ${contentTableMinus.text ? contentTableMinus.title : ""}
 ${contentTableMinus.text || ""}
+
+${contentTableCache.text ? contentTableCache.title : ""}
+${contentTableCache.text || ""}
 
 # Git diff:
 ${diff}`,
