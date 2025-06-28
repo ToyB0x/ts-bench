@@ -210,7 +210,13 @@ export const generateReportMarkdown = async (
       : null,
   };
 
-  let aiResponse = null;
+  let aiResponseStructured:
+    | {
+        impact: string;
+        reason: string;
+        suggestion: string;
+      }
+    | undefined;
   // 静的解析で影響がない場合はAI利用を省略し高速化 / コスト削減
   if (enableAiReport && summaryContent.text !== NO_CHANGE_SUMMARY_TEXT) {
     const GEMINI_API_KEY = process.env["GEMINI_API_KEY"];
@@ -223,8 +229,23 @@ export const generateReportMarkdown = async (
 
     const diff = await simpleGit().diff();
 
-    aiResponse = await ai.models.generateContent({
+    const aiResponse = await ai.models.generateContent({
       model: "gemini-2.5-flash",
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          // - 影響: impact
+          // - 原因: reason
+          // - 提案: suggestion
+          type: "object",
+          properties: {
+            impact: { type: "string" },
+            reason: { type: "string" },
+            suggestion: { type: "string" },
+          },
+          required: ["impact", "reason", "suggestion"],
+        },
+      },
       contents: `
 # What users want:
 1. ユーザはTSCコマンドやIDEの型推論、インテリセンスが遅くなるのを防止したい(機能追加やリファクタ内容に見合った性能劣化は許容するが、無駄に遅くなるのは避けたい)
@@ -271,11 +292,27 @@ ${contentTableCache.text || ""}
 # Git diff:
 ${diff}`,
     });
+
+    if (aiResponse?.text) {
+      try {
+        aiResponseStructured = JSON.parse(aiResponse.text);
+      } catch (error) {
+        console.error("Failed to parse AI response:", error);
+      }
+    }
   }
 
   const mdContent = `
 ${summaryContent.title}
-${aiResponse ? aiResponse.text : summaryContent.text}
+${
+  aiResponseStructured
+    ? `
+- Impact: ${aiResponseStructured.impact}
+- Reason: ${aiResponseStructured.reason}
+- Suggestion: ${aiResponseStructured.suggestion}
+`
+    : summaryContent.text
+}
 
 ${contentTablePlus.text ? contentTablePlus.title : ""}
 ${contentTablePlus.text || ""}
