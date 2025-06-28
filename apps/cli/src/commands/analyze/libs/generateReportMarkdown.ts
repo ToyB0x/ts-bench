@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { GoogleGenAI } from "@google/genai";
-import { db, eq, scanTbl } from "@ts-bench/db";
+import { db, eq, type resultTbl, scanTbl } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
 import type { TablemarkOptions } from "tablemark";
 import tablemark from "tablemark";
@@ -43,36 +43,110 @@ export const generateReportMarkdown = async (
         ? b.traceNumType - a.traceNumType
         : b.package.localeCompare(a.package),
     )
-    .map((r) =>
-      r.isSuccess
-        ? {
-            package: r.package,
-            types: `${r.types}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.types || 0, r.types || 0)}`,
-            instantiations: `${r.instantiations}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.instantiations || 0, r.instantiations || 0)}`,
-            // traceTypes: `${r.traceNumType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceNumType || 0, r.traceNumType || 0)}`,
-            traceTypesSize: `${r.traceFileSizeType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceFileSizeType || 0, r.traceFileSizeType || 0)}`,
-            totalTime: `${r.totalTime}s${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)}`,
-            memoryUsed: `${r.memoryUsed}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)}`,
-            // analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)}`,
-            assignabilityCacheSize: `${r.assignabilityCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.assignabilityCacheSize || 0, r.assignabilityCacheSize || 0)}`,
-            identityCacheSize: `${r.identityCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.identityCacheSize || 0, r.identityCacheSize || 0)}`,
-            subtypeCacheSize: `${r.subtypeCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.subtypeCacheSize || 0, r.subtypeCacheSize || 0)}`,
-            strictSubtypeCacheSize: `${r.strictSubtypeCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.strictSubtypeCacheSize || 0, r.strictSubtypeCacheSize || 0)}`,
-          }
-        : {
-            package: r.package,
-            types: "Error",
-            instantiations: "",
-            // traceTypes: "Error",
-            traceTypesSize: "",
-            totalTime: "",
-            memoryUsed: "",
-            // analyzeHotSpotMs: "",
-            assignabilityCacheSize: "",
-            identityCacheSize: "",
-            subtypeCacheSize: "",
-            strictSubtypeCacheSize: "",
-          },
+    .map(
+      (r) =>
+        r.isSuccess
+          ? {
+              package: r.package,
+              types: `${r.types}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.types || 0, r.types || 0)}`,
+              instantiations: `${r.instantiations}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.instantiations || 0, r.instantiations || 0)}`,
+              // traceTypes: `${r.traceNumType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceNumType || 0, r.traceNumType || 0)}`,
+              traceTypesSize: `${r.traceFileSizeType}${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.traceFileSizeType || 0, r.traceFileSizeType || 0)}`,
+              totalTime: `${r.totalTime}s${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.totalTime || 0, r.totalTime || 0)}`,
+              memoryUsed: `${r.memoryUsed}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.memoryUsed || 0, r.memoryUsed || 0)}`,
+              // analyzeHotSpotMs: `${r.analyzeHotSpotMs}ms${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.analyzeHotSpotMs || 0, r.analyzeHotSpotMs || 0)}`,
+              assignabilityCacheSize: `${r.assignabilityCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.assignabilityCacheSize || 0, r.assignabilityCacheSize || 0)}`,
+              identityCacheSize: `${r.identityCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.identityCacheSize || 0, r.identityCacheSize || 0)}`,
+              subtypeCacheSize: `${r.subtypeCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.subtypeCacheSize || 0, r.subtypeCacheSize || 0)}`,
+              strictSubtypeCacheSize: `${r.strictSubtypeCacheSize}K${calcDiff(!prevScan ? 0 : prevScan.results.find((prev) => prev.package === r.package)?.strictSubtypeCacheSize || 0, r.strictSubtypeCacheSize || 0)}`,
+            }
+          : {
+              package: r.package,
+              types: "Error",
+              instantiations: "",
+              // traceTypes: "Error",
+              traceTypesSize: "",
+              totalTime: "",
+              memoryUsed: "",
+              // analyzeHotSpotMs: "",
+              assignabilityCacheSize: "",
+              identityCacheSize: "",
+              subtypeCacheSize: "",
+              strictSubtypeCacheSize: "",
+            },
+      {
+        package: "⭐️ ALL packages",
+        types:
+          calculateTotal(currentScan.results, "types") +
+          `${calcDiff(
+            !prevScan ? 0 : calculateTotal(prevScan.results, "types"),
+            calculateTotal(currentScan.results, "types"),
+          )}`,
+        instantiations:
+          calculateTotal(currentScan.results, "instantiations") +
+          `${calcDiff(
+            !prevScan ? 0 : calculateTotal(prevScan.results, "instantiations"),
+            calculateTotal(currentScan.results, "instantiations"),
+          )}`,
+        traceTypesSize:
+          calculateTotal(currentScan.results, "traceNumType") +
+          `${calcDiff(
+            !prevScan ? 0 : calculateTotal(prevScan.results, "traceNumType"),
+            calculateTotal(currentScan.results, "traceNumType"),
+          )}`,
+        totalTime:
+          calculateTotal(currentScan.results, "totalTime") +
+          `${calcDiff(
+            !prevScan ? 0 : calculateTotal(prevScan.results, "totalTime"),
+            calculateTotal(currentScan.results, "totalTime"),
+          )}`,
+        memoryUsed:
+          calculateTotal(currentScan.results, "memoryUsed") +
+          `${calcDiff(
+            !prevScan ? 0 : calculateTotal(prevScan.results, "memoryUsed"),
+            calculateTotal(currentScan.results, "memoryUsed"),
+          )}`,
+        analyzeHotSpotMs:
+          calculateTotal(currentScan.results, "analyzeHotSpotMs") +
+          `${calcDiff(
+            !prevScan
+              ? 0
+              : calculateTotal(prevScan.results, "analyzeHotSpotMs"),
+            calculateTotal(currentScan.results, "analyzeHotSpotMs"),
+          )}`,
+        assignabilityCacheSize:
+          calculateTotal(currentScan.results, "assignabilityCacheSize") +
+          `${calcDiff(
+            !prevScan
+              ? 0
+              : calculateTotal(prevScan.results, "assignabilityCacheSize"),
+            calculateTotal(currentScan.results, "assignabilityCacheSize"),
+          )}`,
+        identityCacheSize:
+          calculateTotal(currentScan.results, "identityCacheSize") +
+          `${calcDiff(
+            !prevScan
+              ? 0
+              : calculateTotal(prevScan.results, "identityCacheSize"),
+            calculateTotal(currentScan.results, "identityCacheSize"),
+          )}`,
+        subtypeCacheSize:
+          calculateTotal(currentScan.results, "subtypeCacheSize") +
+          `${calcDiff(
+            !prevScan
+              ? 0
+              : calculateTotal(prevScan.results, "subtypeCacheSize"),
+            calculateTotal(currentScan.results, "subtypeCacheSize"),
+          )}`,
+        strictSubtypeCacheSize:
+          calculateTotal(currentScan.results, "strictSubtypeCacheSize") +
+          `${calcDiff(
+            !prevScan
+              ? 0
+              : calculateTotal(prevScan.results, "strictSubtypeCacheSize"),
+            calculateTotal(currentScan.results, "strictSubtypeCacheSize"),
+          )}`,
+      },
     );
 
   const tables = {
@@ -426,3 +500,16 @@ const updateDatabaseWithAIComments = async (
     })
     .where(eq(scanTbl.id, scanId));
 };
+
+// 指定されたフィールドの合計値を計算する共通関数
+const calculateTotal = (
+  results: (typeof resultTbl.$inferSelect)[],
+  field: keyof typeof resultTbl.$inferSelect,
+): number => {
+  return results.reduce(
+    (total, current) => total + ((current[field] as number) || 0),
+    0,
+  );
+};
+
+// TODO: diff だけではなく、元の数値も出すと便利かも(パーセンテージではなく、絶対値も表示することを検討)
