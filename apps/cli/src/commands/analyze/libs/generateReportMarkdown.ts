@@ -164,9 +164,7 @@ export const generateReportMarkdown = async (
 
   const NO_CHANGE_SUMMARY_TEXT = "- This PR has no significant changes";
   const hasAnyImportantBuildChanges =
-    tables.minus.length > 0 ||
-    tables.plus.length > 0 ||
-    tables.error.length > 0;
+    tables.minus.length > 0 || tables.plus.length > 0;
   const hasAnyImportantCacheChanges = tables.cacheChanges.length > 0;
 
   let summaryText = "";
@@ -352,6 +350,8 @@ ${contentTableMinus.text || ""}
 
 ${contentTableCache.text ? contentTableCache.title : ""}
 ${contentTableCache.text || ""}
+
+${!(contentTablePlus.text || contentTableMinus.text || contentTableCache.text) ? NO_CHANGE_SUMMARY_TEXT : ""}
 </details>
 
 <details><summary>Full Details</summary>
