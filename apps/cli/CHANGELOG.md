@@ -1,5 +1,13 @@
 # @ts-bench/cli
 
+## 0.0.32
+
+### Patch Changes
+
+- 57cec9b: feat: update CLI package.json and add tsup configuration for building distribution
+- Updated dependencies [57cec9b]
+  - @ts-bench/db@0.0.14
+
 ## 0.0.31
 
 ### Patch Changes
