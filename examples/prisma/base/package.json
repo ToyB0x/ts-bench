@@ -3,7 +3,7 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "generate": "npx prisma generate",
+    "db:generate": "npx prisma generate",
     "typecheck": "tsc --noEmit --diagnostics"
   },
   "dependencies": {
