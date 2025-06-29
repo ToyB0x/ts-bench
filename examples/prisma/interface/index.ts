@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@ts-bench/prisma-base";
 
 // Interface technique: minimal PrismaClient interface
 interface IPrismaTreeClient {

@@ -1,11 +1,14 @@
 {
-  "name": "@ts-bench/prisma-heavy",
+  "name": "@ts-bench/prisma-base",
   "type": "module",
+  "main": "index.ts",
   "scripts": {
+    "generate": "npx prisma generate",
     "typecheck": "tsc --noEmit --diagnostics"
   },
   "dependencies": {
-    "@ts-bench/prisma-base": "workspace:*"
+    "@prisma/client": "6.10.1",
+    "prisma": "6.10.1"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",

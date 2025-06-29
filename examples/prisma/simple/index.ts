@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@ts-bench/prisma-base";
 
 const client = new PrismaClient({ datasourceUrl: "file:./sample.db" });
 const result = await client.tree1.findMany();
