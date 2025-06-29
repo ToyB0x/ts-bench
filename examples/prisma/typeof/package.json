@@ -2,12 +2,10 @@
   "name": "@ts-bench/prisma-typeof",
   "type": "module",
   "scripts": {
-    "generate": "npx prisma generate",
     "typecheck": "tsc --noEmit --diagnostics"
   },
   "dependencies": {
-    "@prisma/client": "6.10.1",
-    "prisma": "6.10.1"
+    "@ts-bench/prisma-base": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",

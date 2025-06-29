@@ -162,7 +162,7 @@ importers:
         specifier: 14.1.1
         version: 14.1.1
 
-  examples/prisma/heavy:
+  examples/prisma/base:
     dependencies:
       '@prisma/client':
         specifier: 6.10.1
@@ -170,6 +170,22 @@ importers:
       prisma:
         specifier: 6.10.1
         version: 6.10.1(typescript@5.8.3)
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.7
+        version: 24.0.7
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
+  examples/prisma/heavy:
+    dependencies:
+      '@ts-bench/prisma-base':
+        specifier: workspace:*
+        version: link:../base
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -183,12 +199,9 @@ importers:
 
   examples/prisma/interface:
     dependencies:
-      '@prisma/client':
-        specifier: 6.10.1
-        version: 6.10.1(prisma@6.10.1(typescript@5.8.3))(typescript@5.8.3)
-      prisma:
-        specifier: 6.10.1
-        version: 6.10.1(typescript@5.8.3)
+      '@ts-bench/prisma-base':
+        specifier: workspace:*
+        version: link:../base
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -202,12 +215,9 @@ importers:
 
   examples/prisma/simple:
     dependencies:
-      '@prisma/client':
-        specifier: 6.10.1
-        version: 6.10.1(prisma@6.10.1(typescript@5.8.3))(typescript@5.8.3)
-      prisma:
-        specifier: 6.10.1
-        version: 6.10.1(typescript@5.8.3)
+      '@ts-bench/prisma-base':
+        specifier: workspace:*
+        version: link:../base
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -221,12 +231,9 @@ importers:
 
   examples/prisma/typeof:
     dependencies:
-      '@prisma/client':
-        specifier: 6.10.1
-        version: 6.10.1(prisma@6.10.1(typescript@5.8.3))(typescript@5.8.3)
-      prisma:
-        specifier: 6.10.1
-        version: 6.10.1(typescript@5.8.3)
+      '@ts-bench/prisma-base':
+        specifier: workspace:*
+        version: link:../base
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5

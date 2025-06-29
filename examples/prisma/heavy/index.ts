@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@ts-bench/prisma-base";
 
 const extendPrisma = (PrismaClient: PrismaClient) => {
   console.log("Extend PrismaClient with some logger and other features...");
