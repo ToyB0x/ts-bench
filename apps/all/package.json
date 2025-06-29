@@ -1,9 +1,10 @@
 {
   "name": "ts-bench",
-  "private": true,
+  "version": "0.0.1-alpha.0",
   "description": "package for @ts-bench/cli handy commands, almost alias of @ts-bench/cli. (for matching command name and package name)",
   "type": "module",
   "bin": {
+    "tsb": "./index.ts",
     "ts-bench": "./index.ts"
   },
   "dependencies": {
