@@ -1,6 +1,14 @@
 # TS Bench
 A tool to monitor various metrics of your repository
 
+# Overview
+
+<div align="center">
+  <img src="docs/images/web-top.png" alt="web-top.png" />
+  <img src="docs/images/graph.png" alt="graph.png" />
+  <img src="docs/images/pr-comment.png" alt="pr-comment.png" />
+</div>
+
 # Motivation
 - Feature to measure IDE comfort and type inference load using TSC command (There is a strong correlation between the TSC command and IDE IntelliSense functionality)
 
