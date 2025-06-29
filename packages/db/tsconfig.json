@@ -5,6 +5,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ES2022",
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "erasableSyntaxOnly": true // CLIのNPM配布の都合上、dbパッケージはビルドを省略してダイレクトにTSを実行したいためerasableSyntaxOnlyを有効にする
   }
 }
