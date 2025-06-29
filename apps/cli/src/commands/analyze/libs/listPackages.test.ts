@@ -20,6 +20,31 @@ describe("listPackages", () => {
         relativePathFromRoot: "packages/db",
       },
       {
+        absolutePath: `${rootDir}/examples/prisma/base`,
+        name: "@ts-bench/prisma-base",
+        relativePathFromRoot: "examples/prisma/base",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/heavy`,
+        name: "@ts-bench/prisma-heavy",
+        relativePathFromRoot: "examples/prisma/heavy",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/interface`,
+        name: "@ts-bench/prisma-interface",
+        relativePathFromRoot: "examples/prisma/interface",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/simple`,
+        name: "@ts-bench/prisma-simple",
+        relativePathFromRoot: "examples/prisma/simple",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/typeof`,
+        name: "@ts-bench/prisma-typeof",
+        relativePathFromRoot: "examples/prisma/typeof",
+      },
+      {
         absolutePath: `${rootDir}/apps/web`,
         name: "@ts-bench/web",
         relativePathFromRoot: "apps/web",
