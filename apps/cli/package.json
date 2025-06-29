@@ -2,7 +2,7 @@
   "name": "@ts-bench/cli",
   "version": "0.0.31",
   "type": "module",
-  "TODO:": "remove bin.cli field to avoid conflict with another npm package (currently @ts-bench/cli run below cli command)",
+  "//TODO:": "remove bin.cli field to avoid conflict with another npm package (currently @ts-bench/cli run below cli command)",
   "bin": {
     "cli": "./dist/index.js",
     "tsb": "./dist/index.js",
