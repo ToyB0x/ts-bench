@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.31
+
+### Patch Changes
+
+- d223c22: feat: update cli entrypoint
+
 ## 0.0.30
 
 ### Patch Changes
