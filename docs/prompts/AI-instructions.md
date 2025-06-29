@@ -139,6 +139,7 @@ npm run lint   # コード品質確認
 git checkout tsconfig.json  # 設定のみロールバック
 # または
 git reset --hard HEAD~1     # 完全ロールバック
+# 注意: `git reset --hard`を使用すると、未コミットの変更がすべて失われます。このコマンドを実行する前に、重要な変更がないことを確認してください。
 ```
 
 ## AIエージェント必須実行ルール
