@@ -1,6 +1,7 @@
 {
   "name": "ts-bench",
-  "version": "0.0.1-alpha.0",
+  "private": true,
+  "NOTE": "NPM said 'Package name too similar to existing packages' on publish, so this package is not published to NPM.",
   "description": "package for @ts-bench/cli handy commands, almost alias of @ts-bench/cli. (for matching command name and package name)",
   "type": "module",
   "bin": {

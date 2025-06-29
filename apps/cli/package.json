@@ -3,7 +3,11 @@
   "version": "0.0.30",
   "type": "module",
   "main": "./src/index.ts",
-  "bin": "./src/index.ts",
+  "bin": {
+    "cli": "./src/index.ts",
+    "tsb": "./src/index.ts",
+    "ts-bench": "./src/index.ts"
+  },
   "scripts": {
     "NOTE: dbパッケージをビルドしていないことと関係してviteかtsx経由で実行しないとimportエラー等が発生するため dev/build コマンドはコメントアウト": "",
     "//dev": "tsup --watch",
