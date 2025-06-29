@@ -1,5 +1,4 @@
 ---
-"ts-bench": patch
 "@ts-bench/cli": patch
 ---
 
