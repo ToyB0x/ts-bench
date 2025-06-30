@@ -5,10 +5,14 @@
   "exports": {
     ".": {
       "types": "./src/client.ts",
-      "default": "./src/client.ts"
+      "default": "./dist/client.js"
     }
   },
+  "main": "dist/client.js",
+  "files": ["dist"],
   "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/seed.ts",
@@ -24,6 +28,7 @@
     "@types/node": "24.0.7",
     "drizzle-kit": "0.31.4",
     "tsx": "4.20.3",
+    "tsup": "8.5.0",
     "typescript": "5.8.3"
   },
   "author": "ToyB0x",
@@ -31,12 +36,5 @@
   "homepage": "https://github.com/ToyB0x/ts-bench",
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
-  },
-  "NOTE: 利用側はtsxやvite経由で本パッケージを.tsファイルのまま利用することを想定しているため、distフォルダは生成しない": "",
-  "files": [
-    "src/",
-    "drizzle/",
-    "drizzle.config.ts",
-    "tsconfig.json"
-  ]
+  }
 }
