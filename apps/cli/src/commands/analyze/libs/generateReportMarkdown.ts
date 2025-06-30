@@ -399,7 +399,7 @@ ${contentTableCache.text ? contentTableCache.title : ""}
 ${contentTableCache.text || ""}
 
 # Git diff:
-${diff}`,
+${diff.length < 1048576 / 2 ? diff : `${diff.slice(0, 1048576 / 2)} ..truncated due to text length limit}`}`, // avoid google gen-ai limit "message":"The input token count (xxx) exceeds the maximum number of tokens allowed (1048576).
     });
 
     if (aiResponse?.text) {
