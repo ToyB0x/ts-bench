@@ -328,11 +328,11 @@ export const generateReportMarkdown = async (
             impact: {
               type: "string",
               description: `影響: types、instantiationsまたはキャッシュ関連の指標から推測される、分析対象のコード変更がリポジトリに与える影響(以下のフォーマットで簡潔に記載し、インパクトの程度に応じて危険性を表す絵文字を付与)
-eg1. 型の数が増えたためxxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります (emoji)
-(変動がある場合は改行して、影響具合を "X.Y%程度"という簡潔な記載のかっこ書きで追加)
+eg1. 型の数が増えたためxxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります (emoji)[改行\n]
+(変動がある場合は影響具合を "X.Y%程度"という簡潔な記載のかっこ書きで追加)
 
-eg2. 型計算量が増えたためxxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります (emoji)
-(変動がある場合は改行して、影響具合を "X.Y%程度"という簡潔な記載のかっこ書きで追加)
+eg2. 型計算量が増えたためxxx個のパッケージの(ビルド|IDE|ビルドとIDE)がyyy(かなり|少し|無視できる範囲で)遅くなります (emoji)[改行\n]
+(変動がある場合は影響具合を "X.Y%程度"という簡潔な記載のかっこ書きで追加)
 
 eg3. 特筆すべき変化はありません (測定誤差程度の変動のみ)
 `,
@@ -457,13 +457,13 @@ ${contentTableCache.text || ""}
 - Diff: 
     - TotalTime: ${diffSummary.totalTimes}
     - Analyzed Packages: +${diffSummary.diffPackageNames.added.length} -${diffSummary.diffPackageNames.deleted.length}  
-      ${diffSummary.diffPackageNames.added.length ? "added: " + diffSummary.diffPackageNames.added.join(", ") : ""} ${diffSummary.diffPackageNames.deleted.length ? "deleted: " + diffSummary.diffPackageNames.deleted.join(", ") : ""}
+      ${diffSummary.diffPackageNames.added.length ? `added: ${diffSummary.diffPackageNames.added.join(", ")}` : ""} ${diffSummary.diffPackageNames.deleted.length ? `deleted: ${diffSummary.diffPackageNames.deleted.join(", ")}` : ""}
 
 <!-- TODO: 絶対値(リアル秒)表示追加を検討 -->
 <!-- TODO: マシンに影響されたないtypesの合計変動表示追加を検討 -->
-${tables.noChange.length ? "<details><summary>Open: No change pakcages</summary>\n\n" + tablemark(tables.noChange, tablemarkOptions) + "</details>" : ""}
+${tables.noChange.length ? `<details><summary>Open: No change pakcages</summary>\n\n${tablemark(tables.noChange, tablemarkOptions)}</details>` : ""}
 
-${tables.error.length ? "<details><summary>Open: Error packages</summary>\n\n" + tablemark(tables.error, tablemarkOptions) + "</details>" : ""}
+${tables.error.length ? `<details><summary>Open: Error packages</summary>\n\n${tablemark(tables.error, tablemarkOptions)}</details>` : ""}
 
 <details><summary>Open Full Analysis</summary>
 <pre>
