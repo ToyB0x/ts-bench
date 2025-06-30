@@ -9,8 +9,10 @@
     }
   },
   "main": "dist/client.js",
+  "//NOTE": "drizzle dir is need to distirbute for user side migration(it's contains sql migration files)",
   "files": [
-    "dist"
+    "dist",
+    "drizzle"
   ],
   "scripts": {
     "dev": "tsup --watch",
