@@ -1,0 +1,337 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./sample.db"
+}
+
+model Tree1 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childId   Int
+  Tree2     Tree2[]
+}
+
+model Tree2 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree1    @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree3     Tree3?   @relation(fields: [tree3Id], references: [id])
+  tree3Id   Int?
+}
+
+model Tree3 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree4    @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree2     Tree2[]
+}
+
+model Tree4 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree5    @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree3     Tree3[]
+}
+
+model Tree5 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree6    @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree4     Tree4[]
+}
+
+model Tree6 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree7    @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree5     Tree5[]
+}
+
+model Tree7 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree8    @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree6     Tree6[]
+}
+
+model Tree8 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree9    @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree7     Tree7[]
+}
+
+model Tree9 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree10   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree8     Tree8[]
+}
+
+model Tree10 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree11   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree9     Tree9[]
+}
+
+model Tree11 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree12   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree10    Tree10[]
+}
+
+model Tree12 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree13   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree11    Tree11[]
+}
+
+model Tree13 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree14   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree12    Tree12[]
+}
+
+model Tree14 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree15   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree13    Tree13[]
+}
+
+model Tree15 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree16   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree14    Tree14[]
+}
+
+model Tree16 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree17   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree15    Tree15[]
+}
+
+model Tree17 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree18   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree16    Tree16[]
+}
+
+model Tree18 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree19   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree17    Tree17[]
+}
+
+model Tree19 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree20   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree18    Tree18[]
+}
+
+model Tree20 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree21   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree19    Tree19[]
+}
+
+model Tree21 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree22   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree20    Tree20[]
+}
+
+model Tree22 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree23   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree21    Tree21[]
+}
+
+model Tree23 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree24   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree22    Tree22[]
+}
+
+model Tree24 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree25   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree23    Tree23[]
+}
+
+model Tree25 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree26   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree24    Tree24[]
+}
+
+model Tree26 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree27   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree25    Tree25[]
+}
+
+model Tree27 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree28   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree26    Tree26[]
+}
+
+model Tree28 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree29   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree27    Tree27[]
+}
+
+model Tree29 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childTree Tree30   @relation(fields: [childId], references: [id])
+  childId   Int
+  Tree28    Tree28[]
+}
+
+model Tree30 {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  childId   Int
+  Tree29    Tree29[]
+}
