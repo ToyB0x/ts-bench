@@ -2,6 +2,7 @@
   "name": "@ts-bench/cli",
   "version": "0.0.32",
   "type": "module",
+  "files": ["dist"],
   "//TODO:": "remove bin.cli field to avoid conflict with another npm package (currently @ts-bench/cli run below cli command)",
   "bin": {
     "cli": "./dist/index.js",
@@ -9,10 +10,9 @@
     "ts-bench": "./dist/index.js"
   },
   "scripts": {
-    "NOTE: dbパッケージをビルドしていないことと関係してtsx経由で実行しないとimportエラー等が発生するため dev コマンドはコメントアウト/buildはdbパッケージをビルドせず配布して様子見運用中": "",
-    "//dev": "tsup --watch",
+    "dev": "tsup --watch",
     "build": "tsup",
-    "//analyze": "node . analyze",
+    "analyze": "node ./dist/index.js analyze",
     "test": "vitest",
     "execute": "tsx ./src/index.ts",
     "typecheck": "tsc --noEmit"
@@ -42,8 +42,5 @@
   "homepage": "https://github.com/ToyB0x/ts-bench",
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
-  },
-  "files": [
-    "dist"
-  ]
+  }
 }
