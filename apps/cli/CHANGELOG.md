@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.35
+
+### Patch Changes
+
+- 256c0ed: fix: truncate git diff output to avoid exceeding token limit
+
 ## 0.0.34
 
 ### Patch Changes
