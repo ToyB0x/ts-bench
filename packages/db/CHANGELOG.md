@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.16
+
+### Patch Changes
+
+- 542ddbc: fix: include drizzle directory in package distribution for user-side …
+
 ## 0.0.15
 
 ### Patch Changes
