@@ -12,9 +12,9 @@
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
+    "execute": "node ./dist/index.js",
     "analyze": "node ./dist/index.js analyze",
     "test": "vitest",
-    "execute": "tsx ./src/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -22,20 +22,18 @@
     "@google/genai": "1.7.0",
     "@supercharge/promise-pool": "3.2.0",
     "@ts-bench/db": "workspace:*",
-    "@tsconfig/strictest": "2.0.5",
-    "@types/node": "24.0.7",
     "@typescript/analyze-trace": "0.10.1",
     "commander": "14.0.0",
     "simple-git": "3.28.0",
     "tablemark": "3.1.0",
-    "tsx": "4.20.3",
-    "tsup": "8.5.0",
-    "typescript": "5.8.3",
     "valibot": "1.1.0"
   },
-  "NOTE: 本パッケージはNPX経由で利用するユーザ向けにtsxの実行環境ごと提供しているので、ほぼ全ての依存パッケージはdependencies側に記載する必要がある(開発当初のDB関連の依存解決トラブルを回避するための方針)": "",
   "devDependencies": {
-    "vitest": "3.2.4"
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "24.0.7",
+    "vitest": "3.2.4",
+    "tsup": "8.5.0",
+    "typescript": "5.8.3"
   },
   "author": "ToyB0x",
   "license": "MIT",
