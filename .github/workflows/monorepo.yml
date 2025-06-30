@@ -131,6 +131,11 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
+      - name: Build check
+        run: pnpm build
+        env:
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
+
       - name: Generate Remix Types via Type check (run typegen command)
         run: pnpm typecheck
 
