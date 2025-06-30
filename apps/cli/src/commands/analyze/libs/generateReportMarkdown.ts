@@ -404,7 +404,7 @@ ${contentTableCache.text ? contentTableCache.title : ""}
 ${contentTableCache.text || ""}
 
 # Git diff:
-${diff.length < APPROXIMATE_HALF_CHAR_LIMIT ? diff : `${diff.slice(0, APPROXIMATE_HALF_CHAR_LIMIT)} ..truncated due to text length limit}`}`,
+${diff.length < APPROXIMATE_HALF_CHAR_LIMIT ? diff : `${diff.slice(0, APPROXIMATE_HALF_CHAR_LIMIT)} ..truncated due to exceeding the character limit of ${APPROXIMATE_HALF_CHAR_LIMIT}. Please check the full log for details.`}`,
     });
 
     if (aiResponse?.text) {
