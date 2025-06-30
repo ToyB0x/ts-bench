@@ -1,5 +1,12 @@
 # @ts-bench/web
 
+## 0.0.17
+
+### Patch Changes
+
+- Updated dependencies [f03b080]
+  - @ts-bench/db@0.0.15
+
 ## 0.0.16
 
 ### Patch Changes

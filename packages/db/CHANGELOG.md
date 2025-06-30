@@ -1,5 +1,11 @@
 # @ts-bench/db
 
+## 0.0.15
+
+### Patch Changes
+
+- f03b080: chore: update build configs
+
 ## 0.0.14
 
 ### Patch Changes

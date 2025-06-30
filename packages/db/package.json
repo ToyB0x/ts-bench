@@ -1,6 +1,6 @@
 {
   "name": "@ts-bench/db",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "type": "module",
   "exports": {
     ".": {
@@ -9,7 +9,9 @@
     }
   },
   "main": "dist/client.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",

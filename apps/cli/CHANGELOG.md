@@ -1,5 +1,13 @@
 # @ts-bench/cli
 
+## 0.0.33
+
+### Patch Changes
+
+- f03b080: chore: update build configs
+- Updated dependencies [f03b080]
+  - @ts-bench/db@0.0.15
+
 ## 0.0.32
 
 ### Patch Changes
