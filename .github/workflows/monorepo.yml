@@ -138,6 +138,8 @@ jobs:
 
       - name: Generate Remix Types via Type check (run typegen command)
         run: pnpm typecheck
+        env:
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Download previous main branch report
         uses: dawidd6/action-download-artifact@v11
