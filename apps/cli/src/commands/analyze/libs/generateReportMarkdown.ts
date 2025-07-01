@@ -17,12 +17,17 @@ type ReportContent = {
 //   contents: ReportContent[];
 // };
 
+const REPORT_LANGUAGE_CODE_MAP = {
+  en: "english",
+  ja: "japanese",
+} as const;
+
 export const generateReportMarkdown = async (
   cpuModelAndSpeeds: string[],
   maxConcurrency: number,
   totalCPUs: number,
-  // TODO: pass option with CLI (currently always true)
   enableAiReport = true,
+  reportLanguageCode: keyof typeof REPORT_LANGUAGE_CODE_MAP = "en",
 ) => {
   const recentScans = await db.query.scanTbl.findMany({
     limit: 2,
@@ -358,6 +363,9 @@ xxxのファイルに対するyyyの変更により、zzzが変動した可能�
         },
       },
       contents: `
+# Response Language:
+- Responses must be written in ${REPORT_LANGUAGE_CODE_MAP[reportLanguageCode]}
+      
 # What users want:
 1. ユーザはTSCコマンドやIDEの型推論、インテリセンスが遅くなるのを防止したい(機能追加やリファクタ内容に見合った性能劣化は許容するが、無駄に遅くなるのは避けたい)
 2. ユーザはTSCコマンドやIDEの型推論、インテリセンスが遅くなる可能性がありそうな場合にその理由をしりたい
