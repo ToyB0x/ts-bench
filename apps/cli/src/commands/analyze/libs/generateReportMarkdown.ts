@@ -455,11 +455,11 @@ ${
     ? `
 ${aiResponseStructured.impact}
 
-<details><summary><strong>原因と提案</strong></summary>
+<details><summary><strong>${reportLanguageCode === "ja" ? "原因と提案" : "Reason and Suggestion"}</strong></summary>
 
-- **原因**:  
+- **${reportLanguageCode === "ja" ? "原因" : "Reason"}**:  
   ${aiResponseStructured.reason}
-- **提案**:  
+- **${reportLanguageCode === "ja" ? "案" : "Suggestion"}**:  
   ${aiResponseStructured.suggestion}
 </details>
 
