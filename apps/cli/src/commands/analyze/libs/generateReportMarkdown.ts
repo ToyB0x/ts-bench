@@ -18,23 +18,38 @@ type ReportContent = {
 // };
 
 // test utility
-const makeNestedCopy = <T>(base: unknown): { parent: T; child: T } => ({
-  parent: base as T,
-  child: base as T,
-});
-
-// 10 times loop to create a heavy type
-const nested1 = { a: 1, b: 2, c: 3 };
-const nested2 = makeNestedCopy<typeof nested1>(nested1);
-const nested3 = makeNestedCopy<typeof nested2>(nested2);
-const nested4 = makeNestedCopy<typeof nested3>(nested3);
-const nested5 = makeNestedCopy<typeof nested4>(nested4);
-const nested6 = makeNestedCopy<typeof nested5>(nested5);
-const nested7 = makeNestedCopy<typeof nested6>(nested6);
-const nested8 = makeNestedCopy<typeof nested7>(nested7);
-const nested9 = makeNestedCopy<typeof nested8>(nested8);
-const nested10 = makeNestedCopy<typeof nested9>(nested9);
-console.log(nested10);
+// const makeNestedCopy = <T>(base: unknown): { parent: T; child: T } => ({
+//   parent: base as T,
+//   child: base as T,
+// });
+//
+// // 10 times loop to create a heavy type
+// const nested1 = {
+//   a: 1,
+//   b: 2,
+//   c: 3,
+//   d: {
+//     e: 4,
+//     f: 5,
+//     g: 6,
+//     h: {
+//       i: 7,
+//       j: 8,
+//       k: 9,
+//       l: { m: 10, n: 11, o: 12, p: { q: 13, r: 14, s: 15 } },
+//     },
+//   },
+// };
+// const nested2 = makeNestedCopy<typeof nested1>(nested1);
+// const nested3 = makeNestedCopy<typeof nested2>(nested2);
+// const nested4 = makeNestedCopy<typeof nested3>(nested3);
+// const nested5 = makeNestedCopy<typeof nested4>(nested4);
+// const nested6 = makeNestedCopy<typeof nested5>(nested5);
+// const nested7 = makeNestedCopy<typeof nested6>(nested6);
+// const nested8 = makeNestedCopy<typeof nested7>(nested7);
+// const nested9 = makeNestedCopy<typeof nested8>(nested8);
+// const nested10 = makeNestedCopy<typeof nested9>(nested9);
+// console.log(nested10);
 
 const REPORT_LANGUAGE_CODE_MAP = {
   en: "english",
