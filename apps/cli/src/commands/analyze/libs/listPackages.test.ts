@@ -20,6 +20,41 @@ describe("listPackages", () => {
         relativePathFromRoot: "packages/db",
       },
       {
+        absolutePath: `${rootDir}/examples/prisma/base`,
+        name: "@ts-bench/prisma-base",
+        relativePathFromRoot: "examples/prisma/base",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/heavy`,
+        name: "@ts-bench/prisma-heavy",
+        relativePathFromRoot: "examples/prisma/heavy",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/heavySaveFn`,
+        name: "@ts-bench/prisma-heavy-save-fn",
+        relativePathFromRoot: "examples/prisma/heavySaveFn",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/interface`,
+        name: "@ts-bench/prisma-interface",
+        relativePathFromRoot: "examples/prisma/interface",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/simple`,
+        name: "@ts-bench/prisma-simple",
+        relativePathFromRoot: "examples/prisma/simple",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/typeof`,
+        name: "@ts-bench/prisma-typeof",
+        relativePathFromRoot: "examples/prisma/typeof",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/typeofSaveFn`,
+        name: "@ts-bench/prisma-typeof-save-fn",
+        relativePathFromRoot: "examples/prisma/typeofSaveFn",
+      },
+      {
         absolutePath: `${rootDir}/apps/web`,
         name: "@ts-bench/web",
         relativePathFromRoot: "apps/web",

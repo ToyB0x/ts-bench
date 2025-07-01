@@ -4,6 +4,7 @@
   "globalEnv": ["DB_FILE_NAME"], // Environment variables to be used globally
   "tasks": {
     "db:generate": {
+      "cache": false, // for prisma example test
       "dependsOn": ["^db:generate"],
       "inputs": ["packages/db/src/**"],
       "outputs": ["packages/db/drizzle/**"]
@@ -37,6 +38,7 @@
       "inputs": ["$TURBO_DEFAULT$"]
     },
     "typecheck": {
+      "dependsOn": ["db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".react-router/**"]
     },
