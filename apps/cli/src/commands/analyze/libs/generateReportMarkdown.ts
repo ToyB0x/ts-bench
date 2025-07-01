@@ -356,7 +356,9 @@ export const generateReportMarkdown = async (
       config: {
         responseMimeType: "application/json",
         systemInstruction: `You are a helpful AI assistant that analyzes TypeScript code changes and their impact on build and IDE performance. Your task is to provide a concise report on the impact of the changes based on the provided metrics and git diff.
-(Important!!!) You must use language ${REPORT_LANGUAGE_CODE_MAP[reportLanguageCode]} for your responses as user prefer language.`,
+Response Language:
+You must use language ${REPORT_LANGUAGE_CODE_MAP[reportLanguageCode]} for your responses as user prefer language.
+`,
         responseSchema: {
           // - 影響: impact
           // - 原因: reason
@@ -390,10 +392,7 @@ xxxのファイルに対するyyyの変更により、zzzが変動した可能�
           required: ["impact", "reason", "suggestion"],
         },
       },
-      contents: `
-# Response Language (Important!!!):
-- Responses must be written in ${REPORT_LANGUAGE_CODE_MAP[reportLanguageCode]}
-      
+      contents: `    
 # What users want:
 1. ユーザはTSCコマンドやIDEの型推論、インテリセンスが遅くなるのを防止したい(機能追加やリファクタ内容に見合った性能劣化は許容するが、無駄に遅くなるのは避けたい)
 2. ユーザはTSCコマンドやIDEの型推論、インテリセンスが遅くなる可能性がありそうな場合にその理由をしりたい
