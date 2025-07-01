@@ -30,6 +30,11 @@ describe("listPackages", () => {
         relativePathFromRoot: "examples/prisma/heavy",
       },
       {
+        absolutePath: `${rootDir}/examples/prisma/heavySaveFn`,
+        name: "@ts-bench/prisma-heavy-save-fn",
+        relativePathFromRoot: "examples/prisma/heavySaveFn",
+      },
+      {
         absolutePath: `${rootDir}/examples/prisma/interface`,
         name: "@ts-bench/prisma-interface",
         relativePathFromRoot: "examples/prisma/interface",
@@ -43,6 +48,11 @@ describe("listPackages", () => {
         absolutePath: `${rootDir}/examples/prisma/typeof`,
         name: "@ts-bench/prisma-typeof",
         relativePathFromRoot: "examples/prisma/typeof",
+      },
+      {
+        absolutePath: `${rootDir}/examples/prisma/typeofSaveFn`,
+        name: "@ts-bench/prisma-typeof-save-fn",
+        relativePathFromRoot: "examples/prisma/typeofSaveFn",
       },
       {
         absolutePath: `${rootDir}/apps/web`,
