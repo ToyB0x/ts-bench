@@ -18,27 +18,23 @@ type ReportContent = {
 // };
 
 // test utility
-type heavyTypeBase = {
-  id: number;
-  name: string;
-  description: string;
-};
+const makeNestedCopy = <T>(base: unknown): { parent: T; child: T } => ({
+  parent: base as T,
+  child: base as T,
+});
 
-// loop 100 times to create a heavy type
-const heavyType: heavyTypeBase = {
-  id: 1,
-  name: "Heavy Type",
-  description: "This is a heavy type for testing purposes.",
-};
-
-// 100 times loop to create a heavy type
-const heavyTypeArray = Array.from({ length: 100 }, (_, i) => ({
-  ...heavyType,
-  id: i + 1,
-  name: `Heavy Type ${i + 1}`,
-}));
-
-console.log(heavyTypeArray);
+// 10 times loop to create a heavy type
+const nested1 = { a: 1, b: 2, c: 3 };
+const nested2 = makeNestedCopy<typeof nested1>(nested1);
+const nested3 = makeNestedCopy<typeof nested2>(nested2);
+const nested4 = makeNestedCopy<typeof nested3>(nested3);
+const nested5 = makeNestedCopy<typeof nested4>(nested4);
+const nested6 = makeNestedCopy<typeof nested5>(nested5);
+const nested7 = makeNestedCopy<typeof nested6>(nested6);
+const nested8 = makeNestedCopy<typeof nested7>(nested7);
+const nested9 = makeNestedCopy<typeof nested8>(nested8);
+const nested10 = makeNestedCopy<typeof nested9>(nested9);
+console.log(nested10);
 
 const REPORT_LANGUAGE_CODE_MAP = {
   en: "english",
