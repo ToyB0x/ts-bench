@@ -1,0 +1,21 @@
+{
+  "name": "@ts-bench/prisma-simple",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit --diagnostics"
+  },
+  "dependencies": {
+    "@ts-bench/prisma-base": "workspace:*"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "24.0.7",
+    "typescript": "5.8.3"
+  },
+  "author": "ToyB0x",
+  "license": "MIT",
+  "homepage": "https://github.com/ToyB0x/ts-bench",
+  "bugs": {
+    "url": "https://github.com/ToyB0x/ts-bench/issues"
+  }
+}
