@@ -477,8 +477,6 @@ ${contentTableCache.text || ""}
     - Analyzed Packages: +${diffSummary.diffPackageNames.added.length} -${diffSummary.diffPackageNames.deleted.length}  
       ${diffSummary.diffPackageNames.added.length ? `added: ${diffSummary.diffPackageNames.added.join(", ")}` : ""} ${diffSummary.diffPackageNames.deleted.length ? `deleted: ${diffSummary.diffPackageNames.deleted.join(", ")}` : ""}
 
-<!-- TODO: 絶対値(リアル秒)表示追加を検討 -->
-<!-- TODO: マシンに影響されたないtypesの合計変動表示追加を検討 -->
 ${tables.noChange.length ? `<details><summary>Open: No change pakcages</summary>\n\n${tablemark(tables.noChange, tablemarkOptions)}</details>` : ""}
 
 ${tables.error.length ? `<details><summary>Open: Error packages</summary>\n\n${tablemark(tables.error, tablemarkOptions)}</details>` : ""}
