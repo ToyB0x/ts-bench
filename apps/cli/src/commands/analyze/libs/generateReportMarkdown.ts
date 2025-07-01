@@ -18,30 +18,27 @@ type ReportContent = {
 // };
 
 // test utility
-// ref: https://qiita.com/knjname/items/fc83a4248f459f1b052e
-// biome-ignore lint/complexity/noBannedTypes: sample code for recursive type definition
-export type ItemDefinitions<D = {}> = {
-  define<T>(args: T): ItemDefinitions<D & { [P in keyof T]: T[P] }>;
+type heavyTypeBase = {
+  id: number;
+  name: string;
+  description: string;
 };
 
-const recurse = <T>(itemDef: ItemDefinitions<T>) =>
-  itemDef.define({
-    a: itemDef,
-    b: itemDef,
-  });
+// loop 100 times to create a heavy type
+const heavyType: heavyTypeBase = {
+  id: 1,
+  name: "Heavy Type",
+  description: "This is a heavy type for testing purposes.",
+};
 
-const item0 = {} as ItemDefinitions;
-export const item1 = recurse(item0);
-export const item2 = recurse(item1);
-export const item3 = recurse(item2);
-export const item4 = recurse(item3);
-export const item5 = recurse(item4);
-export const item6 = recurse(item5);
-export const item7 = recurse(item6);
-export const item8 = recurse(item7);
-export const item9 = recurse(item8);
-export const item10 = recurse(item9);
-export const item11 = recurse(item10);
+// 100 times loop to create a heavy type
+const heavyTypeArray = Array.from({ length: 100 }, (_, i) => ({
+  ...heavyType,
+  id: i + 1,
+  name: `Heavy Type ${i + 1}`,
+}));
+
+console.log(heavyTypeArray);
 
 const REPORT_LANGUAGE_CODE_MAP = {
   en: "english",
