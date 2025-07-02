@@ -70,8 +70,8 @@ importers:
         specifier: 1.13.3
         version: 1.13.3
       zod:
-        specifier: 3.25.67
-        version: 3.25.67
+        specifier: 3.25.69
+        version: 3.25.69
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -3809,6 +3809,9 @@ packages:
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
+  zod@3.25.69:
+    resolution: {integrity: sha512-cjUx+boz8dfYGssYKLGNTF5VUF6NETpcZCDTN3knhUUXQTAAvErzRhV3pgeCZm2YsL4HOwtEHPonlsshPu2I0A==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -4502,8 +4505,8 @@ snapshots:
       express-rate-limit: 7.5.1(express@5.1.0)
       pkce-challenge: 5.0.0
       raw-body: 3.0.0
-      zod: 3.25.67
-      zod-to-json-schema: 3.24.6(zod@3.25.67)
+      zod: 3.25.69
+      zod-to-json-schema: 3.24.6(zod@3.25.69)
     transitivePeerDependencies:
       - supports-color
 
@@ -7403,4 +7406,10 @@ snapshots:
     dependencies:
       zod: 3.25.67
 
+  zod-to-json-schema@3.24.6(zod@3.25.69):
+    dependencies:
+      zod: 3.25.69
+
   zod@3.25.67: {}
+
+  zod@3.25.69: {}
