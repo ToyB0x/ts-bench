@@ -20,15 +20,10 @@ const grepFileContent = async (
   filePath: string,
   regex: RegExp,
 ): Promise<string[] | null> => {
-  try {
-    const content = await fs.readFile(filePath, "utf-8");
-    const lines = content.split("\n");
-    const matches = lines.filter((line) => regex.test(line));
-    return matches.length > 0 ? matches : null;
-  } catch (error) {
-    console.error(`Error reading file ${filePath}:`, error);
-    return null;
-  }
+  const content = await fs.readFile(filePath, "utf-8");
+  const lines = content.split("\n");
+  const matches = lines.filter((line) => regex.test(line));
+  return matches.length > 0 ? matches : null;
 };
 
 const processFile = async (
