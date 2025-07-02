@@ -169,7 +169,3 @@ Start with STEP 1 by searching for problematic patterns in the codebase.`,
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();
 await server.connect(transport);
-
-// AI TASKs:
-// - update above prompt to, at first step, tell user to what will AI do in the whole steps as a summary, and confirm with user before proceeding
-// - 対象パッケージ内でPrismaクライアントは共通の初期化をして、そこでtypeof で型を参照できるようにしないと型エラーが発生したり、何度もPrismaの無駄な初期化がはしることに気をつけて というふうにプロンプト内でAIに説明して
