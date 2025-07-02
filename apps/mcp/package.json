@@ -4,19 +4,26 @@
   "description": "Currently, internal preview",
   "type": "module",
   "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "24.0.10",
-    "vitest": "3.2.4",
-    "typescript": "5.8.3"
+    "tsup": "8.5.0",
+    "typescript": "5.8.3",
+    "vitest": "3.2.4"
   },
   "author": "ToyB0x",
   "license": "MIT",
   "homepage": "https://github.com/ToyB0x/ts-bench",
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.3",
+    "zod": "^3.25.67"
   }
 }
