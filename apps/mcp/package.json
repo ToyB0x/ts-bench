@@ -1,8 +1,6 @@
 {
   "name": "@ts-bench/mcp",
   "version": "0.0.1-alpha.0",
-  "private": true,
-  "description": "Currently, internal preview",
   "type": "module",
   "scripts": {
     "dev": "tsup --watch",
