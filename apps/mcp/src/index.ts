@@ -98,7 +98,17 @@ server.registerPrompt(
         role: "user",
         content: {
           type: "text",
-          text: `I need you to optimize TypeScript performance in a Prisma project using this 4-step process:
+          text: `I will help you optimize TypeScript performance in a Prisma project through a systematic 4-step process:
+
+OVERVIEW:
+1. Detect problematic PrismaClient type usage patterns in your codebase
+2. Benchmark current TypeScript compilation performance
+3. Present proposed fixes and get your approval
+4. Apply optimizations and measure improvements
+
+This process will replace direct PrismaClient type references with typeof patterns to reduce TypeScript's type instantiation overhead. Before we begin, do you want to proceed with this optimization process?
+
+Wait for user confirmation before proceeding to STEP 1.
 
 STEP 1: Detect problematic code patterns
 - Search for files containing "PrismaClient" type references in function signatures (ignore node_modules and .git directories)
@@ -132,6 +142,23 @@ Common problematic patterns to fix:
 2. \`function saveFn(db: PrismaClient)\` → \`function saveFn(db: typeof client)\`
 3. Direct PrismaClient imports used as parameter types
 
+IMPORTANT: Prisma Client Initialization Best Practices
+When implementing these optimizations, ensure that:
+- The target package has a common Prisma client initialization pattern (usually in a shared db.ts or client.ts file)
+- The client instance is exported so that \`typeof client\` can be used throughout the codebase
+- Avoid multiple Prisma client instantiations which can cause performance issues and connection pool problems
+- If a shared client doesn't exist, recommend creating one before applying typeof optimizations
+- Example good pattern:
+  \`\`\`typescript
+  // db/client.ts
+  import { PrismaClient } from '@prisma/client'
+  export const client = new PrismaClient()
+  
+  // other files
+  import { client } from './db/client'
+  async function myFunction(db: typeof client) { ... }
+  \`\`\`
+
 Start with STEP 1 by searching for problematic patterns in the codebase.`,
         },
       },
@@ -142,3 +169,7 @@ Start with STEP 1 by searching for problematic patterns in the codebase.`,
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();
 await server.connect(transport);
+
+// AI TASKs:
+// - update above prompt to, at first step, tell user to what will AI do in the whole steps as a summary, and confirm with user before proceeding
+// - 対象パッケージ内でPrismaクライアントは共通の初期化をして、そこでtypeof で型を参照できるようにしないと型エラーが発生したり、何度もPrismaの無駄な初期化がはしることに気をつけて というふうにプロンプト内でAIに説明して
