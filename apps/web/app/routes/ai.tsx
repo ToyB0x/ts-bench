@@ -158,7 +158,7 @@ export default function Page() {
                     </code>
                   </div>
                   <div className="mt-3 p-3 bg-blue-500/10 border border-blue-500/30 rounded">
-                    <p className="text-blue-300 text-sm font-medium mb-2">
+                    <p className="text-blue-500 text-sm mb-2">
                       Node.js Version Manager Users
                     </p>
                     <p className="text-gray-300 text-sm">
@@ -203,8 +203,8 @@ export default function Page() {
                       </code>
                     </div>
                   </div>
-                  <div className="mt-3 p-3 bg-green-500/10 border border-green-500/30 rounded">
-                    <p className="text-green-300 text-sm font-medium mb-1">
+                  <div className="mt-3 p-3 bg-emerald-500/10 border border-green-500/30 rounded">
+                    <p className="text-emerald-500 text-sm mb-1">
                       Success Indicator
                     </p>
                     <p className="text-gray-300 text-sm">
@@ -283,12 +283,12 @@ export default function Page() {
           {/* Gemini API Configuration Section */}
           <section id="ci-integration">
             <h2 className="text-2xl font-bold mb-6">
-              CI AI Comments with Gemini
+              Performance analysis / suggestions in CI by Gemini
             </h2>
             <div className="border border-gray-800 p-8">
               <p className="text-gray-400 mb-8 leading-relaxed">
-                Enable AI-powered code review comments in your CI/CD pipeline
-                using Google's Gemini API.
+                Enable AI-powered performance review in your CI/CD pipeline
+                using Google's Gemini.
               </p>
 
               <div className="space-y-8">
@@ -299,60 +299,40 @@ export default function Page() {
                   <p className="text-gray-400 mb-3">Visit Google AI Studio:</p>
                   <div className="bg-black p-4 font-mono text-sm">
                     <a
-                      href="https://makersuite.google.com/app/apikey"
+                      href="https://aistudio.google.com/app/apikey"
                       className="text-blue-500 hover:text-blue-400 transition-colors"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      https://makersuite.google.com/app/apikey
+                      https://aistudio.google.com/app/apikey
                     </a>
                   </div>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold mb-3 text-white">
-                    2. Configure Environment Variables
-                  </h3>
-                  <p className="text-gray-400 mb-3">
-                    Add to your CI environment or .env file:
-                  </p>
-                  <div className="bg-black p-4 font-mono text-sm space-y-1">
-                    <div>
-                      <code className="text-emerald-400">
-                        GEMINI_API_KEY=your_api_key_here
-                      </code>
-                    </div>
-                    <div>
-                      <code className="text-emerald-400">
-                        GEMINI_MODEL=gemini-1.5-pro
-                      </code>
-                    </div>
-                    <div>
-                      <code className="text-emerald-400">
-                        AI_COMMENTS_ENABLED=true
-                      </code>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 text-white">
-                    3. GitHub Actions Integration
+                    2. GitHub Actions Integration
                   </h3>
                   <p className="text-gray-400 mb-3">Add to your workflow:</p>
                   <div className="bg-black p-4 font-mono text-xs overflow-x-auto">
                     <code className="text-emerald-400">
                       - name: TSBench AI Analysis
                       <br />
-                      {"  "}uses: tsbench/ai-action@v1
+                      <span className="ml-4">
+                        uses: @tsbench/ai-action@latest
+                      </span>
                       <br />
-                      {"  "}with:
+                      <span className="ml-4">with:</span>
                       <br />
-                      {"    "}gemini-api-key: ${"{{ secrets.GEMINI_API_KEY }}"}
+                      <span className="ml-8">language: ja</span>
                       <br />
-                      {"    "}enable-pr-comments: true
+                      <span className="ml-8">model: gemini-2.5-pro</span>
                       <br />
-                      {"    "}analysis-depth: detailed
+                      <span className="ml-8">enable-ai-comments: true</span>
+                      <br />
+                      <span className="ml-8">
+                        gemini-api-key: ${"{{ secrets.GEMINI_API_KEY }}"}
+                      </span>
                     </code>
                   </div>
                 </div>
