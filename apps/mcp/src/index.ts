@@ -89,7 +89,7 @@ server.registerPrompt(
   {
     title: "Prisma TypeScript Performance Optimization",
     description:
-      "Detect and fix TypeScript performance issues in Prisma projects through a 4-step process",
+      "Detect and fix TypeScript performance issues in Prisma projects through an enhanced 5-step process",
     argsSchema: { projectPath: z.string().optional() },
   },
   ({ projectPath = "." }) => ({
@@ -98,26 +98,20 @@ server.registerPrompt(
         role: "user",
         content: {
           type: "text",
-          text: `I will help you optimize TypeScript performance in a Prisma project through a systematic 4-step process:
+          text: `I need you to optimize TypeScript performance in a Prisma project using this enhanced 5-step process:
 
-OVERVIEW:
-1. Detect problematic PrismaClient type usage patterns in your codebase
-2. Benchmark current TypeScript compilation performance
-3. Present proposed fixes and get your approval
-4. Apply optimizations and measure improvements
+STEP 1: Notify to user below process overview, these process need 3 ~ 10times user confirmations and instructions and wait user confirm it.
 
-This process will replace direct PrismaClient type references with typeof patterns to reduce TypeScript's type instantiation overhead. Before we begin, do you want to proceed with this optimization process?
-
-Wait for user confirmation before proceeding to STEP 1.
-
-STEP 1: Detect problematic code patterns
+STEP 2: Detect problematic code patterns
 - Search for files containing "PrismaClient" type references in function signatures (ignore node_modules and .git directories)
 - Look for patterns like: \`(prismaClient: PrismaClient)\` or similar direct type references
 - Identify files that might benefit from \`typeof\` optimization
+- **NEW: Also check for duplicate PrismaClient instantiations across files**
 - Present findings to user with file paths and line numbers
 
-STEP 2: Benchmark current performance
-- For monorepos: First detect all packages by finding package.json files, then ask user which packages to analyze if there are many
+STEP 3: Benchmark current performance
+- For monorepos: First detect all packages by finding package.json files, then **ask user which specific packages to analyze** if there are many (>3)
+- **NEW: Prioritize packages with the most PrismaClient references found in STEP 2**
 - Check each selected package directory for tsconfig.json and run \`tsc --noEmit --extendedDiagnostics\` in directories that have it
 - For single repos: Run \`tsc --noEmit --extendedDiagnostics\` in the project directory: ${projectPath}
 - Skip directories without tsconfig.json (this is fine for packages that don't use TypeScript)
@@ -125,22 +119,38 @@ STEP 2: Benchmark current performance
 - Extract and present key metrics: type count, instantiations, and compilation time
 - Show these baseline numbers to user
 
-STEP 3: Confirm changes (IMPORTANT: ASK FOR USER APPROVAL)
+STEP 4: Plan shared client architecture (NEW STEP)
+- **Analyze current PrismaClient initialization patterns in the target package(s)**
+- **Identify duplicate initialization code that should be consolidated**
+- **Create a shared client instance file if not exists**
+- **Plan the typeof reference strategy to avoid type errors**
+- Present the architectural plan to user for approval
+
+STEP 5: Confirm changes (IMPORTANT: ASK FOR USER APPROVAL)
 - Present the proposed changes clearly showing before/after code
+- **Include both the type changes AND the shared client consolidation**
+- **Show specific file paths and estimated number of changes**
 - Ask user for explicit approval before making any modifications
 - Only proceed if user confirms
 
-STEP 4: Apply fixes and re-benchmark
-- Replace patterns like \`(prismaClient: PrismaClient)\` with \`(prismaClient: typeof client)\`
-- Run \`tsc --noEmit --extendedDiagnostics\` again in the same directories as STEP 2
-- Process packages sequentially, one at a time (same as STEP 2)
-- Skip directories without tsconfig.json (same as STEP 2)
+STEP 6: Apply fixes and re-benchmark 
+- **First: Create shared PrismaClient instance and type exports**
+- **Second: Replace direct PrismaClient instantiations with shared instance usage**
+- **Third: Replace type patterns like \`(prismaClient: PrismaClient)\` with \`(prismaClient: typeof sharedClient)\`**
+- **Ensure imports are updated to use the shared types**
+- Run \`tsc --noEmit --extendedDiagnostics\` again in the same directories as STEP 3
+- Process packages sequentially, one at a time (same as STEP 3)
+- Skip directories without tsconfig.json (same as STEP 3)
 - Calculate and present improvement percentages (type count, instantiations, compilation time)
+- **Verify that TypeScript compilation still succeeds after changes**
 
-Common problematic patterns to fix:
-1. \`async (prismaClient: PrismaClient) => {}\` → \`async (prismaClient: typeof client) => {}\`
-2. \`function saveFn(db: PrismaClient)\` → \`function saveFn(db: typeof client)\`
-3. Direct PrismaClient imports used as parameter types
+**Enhanced problematic patterns to fix:**
+1. \`async (prismaClient: PrismaClient) => {}\` → \`async (prismaClient: typeof sharedClient) => {}\`
+2. \`function saveFn(db: PrismaClient)\` → \`function saveFn(db: typeof sharedClient)\`
+3. \`constructor(prismaClient: PrismaClient)\` → \`constructor(prismaClient: typeof sharedClient)\`
+4. **Duplicate \`new PrismaClient()\` instantiations → Shared client pattern**
+5. **Import consolidation: Replace multiple PrismaClient imports with shared type imports**
+6. Direct PrismaClient imports used as parameter types: \`async (prismaClient: PrismaClient) => {}\` → \`async (prismaClient: typeof sharedClient) => {}\`
 
 IMPORTANT: Prisma Client Initialization Best Practices
 When implementing these optimizations, ensure that:
@@ -159,7 +169,14 @@ When implementing these optimizations, ensure that:
   async function myFunction(db: typeof client) { ... }
   \`\`\`
 
-Start with STEP 1 by searching for problematic patterns in the codebase.`,
+**Critical Implementation Notes:**
+- **ALWAYS create a shared client instance before replacing type references**
+- **Use \`typeof sharedClient\` pattern to maintain type safety**
+- **Consolidate duplicate PrismaClient configurations into shared utility**
+- **Update all imports to use shared types to avoid circular dependencies**
+- **Test TypeScript compilation after each major change**
+
+Start with STEP 2 by searching for problematic patterns in the codebase.`,
         },
       },
     ],
