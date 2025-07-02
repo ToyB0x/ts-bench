@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { type CliOptions, type PackResult, runCli } from "repomix";
 import { z } from "zod";
 import packageJson from "../package.json";
 
@@ -9,18 +10,35 @@ const server = new McpServer({
   version: packageJson.version,
 });
 
-// Add an addition tool
-// server.registerTool(
-//   "add",
-//   {
-//     title: "Addition Tool",
-//     description: "Add two numbers",
-//     inputSchema: { a: z.number(), b: z.number() },
-//   },
-//   async ({ a, b }) => ({
-//     content: [{ type: "text", text: String(a + b) }],
-//   }),
-// );
+// Process current directory with custom options
+async function packDir(dirPath: string): Promise<PackResult> {
+  const options = {
+    stdout: true,
+    include: ["**/*.ts", "**/*.tsx"].join(","),
+    compress: true,
+  } satisfies CliOptions;
+
+  const result = await runCli([dirPath], process.cwd(), options);
+  if (!result) {
+    throw new Error("Failed to pack the project");
+  }
+  return result.packResult;
+}
+
+/**
+ * Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis.
+ */
+server.registerTool(
+  "add",
+  {
+    title: "Addition Tool",
+    description: "Add two numbers",
+    inputSchema: { dir: z.string() },
+  },
+  async ({ dir }) => ({
+    content: [{ type: "text", text: await String(packDir(dir)) }],
+  }),
+);
 
 /**
  * Sample resource that provides application information.
