@@ -1,29 +1,14 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { type CliOptions, type PackResult, runCli } from "repomix";
 import { z } from "zod";
 import packageJson from "../package.json";
+import { packDir } from "./libs";
 
 // Create an MCP server
 const server = new McpServer({
   name: packageJson.name,
   version: packageJson.version,
 });
-
-// Process current directory with custom options
-async function packDir(dirPath: string): Promise<PackResult> {
-  const options = {
-    stdout: true,
-    include: ["**/*.ts", "**/*.tsx"].join(","),
-    compress: true,
-  } satisfies CliOptions;
-
-  const result = await runCli([dirPath], process.cwd(), options);
-  if (!result) {
-    throw new Error("Failed to pack the project");
-  }
-  return result.packResult;
-}
 
 /**
  * Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis.
@@ -32,13 +17,16 @@ server.registerTool(
   "extract-type-signatures",
   {
     title: "Extract TypeScript Type Signatures",
-    description: "Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis",
-    inputSchema: { 
-      dir: z.string().describe("Directory path to analyze for TypeScript files")
+    description:
+      "Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis",
+    inputSchema: {
+      dir: z
+        .string()
+        .describe("Directory path to analyze for TypeScript files"),
     },
   },
   async ({ dir }) => ({
-    content: [{ type: "text", text: String(await packDir(dir)) }],
+    content: [{ type: "text", text: await packDir(dir) }],
   }),
 );
 
