@@ -41,54 +41,42 @@ export default function Page() {
       <main className="flex-1 mt-12">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-16">
-          <a href="#mcp-setup" className="group relative p-6 border border-gray-800 hover:border-gray-700 transition-colors duration-200">
-            <div className="flex items-start justify-between mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center">
+          <a href="#mcp-setup" className="group relative p-4 border border-gray-800 hover:border-gray-700 transition-colors duration-200">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center">
                 {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
-              <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 17L17 7M17 7H7M17 7V17" />
-              </svg>
+              <h3 className="text-lg font-semibold group-hover:text-white transition-colors">MCP Setup</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-white transition-colors">MCP Setup</h3>
             <p className="text-gray-400 text-sm leading-relaxed">Model Context Protocol integration for AI-powered TypeScript analysis.</p>
           </a>
 
-          <a href="#historical-analysis" className="group relative p-6 border border-gray-800 hover:border-gray-700 transition-colors duration-200">
-            <div className="flex items-start justify-between mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center">
+          <a href="#historical-analysis" className="group relative p-4 border border-gray-800 hover:border-gray-700 transition-colors duration-200">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center">
                 {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
-              <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 17L17 7M17 7H7M17 7V17" />
-              </svg>
+              <h3 className="text-lg font-semibold group-hover:text-white transition-colors">Historical Analysis</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-white transition-colors">Historical Analysis</h3>
             <p className="text-gray-400 text-sm leading-relaxed">Leverage diagnostic reports to identify performance trends and regressions.</p>
           </a>
 
-          <a href="#ci-integration" className="group relative p-6 border border-gray-800 hover:border-gray-700 transition-colors duration-200">
-            <div className="flex items-start justify-between mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center">
+          <a href="#ci-integration" className="group relative p-4 border border-gray-800 hover:border-gray-700 transition-colors duration-200">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center">
                 {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-1l-4 4z" />
                 </svg>
               </div>
-              {/** biome-ignore lint/a11y/noSvgWithoutTitle: temp */}
-              <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 17L17 7M17 7H7M17 7V17" />
-              </svg>
+              <h3 className="text-lg font-semibold group-hover:text-white transition-colors">CI Integration</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-white transition-colors">CI Integration</h3>
             <p className="text-gray-400 text-sm leading-relaxed">Enable AI-powered code review comments with Gemini API integration.</p>
           </a>
         </div>
