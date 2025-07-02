@@ -101,15 +101,17 @@ server.registerPrompt(
           text: `I need you to optimize TypeScript performance in a Prisma project using this 4-step process:
 
 STEP 1: Detect problematic code patterns
-- Search for files containing "PrismaClient" type references in function signatures
+- Search for files containing "PrismaClient" type references in function signatures (ignore node_modules and .git directories)
 - Look for patterns like: \`(prismaClient: PrismaClient)\` or similar direct type references
 - Identify files that might benefit from \`typeof\` optimization
 - Present findings to user with file paths and line numbers
 
 STEP 2: Benchmark current performance
-- For monorepos: Check each package directory for tsconfig.json and run \`tsc --noEmit --extendedDiagnostics\` in directories that have it
+- For monorepos: First detect all packages by finding package.json files, then ask user which packages to analyze if there are many
+- Check each selected package directory for tsconfig.json and run \`tsc --noEmit --extendedDiagnostics\` in directories that have it
 - For single repos: Run \`tsc --noEmit --extendedDiagnostics\` in the project directory: ${projectPath}
 - Skip directories without tsconfig.json (this is fine for packages that don't use TypeScript)
+- Process packages sequentially, one at a time
 - Extract and present key metrics: type count, instantiations, and compilation time
 - Show these baseline numbers to user
 
@@ -121,6 +123,7 @@ STEP 3: Confirm changes (IMPORTANT: ASK FOR USER APPROVAL)
 STEP 4: Apply fixes and re-benchmark
 - Replace patterns like \`(prismaClient: PrismaClient)\` with \`(prismaClient: typeof client)\`
 - Run \`tsc --noEmit --extendedDiagnostics\` again in the same directories as STEP 2
+- Process packages sequentially, one at a time (same as STEP 2)
 - Skip directories without tsconfig.json (same as STEP 2)
 - Calculate and present improvement percentages (type count, instantiations, compilation time)
 
