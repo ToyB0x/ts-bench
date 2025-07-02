@@ -1,0 +1,22 @@
+{
+  "name": "@ts-bench/mcp",
+  "private": true,
+  "description": "Currently, internal preview",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "24.0.10",
+    "vitest": "3.2.4",
+    "typescript": "5.8.3"
+  },
+  "author": "ToyB0x",
+  "license": "MIT",
+  "homepage": "https://github.com/ToyB0x/ts-bench",
+  "bugs": {
+    "url": "https://github.com/ToyB0x/ts-bench/issues"
+  }
+}
