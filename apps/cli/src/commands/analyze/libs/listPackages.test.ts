@@ -10,7 +10,7 @@ describe("listPackages", () => {
     // check exact match of package names and paths (assert contain all packages, and not contain extra package)
     expect(packages.sort((a, b) => a.name.localeCompare(b.name))).toEqual([
       {
-        absolutePath: cwd,
+        absolutePath: `${rootDir}/apps/cli`,
         name: "@ts-bench/cli",
         relativePathFromRoot: "apps/cli",
       },
@@ -18,6 +18,11 @@ describe("listPackages", () => {
         absolutePath: `${rootDir}/packages/db`,
         name: "@ts-bench/db",
         relativePathFromRoot: "packages/db",
+      },
+      {
+        absolutePath: `${rootDir}/apps/mcp`,
+        name: "@ts-bench/mcp",
+        relativePathFromRoot: "apps/mcp",
       },
       {
         absolutePath: `${rootDir}/packages/utils`,
