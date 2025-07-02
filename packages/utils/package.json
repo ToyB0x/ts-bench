@@ -5,8 +5,8 @@
   "type": "module",
   "exports": {
     "./grep": {
-      "types": "./src/grep.ts",
-      "default": "./src/grep.ts"
+      "types": "./src/grepFile.ts",
+      "default": "./src/grepFile.ts"
     }
   },
   "scripts": {
