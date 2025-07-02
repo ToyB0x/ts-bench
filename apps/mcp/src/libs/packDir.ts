@@ -1,7 +1,12 @@
+import { randomUUID } from "node:crypto";
+import * as fs from "node:fs/promises";
 import { type CliOptions, runCli } from "repomix";
 
 export const packDir = async (dirPath: string): Promise<string> => {
+  const outputFilePath = `repomix-output-${randomUUID()}.md`;
+
   const options = {
+    output: outputFilePath,
     parsableStyle: true,
     compress: true,
     removeComments: true,
@@ -11,10 +16,16 @@ export const packDir = async (dirPath: string): Promise<string> => {
     include: ["**/*.ts", "**/*.tsx"].join(","),
   } satisfies CliOptions;
 
-  const result = await runCli([dirPath], process.cwd(), options);
-  if (!result) {
-    throw new Error("Failed to pack the project");
-  }
+  try {
+    const result = await runCli([dirPath], process.cwd(), options);
+    if (!result) {
+      throw new Error("Failed to pack the project");
+    }
 
-  return JSON.stringify(result.packResult);
+    // Read the generated markdown file
+    return await fs.readFile(outputFilePath, "utf-8");
+  } finally {
+    // Clean up the output file
+    await fs.unlink(outputFilePath);
+  }
 };
