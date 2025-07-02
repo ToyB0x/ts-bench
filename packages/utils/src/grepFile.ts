@@ -1,17 +1,25 @@
+import type { Dirent } from "node:fs";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import type { Dirent } from "node:fs";
 
 export interface GrepResult {
   filePath: string;
   matches: string[];
 }
 
-const shouldIncludeFile = (fileName: string, fileExtensions?: string[]): boolean => {
-  return !fileExtensions || fileExtensions.some(ext => fileName.endsWith(ext));
+const shouldIncludeFile = (
+  fileName: string,
+  fileExtensions?: string[],
+): boolean => {
+  return (
+    !fileExtensions || fileExtensions.some((ext) => fileName.endsWith(ext))
+  );
 };
 
-const grepFileContent = async (filePath: string, regex: RegExp): Promise<string[] | null> => {
+const grepFileContent = async (
+  filePath: string,
+  regex: RegExp,
+): Promise<string[] | null> => {
   try {
     const content = await fs.readFile(filePath, "utf-8");
     const lines = content.split("\n");
@@ -29,7 +37,7 @@ const processFile = async (
   fileExtensions?: string[],
 ): Promise<GrepResult | null> => {
   const fileName = path.basename(filePath);
-  
+
   if (!shouldIncludeFile(fileName, fileExtensions)) {
     return null;
   }
@@ -70,13 +78,21 @@ export const grepFile = async (
 ): Promise<GrepResult[]> => {
   const regex = typeof pattern === "string" ? new RegExp(pattern) : pattern;
 
-  const searchDirectory = async (currentPath: string): Promise<GrepResult[]> => {
+  const searchDirectory = async (
+    currentPath: string,
+  ): Promise<GrepResult[]> => {
     try {
       const entries = await fs.readdir(currentPath, { withFileTypes: true });
       const results = await Promise.all(
-        entries.map(entry => 
-          processDirectoryEntry(entry, currentPath, regex, searchDirectory, fileExtensions)
-        )
+        entries.map((entry) =>
+          processDirectoryEntry(
+            entry,
+            currentPath,
+            regex,
+            searchDirectory,
+            fileExtensions,
+          ),
+        ),
       );
       return results.flat();
     } catch (error) {
