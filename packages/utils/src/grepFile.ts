@@ -83,6 +83,9 @@ export const grepFile = async (
   ): Promise<GrepResult[]> => {
     try {
       const entries = await fs.readdir(currentPath, { withFileTypes: true });
+
+      // NOTE: Using Promise.all on all directory entries can lead to high concurrency and resource exhaustion in large trees.
+      // Consider using a controlled concurrency queue or for-await-of loop to limit simultaneous filesystem calls.
       const results = await Promise.all(
         entries.map((entry) =>
           processDirectoryEntry(
