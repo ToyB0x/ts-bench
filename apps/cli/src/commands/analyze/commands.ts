@@ -15,10 +15,18 @@ export const makeAnalyzeCommand = () => {
   analyze
     .command("tsc", { isDefault: true })
     .description("check tsc performance")
-    .action(async () => {
+    .addOption(
+      new Option("-l, --lang <lang>", "language of report")
+        .choices(["en", "ja"])
+        .default("en", "English"),
+    )
+    .action(async (options) => {
       const enableForceMigrationConflict = true;
       await migrateDb(enableForceMigrationConflict);
-      await runBench().catch(console.error);
+      await runBench({
+        enableShowTable: true,
+        reportLanguageCode: options.lang,
+      }).catch(console.error);
     });
 
   analyze
@@ -91,6 +99,11 @@ export const makeAnalyzeCommand = () => {
         "timeout in minutes (default: 180)",
       ).default(180),
     )
+    .addOption(
+      new Option("-l, --lang <lang>", "language of report")
+        .choices(["en", "ja"])
+        .default("en", "English"),
+    )
     .action(async (options) => {
       // console.info({ options });
       const restoreBranch = await simpleGit().revparse([
@@ -130,7 +143,11 @@ export const makeAnalyzeCommand = () => {
           // eg, cpu 4 / all package 12 / affected 5: 2x faster than no cache (cpu cycle count decrease to 1/2)
           // eg, cpu 4 / all package  4 / affected 1:  same speed as no cache (cpu cycle count never change)
           const enableShowTable = false;
-          await runBench(enableShowTable, cachedPackages);
+          await runBench({
+            enableShowTable,
+            cachedPackages,
+            reportLanguageCode: options.lang,
+          });
         } catch (error) {
           errorCount += 1;
           console.error(
