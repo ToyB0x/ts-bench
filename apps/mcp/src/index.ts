@@ -107,7 +107,9 @@ STEP 1: Detect problematic code patterns
 - Present findings to user with file paths and line numbers
 
 STEP 2: Benchmark current performance
-- Run \`tsc --noEmit --extendedDiagnostics\` in the project directory: ${projectPath}
+- For monorepos: Check each package directory for tsconfig.json and run \`tsc --noEmit --extendedDiagnostics\` in directories that have it
+- For single repos: Run \`tsc --noEmit --extendedDiagnostics\` in the project directory: ${projectPath}
+- Skip directories without tsconfig.json (this is fine for packages that don't use TypeScript)
 - Extract and present key metrics: type count, instantiations, and compilation time
 - Show these baseline numbers to user
 
