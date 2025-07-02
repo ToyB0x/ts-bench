@@ -38,7 +38,7 @@ export default function Page() {
         </p>
       </header>
 
-      <main className="flex-1 mt-12">
+      <main className="flex-1">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-16">
           <a
