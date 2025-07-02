@@ -108,7 +108,7 @@ server.registerPrompt(
           type: "text",
           text: `I need you to optimize TypeScript performance in a Prisma project using this enhanced 5-step process:
 IMPORTANT TOOLS: 
-- \`extract-type-signatures\`: Analyze TypeScript files for type signatures and performance issues(very useful for this process)
+- \`extract-type-signatures\`: Analyze TypeScript files for type signatures and performance issues (very useful for this process)
 
 STEP 1: Notify user of process overview
 - Explain that this process requires 3-10 user confirmations
