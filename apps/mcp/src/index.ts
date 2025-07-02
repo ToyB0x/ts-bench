@@ -89,7 +89,7 @@ server.registerPrompt(
   {
     title: "Prisma TypeScript Performance Optimization",
     description:
-      "Detect and fix TypeScript performance issues in Prisma projects through an enhanced 5-step process",
+      "Detect and fix TypeScript performance issues in Prisma projects through an enhanced 6-step process",
     argsSchema: { projectPath: z.string().optional() },
   },
   ({ projectPath = "." }) => ({
