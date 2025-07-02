@@ -84,6 +84,55 @@ server.registerPrompt(
   }),
 );
 
+server.registerPrompt(
+  "prisma-typescript-optimization",
+  {
+    title: "Prisma TypeScript Performance Optimization",
+    description:
+      "Detect and fix TypeScript performance issues in Prisma projects through a 4-step process",
+    argsSchema: { projectPath: z.string().optional() },
+  },
+  ({ projectPath = "." }) => ({
+    messages: [
+      {
+        role: "user",
+        content: {
+          type: "text",
+          text: `I need you to optimize TypeScript performance in a Prisma project using this 4-step process:
+
+STEP 1: Detect problematic code patterns
+- Search for files containing "PrismaClient" type references in function signatures
+- Look for patterns like: \`(prismaClient: PrismaClient)\` or similar direct type references
+- Identify files that might benefit from \`typeof\` optimization
+- Present findings to user with file paths and line numbers
+
+STEP 2: Benchmark current performance
+- Run \`tsc --noEmit --extendedDiagnostics\` in the project directory: ${projectPath}
+- Extract and present key metrics: type count, instantiations, and compilation time
+- Show these baseline numbers to user
+
+STEP 3: Confirm changes (IMPORTANT: ASK FOR USER APPROVAL)
+- Present the proposed changes clearly showing before/after code
+- Ask user for explicit approval before making any modifications
+- Only proceed if user confirms
+
+STEP 4: Apply fixes and re-benchmark
+- Replace patterns like \`(prismaClient: PrismaClient)\` with \`(prismaClient: typeof client)\`
+- Run \`tsc --noEmit --extendedDiagnostics\` again
+- Calculate and present improvement percentages (type count, instantiations, compilation time)
+
+Common problematic patterns to fix:
+1. \`async (prismaClient: PrismaClient) => {}\` → \`async (prismaClient: typeof client) => {}\`
+2. \`function saveFn(db: PrismaClient)\` → \`function saveFn(db: typeof client)\`
+3. Direct PrismaClient imports used as parameter types
+
+Start with STEP 1 by searching for problematic patterns in the codebase.`,
+        },
+      },
+    ],
+  }),
+);
+
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();
 await server.connect(transport);
