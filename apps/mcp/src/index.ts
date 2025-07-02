@@ -1,14 +1,12 @@
-import {
-  McpServer,
-  ResourceTemplate,
-} from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import packageJson from "../package.json";
 
 // Create an MCP server
 const server = new McpServer({
-  name: "demo-server",
-  version: "1.0.0",
+  name: packageJson.name,
+  version: packageJson.version,
 });
 
 // Add an addition tool
@@ -24,19 +22,63 @@ server.registerTool(
   }),
 );
 
-// Add a dynamic greeting resource
+/**
+ * Sample resource that provides application information.
+ */
+// Static resource
 server.registerResource(
-  "greeting",
-  new ResourceTemplate("greeting://{name}", { list: undefined }),
+  "mcp-app-info",
+  "config://app-info",
   {
-    title: "Greeting Resource", // Display name for UI
-    description: "Dynamic greeting generator",
+    title: "Application Information",
+    description: "Application information data like name, version, etc.",
+    mimeType: "text/plain",
   },
-  async (uri, { name }) => ({
+  async (uri) => ({
     contents: [
       {
         uri: uri.href,
-        text: `Hello, ${name}!`,
+        text: `Application Name: ${packageJson.name}\nVersion: ${packageJson.version}`,
+      },
+    ],
+  }),
+);
+
+/**
+ * List files with a given pattern.
+ */
+// server.registerResource(
+//   "list-files",
+//   new ResourceTemplate("list-file://{pattern}", { list: undefined }),
+//   {
+//     title: "Grep Files",
+//     description: "Grep files with a given pattern",
+//   },
+//   async (uri, { pattern }) => ({
+//     contents: [
+//       {
+//         uri: uri.href,
+//         text: `Hello, ${pattern}!`,
+//       },
+//     ],
+//   }),
+// );
+
+server.registerPrompt(
+  "grep-by-ai",
+  {
+    title: "Grep Files by AI",
+    description: "Grep files with a given pattern using AI(You)",
+    argsSchema: { pattern: z.string() },
+  },
+  ({ pattern }) => ({
+    messages: [
+      {
+        role: "user",
+        content: {
+          type: "text",
+          text: `Find files that contain below string under current dir:\n\n${pattern}`,
+        },
       },
     ],
   }),
