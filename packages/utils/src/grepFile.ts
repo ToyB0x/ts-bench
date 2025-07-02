@@ -1,10 +1,63 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import type { Dirent } from "node:fs";
 
 export interface GrepResult {
   filePath: string;
   matches: string[];
 }
+
+const shouldIncludeFile = (fileName: string, fileExtensions?: string[]): boolean => {
+  return !fileExtensions || fileExtensions.some(ext => fileName.endsWith(ext));
+};
+
+const grepFileContent = async (filePath: string, regex: RegExp): Promise<string[] | null> => {
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    const lines = content.split("\n");
+    const matches = lines.filter((line) => regex.test(line));
+    return matches.length > 0 ? matches : null;
+  } catch (error) {
+    console.error(`Error reading file ${filePath}:`, error);
+    return null;
+  }
+};
+
+const processFile = async (
+  filePath: string,
+  regex: RegExp,
+  fileExtensions?: string[],
+): Promise<GrepResult | null> => {
+  const fileName = path.basename(filePath);
+  
+  if (!shouldIncludeFile(fileName, fileExtensions)) {
+    return null;
+  }
+
+  const matches = await grepFileContent(filePath, regex);
+  return matches ? { filePath, matches } : null;
+};
+
+const processDirectoryEntry = async (
+  entry: Dirent,
+  currentPath: string,
+  regex: RegExp,
+  searchDirectory: (dirPath: string) => Promise<GrepResult[]>,
+  fileExtensions?: string[],
+): Promise<GrepResult[]> => {
+  const fullPath = path.join(currentPath, entry.name);
+
+  if (entry.isDirectory()) {
+    return await searchDirectory(fullPath);
+  }
+
+  if (entry.isFile()) {
+    const result = await processFile(fullPath, regex, fileExtensions);
+    return result ? [result] : [];
+  }
+
+  return [];
+};
 
 /**
  * Recursively search a directory for files and grep them for a specific pattern.
@@ -15,42 +68,22 @@ export const grepFile = async (
   pattern: string | RegExp,
   fileExtensions?: string[],
 ): Promise<GrepResult[]> => {
-  const results: GrepResult[] = [];
   const regex = typeof pattern === "string" ? new RegExp(pattern) : pattern;
 
-  const searchDirectory = async (currentPath: string): Promise<void> => {
+  const searchDirectory = async (currentPath: string): Promise<GrepResult[]> => {
     try {
       const entries = await fs.readdir(currentPath, { withFileTypes: true });
-
-      for (const entry of entries) {
-        const fullPath = path.join(currentPath, entry.name);
-
-        if (entry.isDirectory()) {
-          await searchDirectory(fullPath);
-        } else if (entry.isFile()) {
-          const shouldInclude = !fileExtensions || 
-            fileExtensions.some(ext => entry.name.endsWith(ext));
-
-          if (shouldInclude) {
-            try {
-              const content = await fs.readFile(fullPath, "utf-8");
-              const lines = content.split("\n");
-              const matches = lines.filter((line) => regex.test(line));
-
-              if (matches.length > 0) {
-                results.push({ filePath: fullPath, matches });
-              }
-            } catch (error) {
-              console.error(`Error reading file ${fullPath}:`, error);
-            }
-          }
-        }
-      }
+      const results = await Promise.all(
+        entries.map(entry => 
+          processDirectoryEntry(entry, currentPath, regex, searchDirectory, fileExtensions)
+        )
+      );
+      return results.flat();
     } catch (error) {
       console.error(`Error reading directory ${currentPath}:`, error);
+      return [];
     }
   };
 
-  await searchDirectory(dirPath);
-  return results;
+  return await searchDirectory(dirPath);
 };
