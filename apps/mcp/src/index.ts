@@ -120,7 +120,8 @@ STEP 3: Confirm changes (IMPORTANT: ASK FOR USER APPROVAL)
 
 STEP 4: Apply fixes and re-benchmark
 - Replace patterns like \`(prismaClient: PrismaClient)\` with \`(prismaClient: typeof client)\`
-- Run \`tsc --noEmit --extendedDiagnostics\` again
+- Run \`tsc --noEmit --extendedDiagnostics\` again in the same directories as STEP 2
+- Skip directories without tsconfig.json (same as STEP 2)
 - Calculate and present improvement percentages (type count, instantiations, compilation time)
 
 Common problematic patterns to fix:
