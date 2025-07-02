@@ -26,6 +26,6 @@ export const packDir = async (dirPath: string): Promise<string> => {
     return await fs.readFile(outputFilePath, "utf-8");
   } finally {
     // Clean up the output file
-    await fs.unlink(outputFilePath);
+    await fs.rm(outputFilePath, { force: true });
   }
 };
