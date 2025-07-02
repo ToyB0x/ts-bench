@@ -139,60 +139,82 @@ export default function Page() {
           {/* MCP Setup Section */}
           <section id="mcp-setup">
             <h2 className="text-2xl font-bold mb-6">
-              MCP Setup & AI Improvement Tools
+              MCP Setup for Claude Code
             </h2>
             <div className="border border-gray-800 p-8">
               <p className="text-gray-400 mb-8 leading-relaxed">
-                Model Context Protocol (MCP) enables seamless integration with
-                AI tools for enhanced TypeScript performance analysis.
+                Set up TSBench MCP integration with Claude Code to enable
+                AI-powered TypeScript performance analysis and optimization.
               </p>
 
               <div className="space-y-8">
                 <div>
                   <h3 className="text-lg font-semibold mb-3 text-white">
-                    1. Install MCP Client
-                  </h3>
-                  <div className="bg-black p-4 font-mono text-sm">
-                    <code className="text-emerald-400 ">
-                      npm install -g @modelcontextprotocol/cli
-                    </code>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 text-white">
-                    2. Configure MCP for TSBench
+                    1. Add TSBench MCP to Claude Code
                   </h3>
                   <div className="bg-black p-4 font-mono text-sm">
                     <code className="text-emerald-400">
-                      mcp configure --server tsbench --endpoint
-                      localhost:3000/api/mcp
+                      claude mcp add @ts-bench/mcp -- npx -y @ts-bench/mcp
                     </code>
+                  </div>
+                  <div className="mt-3 p-3 bg-blue-500/10 border border-blue-500/30 rounded">
+                    <p className="text-blue-300 text-sm font-medium mb-2">
+                      Node.js Version Manager Users
+                    </p>
+                    <p className="text-gray-300 text-sm">
+                      If you use volta or other Node.js version managers,
+                      specify the absolute path to npx:
+                    </p>
+                    <div className="bg-black p-2 mt-2 font-mono text-xs">
+                      <code className="text-gray-400">which npx</code>
+                      <span className="text-gray-500">
+                        {" "}
+                        # Get the absolute path
+                      </span>
+                    </div>
+                    <div className="bg-black p-2 mt-1 font-mono text-xs">
+                      <code className="text-emerald-400">
+                        claude mcp add @ts-bench/mcp -- /path/to/npx -y
+                        @ts-bench/mcp
+                      </code>
+                    </div>
                   </div>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold mb-3 text-white">
-                    3. Enable AI Analysis
+                    2. Verify MCP Setup
                   </h3>
                   <p className="text-gray-400 mb-3">
-                    Add environment variable:
+                    Launch Claude Code and test the integration:
                   </p>
-                  <div className="bg-black p-4 font-mono text-sm">
-                    <code className="text-emerald-400">
-                      export TSBENCH_AI_ENABLED=true
-                    </code>
+                  <div className="bg-black p-4 font-mono text-sm space-y-2">
+                    <div>
+                      <code className="text-emerald-400">claude</code>
+                    </div>
+                    <div>
+                      <code className="text-gray-400">
+                        # In Claude Code, type "/" to see available commands
+                      </code>
+                    </div>
+                    <div>
+                      <code className="text-gray-400">
+                        # You should see @ts-bench/mcp commands listed
+                      </code>
+                    </div>
                   </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 text-white">
-                    4. Run Analysis
-                  </h3>
-                  <div className="bg-black p-4 font-mono text-sm">
-                    <code className="text-emerald-400">
-                      tsbench analyze --ai-insights
-                    </code>
+                  <div className="mt-3 p-3 bg-green-500/10 border border-green-500/30 rounded">
+                    <p className="text-green-300 text-sm font-medium mb-1">
+                      Success Indicator
+                    </p>
+                    <p className="text-gray-300 text-sm">
+                      When MCP is properly configured, typing{" "}
+                      <code className="bg-gray-800 px-1 rounded text-xs">
+                        /
+                      </code>{" "}
+                      in Claude Code will show @ts-bench/mcp commands available
+                      for use.
+                    </p>
                   </div>
                 </div>
               </div>
