@@ -1,0 +1,89 @@
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
+import * as os from "node:os";
+import { grepFile, type GrepResult } from "./grepFile.js";
+
+describe("grepFile", () => {
+  let testDir: string;
+
+  beforeEach(async () => {
+    testDir = await fs.mkdtemp(path.join(os.tmpdir(), "grepFile-test-"));
+    
+    // Create test files
+    await fs.writeFile(
+      path.join(testDir, "file1.txt"),
+      "Hello world\nThis is a test\nAnother line with test"
+    );
+    
+    await fs.writeFile(
+      path.join(testDir, "file2.js"),
+      "const test = 'value';\nconsole.log('Hello');\nfunction testFunction() {}"
+    );
+    
+    // Create subdirectory with files
+    const subDir = path.join(testDir, "subdir");
+    await fs.mkdir(subDir);
+    
+    await fs.writeFile(
+      path.join(subDir, "nested.ts"),
+      "interface TestInterface {}\nexport const test = 123;\n// test comment"
+    );
+  });
+
+  afterEach(async () => {
+    await fs.rm(testDir, { recursive: true, force: true });
+  });
+
+  it("should find matches in all files recursively", async () => {
+    const results = await grepFile(testDir, "test");
+    
+    expect(results).toHaveLength(3);
+    expect(results.some(r => r.filePath.endsWith("file1.txt"))).toBe(true);
+    expect(results.some(r => r.filePath.endsWith("file2.js"))).toBe(true);
+    expect(results.some(r => r.filePath.endsWith("nested.ts"))).toBe(true);
+  });
+
+  it("should filter by file extensions", async () => {
+    const results = await grepFile(testDir, "test", [".js", ".ts"]);
+    
+    expect(results).toHaveLength(2);
+    expect(results.every(r => r.filePath.endsWith(".js") || r.filePath.endsWith(".ts"))).toBe(true);
+  });
+
+  it("should work with RegExp patterns", async () => {
+    const results = await grepFile(testDir, /^const/);
+    
+    expect(results).toHaveLength(2);
+    const matches = results.flatMap(r => r.matches);
+    expect(matches.some(m => m.includes("const test = 'value';"))).toBe(true);
+    expect(matches.some(m => m.includes("export const test = 123;"))).toBe(true);
+  });
+
+  it("should return correct file paths and matches", async () => {
+    const results = await grepFile(testDir, "Hello");
+    
+    expect(results).toHaveLength(2);
+    
+    const file1Result = results.find(r => r.filePath.endsWith("file1.txt"));
+    expect(file1Result?.matches).toEqual(["Hello world"]);
+    
+    const file2Result = results.find(r => r.filePath.endsWith("file2.js"));
+    expect(file2Result?.matches).toEqual(["console.log('Hello');"]);
+  });
+
+  it("should return empty array when no matches found", async () => {
+    const results = await grepFile(testDir, "nonexistent");
+    
+    expect(results).toEqual([]);
+  });
+
+  it("should handle empty directory", async () => {
+    const emptyDir = path.join(testDir, "empty");
+    await fs.mkdir(emptyDir);
+    
+    const results = await grepFile(emptyDir, "test");
+    
+    expect(results).toEqual([]);
+  });
+});
