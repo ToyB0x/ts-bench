@@ -20,6 +20,11 @@ describe("listPackages", () => {
         relativePathFromRoot: "packages/db",
       },
       {
+        absolutePath: `${rootDir}/packages/utils`,
+        name: "@ts-bench/utils",
+        relativePathFromRoot: "packages/utils",
+      },
+      {
         absolutePath: `${rootDir}/apps/web`,
         name: "@ts-bench/web",
         relativePathFromRoot: "apps/web",
