@@ -86,4 +86,43 @@ describe("grepFile", () => {
     
     expect(results).toEqual([]);
   });
+
+  it("should search deeply nested directories (3 levels)", async () => {
+    // Create deep directory structure: testDir/level1/level2/level3
+    const level1 = path.join(testDir, "level1");
+    const level2 = path.join(level1, "level2");
+    const level3 = path.join(level2, "level3");
+    
+    await fs.mkdir(level1);
+    await fs.mkdir(level2);
+    await fs.mkdir(level3);
+    
+    // Add files at different levels
+    await fs.writeFile(
+      path.join(level1, "deep1.txt"),
+      "deep test level 1\nsome content"
+    );
+    
+    await fs.writeFile(
+      path.join(level2, "deep2.txt"),
+      "another line\ndeep test level 2"
+    );
+    
+    await fs.writeFile(
+      path.join(level3, "deep3.txt"),
+      "deep test level 3\nfinal content\ndeep nested content"
+    );
+    
+    const results = await grepFile(testDir, "deep test");
+    
+    // Should find files in all 3 nested levels plus original files
+    expect(results.length).toBeGreaterThanOrEqual(3);
+    
+    const deepResults = results.filter(r => r.filePath.includes("level"));
+    expect(deepResults).toHaveLength(3);
+    
+    expect(deepResults.some(r => r.filePath.includes("level1/deep1.txt"))).toBe(true);
+    expect(deepResults.some(r => r.filePath.includes("level2/deep2.txt"))).toBe(true);
+    expect(deepResults.some(r => r.filePath.includes("level3/deep3.txt"))).toBe(true);
+  });
 });
