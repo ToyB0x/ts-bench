@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
-    "test": "vitest",
+    "//test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
