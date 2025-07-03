@@ -69,8 +69,9 @@ server.registerPrompt(
 
 **STEP 3: Architecture Planning**
 - Analyze current PrismaClient initialization patterns
-- Plan shared client instance strategy
+- Plan shared client instance strategy OR factory function approach
 - Design \`typeof\` reference replacements
+- **IMPORTANT**: Select appropriate refactoring scope - avoid forcing all clients into single pattern
 - Present architectural plan for user approval
 
 **STEP 4: Change Preview**
@@ -109,32 +110,45 @@ d) Final verification
 - For monorepos: Ask to continue with remaining packages
 - Optional: Generate improvement report for future MCP enhancements
 
-**PATTERNS TO FIX**:
+**PATTERNS TO FIX** (selective approach - mixed patterns are acceptable):
 1. \`(prismaClient: PrismaClient)\` → \`(prismaClient: typeof sharedClient)\`
 2. \`new PrismaClient()\` duplicates → Shared instance
-3. Complex types → Minimal interfaces: \`interface IPrismaMinimal { table: PrismaClient['table']; }\`
+3. Dynamic initialization → Factory function + \`ReturnType<typeof createClient>\`
+4. Complex types → Minimal interfaces: \`interface IPrismaMinimal { table: PrismaClient['table']; }\`
 
-**SHARED CLIENT EXAMPLE**:
+**IMPORTANT**: Don't force all clients into a single pattern. Select improvements based on:
+- Code clarity and maintainability
+- Performance impact
+- Risk of breaking changes
+
+**CLIENT PATTERNS EXAMPLES**:
 \`\`\`typescript
-// ✅ GOOD: Preserves constructor arguments
+// ✅ Pattern 1: Static shared client
 // Before
-const prisma1 = new PrismaClient({ log: ['query'], datasources: { db: { url: 'custom-url' } } })
-const prisma2 = new PrismaClient({ log: ['query'], datasources: { db: { url: 'custom-url' } } })
+const prisma1 = new PrismaClient({ log: ['query'] })
+const prisma2 = new PrismaClient({ log: ['query'] })
 
 // After
-// db/client.ts
-import { PrismaClient } from '@prisma/client'
-export const client = new PrismaClient({ log: ['query'], datasources: { db: { url: 'custom-url' } } })
-
-// usage
-import { client } from './db/client'
+export const client = new PrismaClient({ log: ['query'] })
 function myFunction(db: typeof client) { ... }
 
-// ❌ BAD: Loses constructor arguments
+// ✅ Pattern 2: Dynamic initialization with factory
 // Before
-const prisma = new PrismaClient({ log: ['query', 'info'], errorFormat: 'pretty' })
+const config = getConfig()
+const prisma1 = new PrismaClient(config)
+const prisma2 = new PrismaClient(config)
 
-// After (WRONG)
+// After
+const createPrismaClient = (config: Config) => new PrismaClient(config)
+export type ClientType = ReturnType<typeof createPrismaClient>
+function myFunction(db: ClientType) { ... }
+
+// ✅ Pattern 3: Mixed approach (acceptable in same package)
+export const staticClient = new PrismaClient({ log: ['query'] })
+export const createDynamicClient = (env: string) => new PrismaClient({ datasources: { db: { url: getUrl(env) } } })
+export type DynamicClientType = ReturnType<typeof createDynamicClient>
+
+// ❌ BAD: Loses constructor arguments
 export const client = new PrismaClient() // Lost configuration!
 \`\`\`
 
