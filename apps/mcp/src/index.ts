@@ -31,6 +31,28 @@ server.registerTool(
   }),
 );
 
+/**
+ * Show project npm packages dependency graph.
+ */
+server.registerTool(
+  "show-dependency-graph",
+  {
+    title: "Show Dependency Graph",
+    description:
+      "Show project npm packages dependency graph (useful for analyzing TypeScript type definitions dependencies)",
+    inputSchema: {
+      mode: z
+        .enum(["simple", "json"])
+        .describe(
+          "Mode of showing the dependency graph (simple is a simple text graph, json is a JSON structured detailed graph)",
+        ),
+    },
+  },
+  async ({ mode }) => ({
+    content: [{ type: "text", text: "" }],
+  }),
+);
+
 server.registerPrompt(
   "prisma-typescript-optimization",
   {
