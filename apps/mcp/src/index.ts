@@ -48,9 +48,10 @@ server.registerPrompt(
 **TOOL**: Use \`extract-type-signatures\` to analyze TypeScript files for performance issues.
 
 **SETUP**:
-1. Ask user to select language: English or 日本語
-2. List available packages (search for package.json files) with selection numbers
-3. User selects target directory/package for optimization
+1. Ask user to select language: 1.English or 2.日本語
+2. Explain the whole optimization process in selected language
+3. List available packages (search for package.json files) with selection numbers
+4. User selects target directory/package for optimization
 
 **PROCESS**:
 
