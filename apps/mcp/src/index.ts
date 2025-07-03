@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
@@ -35,22 +36,41 @@ server.registerTool(
  * Show project npm packages dependency graph.
  */
 server.registerTool(
-  "show-dependency-graph",
+  "show-monorepo-internal-dependency-graph",
   {
-    title: "Show Dependency Graph",
+    title: "Show Monorepo Internal Dependency Graph",
     description:
-      "Show project npm packages dependency graph (useful for analyzing TypeScript type definitions dependencies)",
+      "Show monorepo project internal packages dependency graph (useful for analyzing TypeScript type definitions dependencies)",
     inputSchema: {
-      mode: z
-        .enum(["simple", "json"])
-        .describe(
-          "Mode of showing the dependency graph (simple is a simple text graph, json is a JSON structured detailed graph)",
-        ),
+      monorepoPackageManager: z
+        .enum(["npm", "yarn", "pnpm"])
+        .describe("package manager used in the monorepo (npm, yarn, pnpm)"),
     },
   },
-  async ({ mode }) => ({
-    content: [{ type: "text", text: "" }],
-  }),
+  async ({ monorepoPackageManager }) => {
+    try {
+      if (monorepoPackageManager !== "pnpm") {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "Sorry, This tool currently only supports pnpm. If you are AI, please analyze internal package dependency graph by yourself.",
+            },
+          ],
+        };
+      }
+
+      const command = "pnpm list --only-projects --recursive";
+      const result = execSync(command);
+      return {
+        content: [{ type: "text", text: result.toString() }],
+      };
+    } catch (error) {
+      return {
+        content: [{ type: "text", text: `Error executing command: ${error}` }],
+      };
+    }
+  },
 );
 
 server.registerPrompt(
