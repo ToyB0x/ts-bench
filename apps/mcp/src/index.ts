@@ -100,17 +100,35 @@ STEP 6: Apply fixes and re-benchmark
 - Skip directories without tsconfig.json (same as STEP 3)
 - Calculate and present improvement percentages (type count, instantiations, compilation time)
 - Verify that TypeScript compilation still succeeds after changes
+- Ask user for confirmation to run package-specific test and build commands (e.g., \`pnpm --filter <package> test\`, \`pnpm --filter <package> build\`)
+- Execute package tests and builds only if user confirms
 
-STEP 7: Create a pull request
+STEP 7: Repository-wide verification (IMPORTANT: ASK FOR USER CONFIRMATION)
+- Ask user for confirmation to run repository-wide commands for final verification
+- If confirmed, execute repository-wide commands: \`pnpm test\`, \`pnpm build\`, \`pnpm typecheck\`, \`pnpm lint\`
+- Present any failures or issues found during repository-wide testing
+- Only proceed to pull request creation if all repository-wide checks pass
+
+STEP 8: Create a pull request
 - Confirm with the user that createing a pull request is acceptable and make new branch before committing changes
 - Generate a pull request with all changes made in STEP 6
 - Include a detailed description of the changes, improvements, and benchmarks
 - Provide links to the original and optimized code for easy review
 
-STEP 8: Final confirmation
+STEP 9: Final confirmation
 - Ask the user to review the pull request and confirm that everything looks good
-- If Monorepo and if there are remain un-checked package directory, ask user to repeat STEP 2 to STEP 7 for the next package
+- If Monorepo and if there are remain un-checked package directory, ask user to repeat STEP 2 to STEP 8 for the next package
   (Recommend save progress to the progress.md file in the root directory of the monorepo, and take user to have a coffee break before starting the next package with a fantastic emoji)
+
+STEP 10: Improvement report generation (OPTIONAL)
+- Ask the user if they would like to generate an improvement report for the MCP prompt implementation
+- If confirmed, create a detailed report analyzing the optimization process results, including:
+  - Performance improvements achieved (type count reduction, compilation time improvements)
+  - Patterns that worked best for different scenarios
+  - Challenges encountered and how they were resolved
+  - Suggestions for improving the MCP prompt process flow
+  - Recommendations for future TypeScript performance optimization workflows
+- Generate this report as a structured document for the author to review and incorporate into future MCP implementations
 
 **Problematic patterns to fix:**
 1. \`async (prismaClient: PrismaClient) => {}\` → \`async (prismaClient: typeof sharedClient) => {}\`
@@ -118,6 +136,9 @@ STEP 8: Final confirmation
 3. \`constructor(prismaClient: PrismaClient)\` → \`constructor(prismaClient: typeof sharedClient)\`
 4. Duplicate \`new PrismaClient()\` instantiations → Shared client pattern
 5. Import consolidation: Replace multiple PrismaClient imports with shared type imports
+6. Complex type relationships → Interface minimization pattern: \`interface IPrismaMinimal { table1: PrismaClient['table1']; }\`
+7. Recursive type expansion → Scoped interface definitions that limit type inference scope
+8. Direct PrismaClient type usage in generics → \`typeof\` references to avoid recursive type resolution
 
 **Implementation Requirements:**
 - Create a shared client instance before replacing type references
@@ -135,6 +156,19 @@ export const client = new PrismaClient()
 // other files
 import { client } from './db/client'
 async function myFunction(db: typeof client) { ... }
+\`\`\`
+
+**Example interface minimization pattern:**
+\`\`\`typescript
+// For complex cases, create minimal interfaces to limit type scope
+interface IPrismaMinimal {
+  user: PrismaClient['user'];
+  post: PrismaClient['post'];
+}
+
+function processData<T extends IPrismaMinimal>(prisma: T) {
+  // Only exposes needed tables, avoiding full PrismaClient type resolution
+}
 \`\`\`
 
 Start with STEP 2 by searching for problematic patterns in the codebase.`,
