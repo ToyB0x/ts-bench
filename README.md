@@ -27,15 +27,16 @@
   - AI comment also recorded in the database, so you can check the history of the AI comment (with graph)
 
 # Usage
+
+## As a CLI tool
 ```bash
 npx @ts-bench/cli
 ```
 
-# Roadmap
-- Graph display of report results for monitoring
-- Creation of MCP
-  - Provide description of refactoring policies
-  - Provide measurement tools
+## As a Claude Code MCP tool (Model Context Protocol)
+```bash
+claude mcp add @ts-bench/mcp -- npx -y @ts-bench/mcp
+```
 
 # TODO: high priority
 - 🚧🔨⏳ Implement features to rapid scan
