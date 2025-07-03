@@ -98,21 +98,30 @@ server.registerPrompt(
     title: "Prisma TypeScript Performance Optimization",
     description:
       "Detect and fix TypeScript performance issues in Prisma projects through an enhanced 6-step process",
-    argsSchema: { projectPath: z.string().optional() },
+    // argsSchema: { projectPath: z.string().optional() },
   },
-  ({ projectPath = "." }) => ({
+  // ({ projectPath = "." }) => ({
+  () => ({
     messages: [
       {
         role: "user",
         content: {
           type: "text",
-          text: `I need you to optimize TypeScript performance in a Prisma project using this enhanced 5-step process:
+          text: `I need you to optimize TypeScript performance in a Prisma project using this below process:
 IMPORTANT TOOLS: 
 - \`extract-type-signatures\`: Analyze TypeScript files for type signatures and performance issues (very useful for this process)
 
-STEP 1: Notify user of process overview
+PREPARATION:
+Immediately after starting, do the following before moving on to the rest of the process.
+- Ask the user to select a language as below.
+  1. English
+  2. 日本語 (Japanese)
+
+STEP 1: Notify user of process overview and confirm target directory
 - Explain that this process requires 3-10 user confirmations
-- Wait for user confirmation before proceeding
+- Ask the user to select the target directory with below selection number message.
+  [-Selection Number]: Select a specific package directory (AI must list packages found in the monorepo with search for package.json files and show them with selection number 2, 3, 4, etc.)
+  (For monorepos, we recommend limiting the scope to a certain extent, such as apps and packages, as this will shorten the time to create a PR and make things easier.)
 
 STEP 2: Detect problematic code patterns
 - Search for files containing "PrismaClient" type references in function signatures (ignore node_modules and .git directories)
@@ -125,7 +134,7 @@ STEP 3: Benchmark current performance
 - For monorepos: First detect all packages by finding package.json files, then ask user which specific packages to analyze if there are many (>3)
 - Prioritize packages with the most PrismaClient references found in STEP 2
 - Check each selected package directory for tsconfig.json and run \`tsc --noEmit --extendedDiagnostics\` in directories that have it
-- For single repos: Run \`tsc --noEmit --extendedDiagnostics\` in the project directory: ${projectPath}
+- For single repos: Run \`tsc --noEmit --extendedDiagnostics\` in the specific directory
 - Skip directories without tsconfig.json (this is fine for packages that don't use TypeScript)
 - Process packages sequentially, one at a time
 - Extract and present key metrics: type count, instantiations, and compilation time
@@ -155,6 +164,17 @@ STEP 6: Apply fixes and re-benchmark
 - Skip directories without tsconfig.json (same as STEP 3)
 - Calculate and present improvement percentages (type count, instantiations, compilation time)
 - Verify that TypeScript compilation still succeeds after changes
+
+STEP 7: Create a pull request
+- Confirm with the user that createing a pull request is acceptable and make new branch before committing changes
+- Generate a pull request with all changes made in STEP 6
+- Include a detailed description of the changes, improvements, and benchmarks
+- Provide links to the original and optimized code for easy review
+
+STEP 8: Final confirmation
+- Ask the user to review the pull request and confirm that everything looks good
+- If Monorepo and if there are remain un-checked package directory, ask user to repeat STEP 2 to STEP 7 for the next package
+  (Recommend save progress to the progress.md file in the root directory of the monorepo, and take user to have a coffee break before starting the next package with a fantastic emoji)
 
 **Problematic patterns to fix:**
 1. \`async (prismaClient: PrismaClient) => {}\` → \`async (prismaClient: typeof sharedClient) => {}\`
