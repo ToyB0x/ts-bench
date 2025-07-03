@@ -90,15 +90,25 @@ STEP 5: Confirm changes (IMPORTANT: ASK FOR USER APPROVAL)
 - Ask user for explicit approval before making any modifications
 - Only proceed if user confirms
 
-STEP 6: Apply fixes and re-benchmark 
+STEP 6: Apply fixes and re-benchmark (WITH INCREMENTAL VERIFICATION)
 - Create shared PrismaClient instance and type exports
+- **INTERMEDIATE CHECK 1**: Run \`tsc --noEmit --diagnostics\` after creating shared client
+  - Report initial improvement metrics to user
+  - Present type count and compilation time changes from baseline
 - Replace direct PrismaClient instantiations with shared instance usage
+- **INTERMEDIATE CHECK 2**: Run \`tsc --noEmit --diagnostics\` after shared instance replacement
+  - Report cumulative improvement metrics to user
+  - Show progress: baseline → after shared client → after instance replacement
 - Replace type patterns like \`(prismaClient: PrismaClient)\` with \`(prismaClient: typeof sharedClient)\`
+- **INTERMEDIATE CHECK 3**: Run \`tsc --noEmit --diagnostics\` after type pattern replacement
+  - Report cumulative improvement metrics to user
+  - Show progress: baseline → shared client → instances → type patterns
 - Update imports to use the shared types
-- Run \`tsc --noEmit --extendedDiagnostics\` again in the same directories as STEP 3
+- **FINAL VERIFICATION**: Run \`tsc --noEmit --extendedDiagnostics\` for complete analysis
 - Process packages sequentially, one at a time (same as STEP 3)
 - Skip directories without tsconfig.json (same as STEP 3)
-- Calculate and present improvement percentages (type count, instantiations, compilation time)
+- Calculate and present final improvement percentages (type count, instantiations, compilation time)
+- Show improvement progression: baseline → checkpoint 1 → checkpoint 2 → checkpoint 3 → final
 - Verify that TypeScript compilation still succeeds after changes
 - Ask user for confirmation to run package-specific test and build commands (e.g., \`pnpm --filter <package> test\`, \`pnpm --filter <package> build\`)
 - Execute package tests and builds only if user confirms
@@ -145,6 +155,9 @@ STEP 10: Improvement report generation (OPTIONAL)
 - Use \`typeof sharedClient\` pattern to maintain type safety
 - Consolidate duplicate PrismaClient configurations into shared utility
 - Update all imports to use shared types to avoid circular dependencies
+- **CRITICAL**: Run \`tsc --noEmit --diagnostics\` after EACH major change to verify incremental improvements
+- Report performance metrics to user at each checkpoint to avoid rework
+- Show progressive improvement: baseline → shared client → instance replacement → type patterns → final
 - Test TypeScript compilation after each major change
 
 **Example shared client pattern:**
