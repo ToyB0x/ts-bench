@@ -116,13 +116,26 @@ d) Final verification
 
 **SHARED CLIENT EXAMPLE**:
 \`\`\`typescript
+// ✅ GOOD: Preserves constructor arguments
+// Before
+const prisma1 = new PrismaClient({ log: ['query'], datasources: { db: { url: 'custom-url' } } })
+const prisma2 = new PrismaClient({ log: ['query'], datasources: { db: { url: 'custom-url' } } })
+
+// After
 // db/client.ts
 import { PrismaClient } from '@prisma/client'
-export const client = new PrismaClient()
+export const client = new PrismaClient({ log: ['query'], datasources: { db: { url: 'custom-url' } } })
 
 // usage
 import { client } from './db/client'
 function myFunction(db: typeof client) { ... }
+
+// ❌ BAD: Loses constructor arguments
+// Before
+const prisma = new PrismaClient({ log: ['query', 'info'], errorFormat: 'pretty' })
+
+// After (WRONG)
+export const client = new PrismaClient() // Lost configuration!
 \`\`\`
 
 Begin by searching for problematic patterns in the selected directory.`,
