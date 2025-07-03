@@ -116,6 +116,19 @@ d) Final verification
 3. Dynamic initialization → Factory function + \`ReturnType<typeof createClient>\`
 4. Complex types → Minimal interfaces: \`interface IPrismaMinimal { table: PrismaClient['table']; }\`
 
+**IMPORTANT PERFORMANCE INSIGHT**: 
+Simple \`const prisma = new PrismaClient()\` initialization has minimal TypeScript performance impact. The real performance bottlenecks occur when:
+- PrismaClient types are used in function parameters: \`(prismaClient: PrismaClient) => {}\`
+- Class constructors with PrismaClient typed parameters: \`constructor(private prisma: PrismaClient)\`
+- Variables are passed to these typed parameters, triggering extensive type checking
+- Large type compatibility checks happen during assignment/function calls
+
+**FOCUS AREAS for optimization**:
+- Function signatures with PrismaClient types where variables are actually passed
+- Class constructors that receive PrismaClient instances as parameters
+- Skip optimization for simple initialization without type usage
+- Prioritize any location where PrismaClient instances are passed as arguments
+
 **IMPORTANT**: Don't force all clients into a single pattern. Select improvements based on:
 - Code clarity and maintainability
 - Performance impact
