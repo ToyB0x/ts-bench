@@ -30,77 +30,13 @@ server.registerTool(
   }),
 );
 
-/**
- * Sample resource that provides application information.
- */
-// Static resource
-// server.registerResource(
-//   "mcp-app-info",
-//   "config://app-info",
-//   {
-//     title: "Application Information",
-//     description: "Application information data like name, version, etc.",
-//     mimeType: "text/plain",
-//   },
-//   async (uri) => ({
-//     contents: [
-//       {
-//         uri: uri.href,
-//         text: `Application Name: ${packageJson.name}\nVersion: ${packageJson.version}`,
-//       },
-//     ],
-//   }),
-// );
-
-/**
- * List files with a given pattern.
- */
-// server.registerResource(
-//   "list-files",
-//   new ResourceTemplate("list-file://{pattern}", { list: undefined }),
-//   {
-//     title: "Grep Files",
-//     description: "Grep files with a given pattern",
-//   },
-//   async (uri, { pattern }) => ({
-//     contents: [
-//       {
-//         uri: uri.href,
-//         text: `Hello, ${pattern}!`,
-//       },
-//     ],
-//   }),
-// );
-
-// server.registerPrompt(
-//   "grep-by-ai",
-//   {
-//     title: "Grep Files by AI",
-//     description: "Grep files with a given pattern using AI(You)",
-//     argsSchema: { pattern: z.string() },
-//   },
-//   ({ pattern }) => ({
-//     messages: [
-//       {
-//         role: "user",
-//         content: {
-//           type: "text",
-//           text: `Find files that contain below string under current dir:\n\n${pattern}`,
-//         },
-//       },
-//     ],
-//   }),
-// );
-
 server.registerPrompt(
   "prisma-typescript-optimization",
   {
     title: "Prisma TypeScript Performance Optimization",
     description:
       "Detect and fix TypeScript performance issues in Prisma projects through an enhanced 6-step process",
-    // argsSchema: { projectPath: z.string().optional() },
   },
-  // ({ projectPath = "." }) => ({
   () => ({
     messages: [
       {
