@@ -47,11 +47,11 @@ This is very useful for identifying bottlenecks and hotspots in TSC and for effe
     },
     async ({ targetDir, skipMillis, forceMillis }) => {
       const tempDir = path.join(targetDir, TEMP_TRACE_FILES_DIR);
-      
+
       try {
         // Create temp directory
         await fs.mkdir(tempDir, { recursive: true });
-        
+
         const commandGenerateTrace = `NODE_OPTIONS=--max-old-space-size=${MAX_OLD_SPACE_SIZE} npx tsc --noEmit --extendedDiagnostics --incremental false --generateTrace ${TEMP_TRACE_FILES_DIR}`;
         const commandAnalyze = `npx @typescript/analyze-trace ${TEMP_TRACE_FILES_DIR} --skipMillis ${skipMillis} --forceMillis ${forceMillis}`;
 
