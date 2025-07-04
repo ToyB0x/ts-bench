@@ -4,13 +4,15 @@ import { z } from "zod";
 
 export const MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS = "show-tsc-diagnostics";
 
+const MAX_OLD_SPACE_SIZE = 16384; // 16GB, adjust as needed (bigger and bad ts files, more memory needed)
+
 export const registerToolShowTscDiagnostics = (server: McpServer) => {
   server.registerTool(
     MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS,
     {
       title: "Show TypeScript Compiler Diagnostics",
       description:
-        "Show TypeScript compiler diagnostics for a single package. This tool runs `tsc --noEmit --diagnostics` to analyze TypeScript performance and issues.",
+        "Show TypeScript compiler diagnostics for a single package. This tool runs `tsc --noEmit --diagnostics --incremental` to analyze TypeScript performance and issues.",
       inputSchema: {
         targetDir: z
           .string()
@@ -22,7 +24,7 @@ export const registerToolShowTscDiagnostics = (server: McpServer) => {
     },
     async ({ targetDir }) => {
       try {
-        const command = "npx tsc --noEmit --diagnostics";
+        const command = `NODE_OPTIONS=--max-old-space-size=${MAX_OLD_SPACE_SIZE} npx tsc --noEmit --diagnostics --incremental false`;
         const result = execSync(command, {
           cwd: targetDir,
         });

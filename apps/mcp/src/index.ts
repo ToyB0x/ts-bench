@@ -5,6 +5,7 @@ import {
   registerPromptPrismaTypescriptOptimization,
   registerToolExtractTypeSignatures,
   registerToolShowMonorepoInternalDependencyGraph,
+  registerToolShowTscDeepAnalyzeAndHotSpot,
   registerToolShowTscDiagnostics,
   registerToolTsBenchCli,
 } from "./register";
@@ -18,6 +19,7 @@ const server = new McpServer({
 // Register tools
 registerToolTsBenchCli(server);
 registerToolShowTscDiagnostics(server);
+registerToolShowTscDeepAnalyzeAndHotSpot(server);
 registerToolExtractTypeSignatures(server);
 registerToolShowMonorepoInternalDependencyGraph(server);
 
