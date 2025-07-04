@@ -1,4 +1,5 @@
 import { execSync } from "node:child_process";
+import * as fs from "node:fs/promises";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 export const registerToolTsBenchCli = (server: McpServer) => {
@@ -10,16 +11,18 @@ export const registerToolTsBenchCli = (server: McpServer) => {
         "A tool to analyze TypeScript performance in a monorepo using ts-bench-cli. (If you don't need to analyze whole monorepo, you can use the `npx tsc --diagnostics` instead.)",
     },
     async () => {
+      const tempDb = "ts-bench-temp.sqlite";
+      const reportFile = "ts-bench-report-temp.md";
+      
       try {
-        const tempDb = "ts-bench-temp.sqlite";
         const command = `DB_PATH=${tempDb} npx @ts-bench/cli analyze`;
-        const result = execSync(command);
+        execSync(command);
 
-        // AI TASK:
-        // - read generated report from ./ts-bench-report.md and after read it remove it and temp db (read apps/mcp/src/libs/packDir.ts implementation)
+        // Read the generated report
+        const reportContent = await fs.readFile(reportFile, "utf-8");
 
         return {
-          content: [{ type: "text", text: result.toString() }],
+          content: [{ type: "text", text: reportContent }],
         };
       } catch (error) {
         return {
@@ -27,6 +30,10 @@ export const registerToolTsBenchCli = (server: McpServer) => {
             { type: "text", text: `Error executing command: ${error}` },
           ],
         };
+      } finally {
+        // Clean up the report file and temp database
+        await fs.rm(reportFile, { force: true });
+        await fs.rm(tempDb, { force: true });
       }
     },
   );
