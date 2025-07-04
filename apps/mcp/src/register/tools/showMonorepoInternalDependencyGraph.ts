@@ -18,7 +18,9 @@ export const showMonorepoInternalDependencyGraph = (server: McpServer) => {
       inputSchema: {
         monorepoPackageManager: z
           .enum(["npm", "yarn", "pnpm"])
-          .describe("package manager used in the monorepo (npm, yarn, pnpm)"),
+          .describe(
+            "package manager used in the monorepo (npm, yarn, pnpm: you should specify package manager used in the target monorepo)",
+          ),
       },
     },
     async ({ monorepoPackageManager }) => {

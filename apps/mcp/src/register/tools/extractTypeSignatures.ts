@@ -11,12 +11,15 @@ export const extractTypeSignatures = (server: McpServer) => {
     MCP_TOOL_NAME__EXTRACT_TYPE_SIGNATURES,
     {
       title: "Extract TypeScript Type Signatures",
-      description:
-        "Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis",
+      description: `Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis.
+IMPORTANT: This tool result contain large text. You should specify a single package path in monorepo.
+`,
       inputSchema: {
         dir: z
           .string()
-          .describe("Directory path to analyze for TypeScript files"),
+          .describe(
+            "Directory path to analyze for TypeScript files. (Strongly recommended to use a single package path in monorepo)",
+          ),
       },
     },
     async ({ dir }) => ({
