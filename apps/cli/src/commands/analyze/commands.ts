@@ -16,13 +16,21 @@ export const makeAnalyzeCommand = () => {
     .command("tsc", { isDefault: true })
     .description("check tsc performance")
     .addOption(
-      new Option("-l, --lang <lang>", "language of report")
+      new Option("-l, --lang <string>", "language of report")
         .choices(["en", "ja"])
         .default("en", "English"),
     )
+    .addOption(
+      new Option(
+        "-sm, --skip-migration <boolean>",
+        "skip db migration (default: false)",
+      ).default(false),
+    )
     .action(async (options) => {
       const enableForceMigrationConflict = true;
-      await migrateDb(enableForceMigrationConflict);
+      if (!options.skipMigration) {
+        await migrateDb(enableForceMigrationConflict);
+      }
       await runBench({
         enableShowTable: true,
         reportLanguageCode: options.lang,
@@ -100,7 +108,7 @@ export const makeAnalyzeCommand = () => {
       ).default(180),
     )
     .addOption(
-      new Option("-l, --lang <lang>", "language of report")
+      new Option("-l, --lang <string>", "language of report")
         .choices(["en", "ja"])
         .default("en", "English"),
     )
