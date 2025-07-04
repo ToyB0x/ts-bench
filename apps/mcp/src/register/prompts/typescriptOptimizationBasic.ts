@@ -7,7 +7,7 @@ export const typescriptOptimizationBasic = (server: McpServer) => {
     {
       title:
         "⚡️ TypeScript Performance Optimization (Basic mode | Recommended ⚡️)",
-      description: "Detect and fix TypeScript performance issues.",
+      description: "⚡️ Detect and fix TypeScript performance issues. ⚡️",
     },
     () => ({
       messages: [

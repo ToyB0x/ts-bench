@@ -35,12 +35,23 @@ Use tools in this order for optimal insight:
 **CRITICAL**: Present findings and get explicit approval before making ANY code changes.
 
 ### 2.1 Report Format
-Present optimizations with impact metrics and options:
+Present optimizations with impact metrics, reliability ratings, and options:
 
 🔍 **Issue**: [Specific problem]
 📊 **Impact**: [Types count, instantiations count (primary), compilation time, memory (secondary)]
-🛠️ **Solutions**: Conservative/Moderate/Aggressive options with trade-offs
-👤 **Decision**: Which approach to take or skip?
+🛠️ **Solutions**: Present each solution with reliability rating:
+   - **Option A**: [Description] - **Reliability**: ⭐⭐⭐⭐⭐ (5/5) - [Reasoning for high/low confidence]
+   - **Option B**: [Description] - **Reliability**: ⭐⭐⭐⭐☆ (4/5) - [Reasoning for high/low confidence]
+   - **Option C**: [Description] - **Reliability**: ⭐⭐⭐☆☆ (3/5) - [Reasoning for high/low confidence]
+   
+**Reliability Scale**:
+- ⭐⭐⭐⭐⭐ (5/5): Proven pattern, predictable results, minimal risk
+- ⭐⭐⭐⭐☆ (4/5): Well-tested approach, expected to work with minor uncertainties
+- ⭐⭐⭐☆☆ (3/5): Moderate confidence, may require iteration or have side effects
+- ⭐⭐☆☆☆ (2/5): Experimental approach, higher risk but potential high reward
+- ⭐☆☆☆☆ (1/5): Uncertain outcome, requires careful testing and validation
+
+👤 **Decision**: Which approach to take or skip? Consider both impact and reliability.
 
 ### 2.2 Key Decision Points
 - **Library replacements** (Zod→valibot, Prisma→Drizzle): Performance vs migration cost
