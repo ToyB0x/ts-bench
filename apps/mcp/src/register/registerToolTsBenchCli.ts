@@ -8,7 +8,7 @@ export const registerToolTsBenchCli = (server: McpServer) => {
     "analyze-monorepo-typescript-performance",
     {
       title: "Analyze Monorepo TypeScript Performance",
-      description: `A tool to analyze TypeScript performance in a monorepo using ts-bench-cli. (If you don't need to analyze whole monorepo, and want analyze single package you should use MCP tool ${MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS} instead.)`,
+      description: `A tool to analyze TypeScript performance in a monorepo using ts-bench-cli. (If you don't need to analyze the whole monorepo, and want to analyze a single package, you should use MCP tool ${MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS} instead.)`,
     },
     async () => {
       const tempDb = "ts-bench-temp.sqlite";
