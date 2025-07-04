@@ -1,14 +1,14 @@
 import { execSync } from "node:child_process";
 import * as fs from "node:fs/promises";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS } from "./registerToolShowTscDiagnostics";
 
 export const registerToolTsBenchCli = (server: McpServer) => {
   server.registerTool(
     "analyze-monorepo-typescript-performance",
     {
       title: "Analyze Monorepo TypeScript Performance",
-      description:
-        "A tool to analyze TypeScript performance in a monorepo using ts-bench-cli. (If you don't need to analyze whole monorepo, you can use the `npx tsc --diagnostics` instead.)",
+      description: `A tool to analyze TypeScript performance in a monorepo using ts-bench-cli. (If you don't need to analyze whole monorepo, and want analyze single package you should use MCP tool ${MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS} instead.)`,
     },
     async () => {
       const tempDb = "ts-bench-temp.sqlite";
