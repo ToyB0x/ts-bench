@@ -73,8 +73,8 @@ importers:
         specifier: 1.0.0
         version: 1.0.0
       zod:
-        specifier: 3.25.71
-        version: 3.25.71
+        specifier: 3.25.72
+        version: 3.25.72
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -4232,8 +4232,8 @@ packages:
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
-  zod@3.25.71:
-    resolution: {integrity: sha512-BsBc/NPk7h8WsUWYWYL+BajcJPY8YhjelaWu2NMLuzgraKAz4Lb4/6K11g9jpuDetjMiqhZ6YaexFLOC0Ogi3Q==}
+  zod@3.25.72:
+    resolution: {integrity: sha512-Cl+fe4dNL4XumOBNBsr0lHfA80PQiZXHI4xEMTEr8gt6aGz92t3lBA32e71j9+JeF/VAYvdfBnuwJs+BMx/BrA==}
 
 snapshots:
 
@@ -4945,8 +4945,8 @@ snapshots:
       express-rate-limit: 7.5.1(express@5.1.0)
       pkce-challenge: 5.0.0
       raw-body: 3.0.0
-      zod: 3.25.71
-      zod-to-json-schema: 3.24.6(zod@3.25.71)
+      zod: 3.25.72
+      zod-to-json-schema: 3.24.6(zod@3.25.72)
     transitivePeerDependencies:
       - supports-color
 
@@ -7384,7 +7384,7 @@ snapshots:
       tiktoken: 1.0.21
       tree-sitter-wasms: 0.1.12
       web-tree-sitter: 0.24.7
-      zod: 3.25.71
+      zod: 3.25.72
     transitivePeerDependencies:
       - supports-color
 
@@ -8203,10 +8203,10 @@ snapshots:
     dependencies:
       zod: 3.25.67
 
-  zod-to-json-schema@3.24.6(zod@3.25.71):
+  zod-to-json-schema@3.24.6(zod@3.25.72):
     dependencies:
-      zod: 3.25.71
+      zod: 3.25.72
 
   zod@3.25.67: {}
 
-  zod@3.25.71: {}
+  zod@3.25.72: {}
