@@ -58,7 +58,40 @@ Based on analysis results, prioritize these optimizations:
 - **File Organization**: Separate type definitions from implementation
 - **Incremental Compilation**: Ensure proper incremental builds
 
-### 3.4 Dependency Management
+### 3.4 Function Argument Type Optimization (Critical for Performance)
+- **Large Type Arguments**: Avoid passing large complex types (e.g., PrismaClient, large ORMs) directly as function parameters
+- **Typeof Pattern**: Use \`typeof\` references to reduce type instantiations:
+  \`\`\`typescript
+  // ❌ Bad: Full type expansion every call
+  function useDatabase(prisma: PrismaClient) { /* ... */ }
+  
+  // ✅ Good: Typeof pattern reduces instantiations by 99%+
+  const prismaClient = new PrismaClient();
+  function useDatabase(prisma: typeof prismaClient) { /* ... */ }
+  \`\`\`
+- **Interface Narrowing Pattern**: Create minimal interfaces to limit type scope:
+  \`\`\`typescript
+  // ❌ Bad: Full ORM type with all methods/properties
+  function getUserData(db: PrismaClient) { 
+    return db.user.findMany(); 
+  }
+  
+  // ✅ Good: Narrow interface for specific use case
+  interface DatabaseUser {
+    user: PrismaClient['user'];
+  }
+  function getUserData(db: DatabaseUser) { 
+    return db.user.findMany(); 
+  }
+  \`\`\`
+- **Factory Function Pattern**: For dynamic configurations, use factory functions with ReturnType:
+  \`\`\`typescript
+  const createClient = (config: Config) => new PrismaClient(config);
+  type ClientType = ReturnType<typeof createClient>;
+  function useClient(client: ClientType) { /* ... */ }
+  \`\`\`
+
+### 3.5 Dependency Management
 - **Type Dependencies**: Minimize cross-package type dependencies
 - **Library Types**: Audit @types packages for unnecessary inclusions
 - **Version Alignment**: Ensure TypeScript versions are aligned across packages
@@ -84,4 +117,28 @@ After implementing optimizations:
 1. Dependency graph → Extract signatures → Basic diagnostics → Deep analysis → Re-measure
 
 Remember: TypeScript optimization is iterative. Make incremental changes and measure impact using these tools before proceeding to the next optimization.
+
+## 6. Critical Performance Knowledge
+
+### 6.1 Function Argument Type Impact
+**CRITICAL INSIGHT**: The biggest TypeScript performance killer is passing large complex types as function arguments where variables are actually passed to those parameters. This triggers exponential type checking calculations.
+
+### 6.2 Quantified Impact Examples
+From real-world optimization cases:
+- **Typeof Pattern**: Can reduce type instantiations by 99.96% (from 2,773,122 to 972)
+- **Interface Narrowing**: Can reduce types by 96%+ and instantiations by 99.3%
+- **Impact Focus**: Simple initialization (\`new PrismaClient()\`) has minimal impact; the problem occurs when these instances are passed to typed function parameters
+
+### 6.3 Detection Priority
+Use \`extract-type-signatures\` to identify these patterns:
+1. Function signatures with large type parameters where actual values are passed
+2. Class constructors receiving complex type instances
+3. Method parameters that accept full ORM/framework types
+4. Avoid optimizing simple variable declarations without function usage
+
+### 6.4 ORM-Specific Patterns (Prisma, TypeORM, etc.)
+- **Focus Area**: Functions that receive ORM client instances as parameters
+- **Skip**: Simple client initialization without function parameter usage
+- **Measure**: Use type instantiation counts as primary success metric
+- **Validate**: Ensure type safety is maintained while reducing computational complexity
 `;
