@@ -108,12 +108,12 @@ Only after receiving explicit user consent, proceed with approved optimizations:
 - **Generic Constraints**: Simplify overly complex generic constraints
 - **Inference**: Reduce reliance on complex type inference
 
-### 3.2 Import/Export Optimizations
+### 4.2 Import/Export Optimizations
 - **Barrel Exports**: Minimize re-exports that slow compilation
 - **Type-only Imports**: Use \`import type\` where possible
 - **Dynamic Imports**: Convert large static imports to dynamic where appropriate
 
-### 3.3 Project Structure Optimizations
+### 4.3 Project Structure Optimizations
 - **TSConfig Optimization**: 
   - Use \`skipLibCheck: true\` judiciously
   - Optimize \`include\`/\`exclude\` patterns
@@ -121,7 +121,7 @@ Only after receiving explicit user consent, proceed with approved optimizations:
 - **File Organization**: Separate type definitions from implementation
 - **Incremental Compilation**: Ensure proper incremental builds
 
-### 3.4 Function Argument Type Optimization (Critical for Performance)
+### 4.4 Function Argument Type Optimization (Critical for Performance)
 - **Large Type Arguments**: Avoid passing large complex types (e.g., PrismaClient, large ORMs) directly as function parameters
 - **Typeof Pattern**: Use \`typeof\` references to reduce type instantiations:
   \`\`\`typescript
@@ -154,12 +154,12 @@ Only after receiving explicit user consent, proceed with approved optimizations:
   function useClient(client: ClientType) { /* ... */ }
   \`\`\`
 
-### 3.5 Dependency Management
+### 4.5 Dependency Management
 - **Type Dependencies**: Minimize cross-package type dependencies
 - **Library Types**: Audit @types packages for unnecessary inclusions
 - **Version Alignment**: Ensure TypeScript versions are aligned across packages
 
-## 4. Validation Phase
+## 5. Validation Phase
 
 After implementing optimizations:
 1. Re-run \`show-tsc-diagnostics\` to measure improvements
@@ -167,7 +167,7 @@ After implementing optimizations:
 3. Run \`show-tsc-deep-analyze-and-hot-spot\` on previously slow packages
 4. Monitor real-world build times and CI performance
 
-## 5. Specific Tool Usage Guidelines
+## 6. Specific Tool Usage Guidelines
 
 ### When to use each tool:
 - **\`show-monorepo-internal-dependency-graph\`**: Start here for monorepos to understand structure
@@ -181,25 +181,25 @@ After implementing optimizations:
 
 Remember: TypeScript optimization is iterative. Make incremental changes and measure impact using these tools before proceeding to the next optimization.
 
-## 6. Critical Performance Knowledge
+## 7. Critical Performance Knowledge
 
-### 6.1 Function Argument Type Impact
+### 7.1 Function Argument Type Impact
 **CRITICAL INSIGHT**: The biggest TypeScript performance killer is passing large complex types as function arguments where variables are actually passed to those parameters. This triggers exponential type checking calculations.
 
-### 6.2 Quantified Impact Examples
+### 7.2 Quantified Impact Examples
 From real-world optimization cases:
 - **Typeof Pattern**: Can reduce type instantiations by 99.96% (from 2,773,122 to 972)
 - **Interface Narrowing**: Can reduce types by 96%+ and instantiations by 99.3%
 - **Impact Focus**: Simple initialization (\`new PrismaClient()\`) has minimal impact; the problem occurs when these instances are passed to typed function parameters
 
-### 6.3 Detection Priority
+### 7.3 Detection Priority
 Use \`extract-type-signatures\` to identify these patterns:
 1. Function signatures with large type parameters where actual values are passed
 2. Class constructors receiving complex type instances
 3. Method parameters that accept full ORM/framework types
 4. Avoid optimizing simple variable declarations without function usage
 
-### 6.4 ORM-Specific Patterns (Prisma, TypeORM, etc.)
+### 7.4 ORM-Specific Patterns (Prisma, TypeORM, etc.)
 - **Focus Area**: Functions that receive ORM client instances as parameters
 - **Skip**: Simple client initialization without function parameter usage
 - **Measure**: Use type instantiation counts as primary success metric
