@@ -35,23 +35,23 @@ Use tools in this order for optimal insight:
 **CRITICAL**: Present findings and get explicit approval before making ANY code changes.
 
 ### 2.1 Report Format
-Present optimizations with impact metrics, reliability ratings, and options:
+Present optimizations with impact metrics, confidence ratings, and options:
 
 🔍 **Issue**: [Specific problem]
 📊 **Impact**: [Types count, instantiations count (primary), compilation time, memory (secondary)]
-🛠️ **Solutions**: Present each solution with reliability rating:
-   - **Option A**: [Description] - **Reliability**: ⭐⭐⭐⭐⭐ (5/5) - [Reasoning for high/low confidence]
-   - **Option B**: [Description] - **Reliability**: ⭐⭐⭐⭐☆ (4/5) - [Reasoning for high/low confidence]
-   - **Option C**: [Description] - **Reliability**: ⭐⭐⭐☆☆ (3/5) - [Reasoning for high/low confidence]
+🛠️ **Solutions**: Present each solution with confidence rating:
+   - **Option A**: [Description] - **Confidence**: ⭐⭐⭐⭐⭐ (5/5) - [Reasoning for confidence level]
+   - **Option B**: [Description] - **Confidence**: ⭐⭐⭐⭐☆ (4/5) - [Reasoning for confidence level]
+   - **Option C**: [Description] - **Confidence**: ⭐⭐⭐☆☆ (3/5) - [Reasoning for confidence level]
    
-**Reliability Scale**:
-- ⭐⭐⭐⭐⭐ (5/5): Proven pattern, predictable results, minimal risk
-- ⭐⭐⭐⭐☆ (4/5): Well-tested approach, expected to work with minor uncertainties
-- ⭐⭐⭐☆☆ (3/5): Moderate confidence, may require iteration or have side effects
-- ⭐⭐☆☆☆ (2/5): Experimental approach, higher risk but potential high reward
-- ⭐☆☆☆☆ (1/5): Uncertain outcome, requires careful testing and validation
+**Confidence Scale**:
+- ⭐⭐⭐⭐⭐ (5/5): High confidence - Pattern clearly identified, solution well-suited for this specific codebase
+- ⭐⭐⭐⭐☆ (4/5): Good confidence - Strong indicators suggest this approach will work effectively
+- ⭐⭐⭐☆☆ (3/5): Moderate confidence - Reasonable approach but may need adjustments for this specific case
+- ⭐⭐☆☆☆ (2/5): Low confidence - Potential solution but uncertain how well it fits this particular situation
+- ⭐☆☆☆☆ (1/5): Very low confidence - Experimental approach, outcome highly uncertain for this codebase
 
-👤 **Decision**: Which approach to take or skip? Consider both impact and reliability.
+👤 **Decision**: Which approach to take or skip? Consider both impact and confidence level.
 
 ### 2.2 Key Decision Points
 - **Library replacements** (Zod→valibot, Prisma→Drizzle): Performance vs migration cost
