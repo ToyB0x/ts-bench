@@ -6,7 +6,8 @@ import { migrate } from "drizzle-orm/libsql/migrator";
 import * as schema from "./schema";
 import "dotenv/config"; // If you need variable expansion in .env files, use @dotenvx/dotenvx/config
 
-export * from "drizzle-orm";
+export type * from "drizzle-orm";
+export { eq, getTableColumns } from "drizzle-orm";
 export * from "./schema";
 
 const DEFAULT_DB_FILE_NAME = "ts-bench.sqlite";
