@@ -9,6 +9,7 @@ import {
   showTscDiagnostics,
   tsBenchCli,
   typescriptOptimizationAdvanced,
+  typescriptOptimizationBasic,
 } from "./register";
 
 // Create an MCP server
@@ -25,6 +26,7 @@ extractTypeSignatures(server);
 showMonorepoInternalDependencyGraph(server);
 
 // register prompts
+typescriptOptimizationBasic(server);
 typescriptOptimizationAdvanced(server);
 prismaTypescriptOptimization(server);
 
