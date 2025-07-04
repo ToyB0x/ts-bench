@@ -89,13 +89,34 @@ Use \`extract-type-signatures\` to find:
 2. Focus on type instantiation count reductions (primary metric)
 3. Ensure type safety preservation
 
-## 4. Post-Optimization Phase
+## 4. Post-Optimization Verification Phase
 
-After completing each optimization task:
-1. Verify improvements through diagnostic tools
-2. Update \`ts-bench.md\` progress file with completed optimizations and results
-3. If meaningful performance gains are achieved, ask user: "Would you like me to create a new branch and submit a PR for these optimizations?"
-4. If approved, create a feature branch and prepare pull request with detailed optimization summary
+### 4.1 Package.json Analysis & Command Detection
+Before running verification commands:
+1. **Analyze package.json files** in the project root and affected packages
+2. **Extract available scripts** such as: \`test\`, \`build\`, \`lint\`, \`typecheck\`, \`dev\`, etc.
+3. **Present detected commands** to user for confirmation:
+   
+   📋 **Detected verification commands**:
+   - Test: \`[detected test command]\`
+   - Build: \`[detected build command]\` 
+   - Lint: \`[detected lint command]\`
+   - Typecheck: \`[detected typecheck command]\`
+   
+   ❓ **User confirmation**: "Are these the correct commands to verify code quality and prevent regressions? Please confirm or provide the correct commands."
+
+### 4.2 Systematic Verification Process
+After user confirms commands, execute in this order:
+1. **TypeScript diagnostics**: Re-run optimization analysis tools to measure improvements
+2. **Type checking**: Run confirmed typecheck command to ensure no type errors
+3. **Linting**: Run confirmed lint command to maintain code style
+4. **Build verification**: Run confirmed build command to ensure compilation succeeds
+5. **Testing**: Run confirmed test command to prevent functional regressions
+
+### 4.3 Progress Tracking & Next Steps
+1. Update \`ts-bench.md\` progress file with completed optimizations and verification results
+2. If all verifications pass and meaningful performance gains are achieved, ask user: "Would you like me to create a new branch and submit a PR for these optimizations?"
+3. If approved, create a feature branch and prepare pull request with detailed optimization summary and verification results
 
 ## 5. Progress File Template (\`ts-bench.md\`)
 

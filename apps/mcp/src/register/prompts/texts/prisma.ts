@@ -53,17 +53,32 @@ d) Final verification
    - Calculate improvement percentages
    - Show progression: baseline → stage 1 → stage 2 → stage 3 → final
 
-**STEP 6: Testing** (with user confirmation)
-- Package-specific: \`pnpm --filter <package> test\` and \`build\`
-- Repository-wide: \`pnpm test build typecheck lint\`
-- Only proceed if all checks pass
+**STEP 6: Package.json Analysis & Verification Commands**
+Before running tests and verification:
+1. **Analyze package.json files** in the project root and affected packages
+2. **Extract available scripts** such as: \`test\`, \`build\`, \`lint\`, \`typecheck\`, \`dev\`, etc.
+3. **Present detected commands** to user for confirmation:
+   
+   📋 **Detected verification commands**:
+   - Test: \`[detected test command]\`
+   - Build: \`[detected build command]\` 
+   - Lint: \`[detected lint command]\`
+   - Typecheck: \`[detected typecheck command]\`
+   
+   ❓ **User confirmation**: "Are these the correct commands to verify code quality and prevent regressions? Please confirm or provide the correct commands."
 
-**STEP 7: Pull Request**
+**STEP 7: Systematic Testing & Verification** (with user confirmation)
+After user confirms commands, execute in this order:
+- **Package-specific**: Run confirmed commands for the affected package (e.g., \`pnpm --filter <package> [command]\`)
+- **Repository-wide**: Run confirmed commands across the entire repository
+- **Only proceed if all checks pass** - if any verification fails, address issues before proceeding
+
+**STEP 8: Pull Request**
 - Confirm PR creation with user
 - Create new branch and commit changes
 - Include detailed description with benchmarks
 
-**STEP 8: Next Steps**
+**STEP 9: Next Steps**
 - For monorepos: Ask to continue with remaining packages
 - Optional: Generate improvement report for future MCP enhancements
 
