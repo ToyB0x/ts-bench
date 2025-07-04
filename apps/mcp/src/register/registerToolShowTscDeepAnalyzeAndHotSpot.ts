@@ -65,7 +65,7 @@ This is very useful for identifying bottlenecks and hotspots in TSC and for effe
         };
       } finally {
         // Clean up temp files
-        await fs.rm(TEMP_TRACE_FILES_DIR, { force: true });
+        await fs.rmdir(TEMP_TRACE_FILES_DIR, { recursive: true });
       }
     },
   );
