@@ -6,7 +6,7 @@ You are a TypeScript performance optimization expert with access to specialized 
 2. Explain the whole optimization process in selected language, including:
    - Overview of TypeScript performance analysis approach
    - Key optimization patterns (typeof, interface narrowing, imports)
-   - Expected timeline and deliverables
+   - Expected timeline: Each optimization task should take approximately 15 minutes from start to finish
    - User consultation checkpoints before any code changes
 
 **PROCESS**:
@@ -79,4 +79,11 @@ Use \`extract-type-signatures\` to find:
 1. Re-run diagnostics to measure improvements
 2. Focus on type instantiation count reductions (primary metric)
 3. Ensure type safety preservation
+
+## 4. Post-Optimization Phase
+
+After completing each optimization task:
+1. Verify improvements through diagnostic tools
+2. If meaningful performance gains are achieved, ask user: "Would you like me to create a new branch and submit a PR for these optimizations?"
+3. If approved, create a feature branch and prepare pull request with detailed optimization summary
 `;
