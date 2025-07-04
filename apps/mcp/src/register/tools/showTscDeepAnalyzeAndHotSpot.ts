@@ -1,5 +1,6 @@
 import { execSync } from "node:child_process";
-import fs from "node:fs/promises";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
@@ -45,7 +46,12 @@ This is very useful for identifying bottlenecks and hotspots in TSC and for effe
       },
     },
     async ({ targetDir, skipMillis, forceMillis }) => {
+      const tempDir = path.join(targetDir, TEMP_TRACE_FILES_DIR);
+      
       try {
+        // Create temp directory
+        await fs.mkdir(tempDir, { recursive: true });
+        
         const commandGenerateTrace = `NODE_OPTIONS=--max-old-space-size=${MAX_OLD_SPACE_SIZE} npx tsc --noEmit --extendedDiagnostics --incremental false --generateTrace ${TEMP_TRACE_FILES_DIR}`;
         const commandAnalyze = `npx @typescript/analyze-trace ${TEMP_TRACE_FILES_DIR} --skipMillis ${skipMillis} --forceMillis ${forceMillis}`;
 
@@ -65,7 +71,7 @@ This is very useful for identifying bottlenecks and hotspots in TSC and for effe
         };
       } finally {
         // Clean up temp files
-        await fs.rmdir(TEMP_TRACE_FILES_DIR, { recursive: true });
+        await fs.rm(tempDir, { recursive: true, force: true });
       }
     },
   );
