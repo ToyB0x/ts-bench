@@ -45,7 +45,7 @@ For complex optimizations (large monorepo, extensive issues):
 Present optimizations with impact metrics and options:
 
 🔍 **Issue**: [Specific problem]
-📊 **Impact**: [Compilation time, type instantiations, memory]
+📊 **Impact**: [Types count, instantiations count (primary), compilation time, memory (secondary)]
 🛠️ **Solutions**: Conservative/Moderate/Aggressive options with trade-offs
 👤 **Decision**: Which approach to take or skip?
 
@@ -93,8 +93,10 @@ Use \`extract-type-signatures\` to find:
 
 ### 3.4 Validation & Measurement
 1. Re-run diagnostics to measure improvements
-2. Focus on type instantiation count reductions (primary metric)
-3. Ensure type safety preservation
+2. **Focus on primary metrics**: \`types\` and \`instantiations\` counts (most reliable indicators)
+3. **Note on metrics stability**: While \`types\` and \`instantiations\` are stable performance indicators across different machines, other metrics (compilation time, memory usage) can vary significantly based on system load, hardware, and environment conditions
+4. **Statistical correlation**: Improvements in \`types\` and \`instantiations\` reliably correlate with better compilation performance overall
+5. Ensure type safety preservation
 
 ## 4. Post-Optimization Verification Phase
 
@@ -148,14 +150,20 @@ When creating the progress tracking file, use this structure:
 
 ## Performance Metrics
 ### Baseline (Before)
-- Compilation time: [ms]
-- Type instantiations: [count]
-- Memory usage: [MB]
+- **Types**: [count] ⭐ (primary metric)
+- **Type instantiations**: [count] ⭐ (primary metric)
+- Compilation time: [ms] (machine-dependent)
+- Memory usage: [MB] (machine-dependent)
 
 ### Current (After optimizations)
-- Compilation time: [ms] ([improvement])
-- Type instantiations: [count] ([improvement])
-- Memory usage: [MB] ([improvement])
+- **Types**: [count] ([improvement]) ⭐ (primary metric)
+- **Type instantiations**: [count] ([improvement]) ⭐ (primary metric)
+- Compilation time: [ms] ([improvement]) (machine-dependent)
+- Memory usage: [MB] ([improvement]) (machine-dependent)
+
+### Metrics Notes
+- ⭐ **Primary metrics** (\`types\`, \`instantiations\`): Stable across machines, reliable performance indicators
+- **Secondary metrics** (time, memory): Vary with system conditions, use for general trends only
 
 ## Notes
 - [Any important findings or decisions]
