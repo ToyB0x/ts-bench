@@ -5,6 +5,7 @@ import {
   registerPromptPrismaTypescriptOptimization,
   registerToolExtractTypeSignatures,
   registerToolShowMonorepoInternalDependencyGraph,
+  registerToolTsBenchCli,
 } from "./register";
 
 // Create an MCP server
@@ -14,6 +15,7 @@ const server = new McpServer({
 });
 
 // Register tools
+registerToolTsBenchCli(server);
 registerToolExtractTypeSignatures(server);
 registerToolShowMonorepoInternalDependencyGraph(server);
 
