@@ -8,7 +8,7 @@ import {
   showTscDeepAnalyzeAndHotSpot,
   showTscDiagnostics,
   tsBenchCli,
-  typescriptOptimization,
+  typescriptOptimizationAdvanced,
 } from "./register";
 
 // Create an MCP server
@@ -25,7 +25,7 @@ extractTypeSignatures(server);
 showMonorepoInternalDependencyGraph(server);
 
 // register prompts
-typescriptOptimization(server);
+typescriptOptimizationAdvanced(server);
 prismaTypescriptOptimization(server);
 
 // Start receiving messages on stdin and sending messages on stdout

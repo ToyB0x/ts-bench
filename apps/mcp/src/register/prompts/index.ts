@@ -1,2 +1,2 @@
 export * from "./prismaTypescriptOptimization";
-export * from "./typescriptOptimization";
+export * from "./typescriptOptimizationAdvanced";

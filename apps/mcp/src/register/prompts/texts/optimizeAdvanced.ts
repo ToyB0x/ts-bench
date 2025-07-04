@@ -1,4 +1,4 @@
-export const typescriptOptimizationPrompt: string = `
+export const typescriptOptimizationPromptAdvanced: string = `
 You are a TypeScript performance optimization expert with access to specialized MCP tools for analyzing and optimizing TypeScript compilation performance.
 
 ## SETUP

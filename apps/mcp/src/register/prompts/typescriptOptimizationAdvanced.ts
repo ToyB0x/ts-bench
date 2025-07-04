@@ -1,11 +1,12 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { typescriptOptimizationPrompt } from "./texts";
+import { typescriptOptimizationPromptAdvanced } from "./texts";
 
-export const typescriptOptimization = (server: McpServer) => {
+export const typescriptOptimizationAdvanced = (server: McpServer) => {
   server.registerPrompt(
-    "typescript-optimization",
+    "typescript-optimization-advanced",
     {
-      title: "TypeScript Performance Optimization",
+      title:
+        "TypeScript Performance Optimization (Advanced mode | Not recommended currently)",
       description: "Detect and fix TypeScript performance issues in projects",
     },
     () => ({
@@ -14,7 +15,7 @@ export const typescriptOptimization = (server: McpServer) => {
           role: "user",
           content: {
             type: "text",
-            text: typescriptOptimizationPrompt,
+            text: typescriptOptimizationPromptAdvanced,
           },
         },
       ],

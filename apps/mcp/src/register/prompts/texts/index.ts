@@ -1,2 +1,2 @@
-export * from "./optimize";
+export * from "./optimizeAdvanced";
 export * from "./prisma";
