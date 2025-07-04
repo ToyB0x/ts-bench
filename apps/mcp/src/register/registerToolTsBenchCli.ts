@@ -12,10 +12,10 @@ export const registerToolTsBenchCli = (server: McpServer) => {
     },
     async () => {
       const tempDb = "ts-bench-temp.sqlite";
-      const reportFile = "ts-bench-report-temp.md";
+      const reportFile = "ts-bench-report.md";
 
       try {
-        const command = `DB_PATH=${tempDb} npx @ts-bench/cli analyze`;
+        const command = `DB_FILE_NAME=${tempDb} npx @ts-bench/cli analyze`;
         execSync(command);
 
         // Read the generated report
