@@ -12,7 +12,7 @@ export const extractTypeSignatures = (server: McpServer) => {
     {
       title: "Extract TypeScript Type Signatures",
       description: `Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis.
-IMPORTANT: This tool result contain large text. You should specify a single package path in monorepo.
+IMPORTANT: This tool's results contain a large amount of text. It's recommended to specify a single package path in the monorepo.
 `,
       inputSchema: {
         dir: z
