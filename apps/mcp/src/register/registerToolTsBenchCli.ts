@@ -11,8 +11,13 @@ export const registerToolTsBenchCli = (server: McpServer) => {
     },
     async () => {
       try {
-        const command = "npx @ts-bench/cli analyze";
+        const tempDb = "ts-bench-temp.sqlite";
+        const command = `DB_PATH=${tempDb} npx @ts-bench/cli analyze`;
         const result = execSync(command);
+
+        // AI TASK:
+        // - read generated report from ./ts-bench-report.md and after read it remove it and temp db (read apps/mcp/src/libs/packDir.ts implementation)
+
         return {
           content: [{ type: "text", text: result.toString() }],
         };
