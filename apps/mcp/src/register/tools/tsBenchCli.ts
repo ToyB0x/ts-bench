@@ -1,12 +1,12 @@
 import { execSync } from "node:child_process";
 import * as fs from "node:fs/promises";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS } from "./registerToolShowTscDiagnostics";
+import { MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS } from "./showTscDiagnostics";
 
 export const MCP_TOOL_NAME__ANALYZE_MONOREPO_TYPESCRIPT_PERFORMANCE =
   "analyze-monorepo-typescript-performance";
 
-export const registerToolTsBenchCli = (server: McpServer) => {
+export const tsBenchCli = (server: McpServer) => {
   server.registerTool(
     MCP_TOOL_NAME__ANALYZE_MONOREPO_TYPESCRIPT_PERFORMANCE,
     {

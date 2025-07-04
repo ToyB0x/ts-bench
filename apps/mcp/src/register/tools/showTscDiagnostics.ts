@@ -6,7 +6,7 @@ export const MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS = "show-tsc-diagnostics";
 
 const MAX_OLD_SPACE_SIZE = 16384; // 16GB, adjust as needed (bigger and bad ts files, more memory needed)
 
-export const registerToolShowTscDiagnostics = (server: McpServer) => {
+export const showTscDiagnostics = (server: McpServer) => {
   server.registerTool(
     MCP_TOOL_NAME__SHOW_TSC_DIAGNOSTICS,
     {

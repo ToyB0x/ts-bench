@@ -2,12 +2,12 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import packageJson from "../package.json";
 import {
-  registerPromptPrismaTypescriptOptimization,
-  registerToolExtractTypeSignatures,
-  registerToolShowMonorepoInternalDependencyGraph,
-  registerToolShowTscDeepAnalyzeAndHotSpot,
-  registerToolShowTscDiagnostics,
-  registerToolTsBenchCli,
+  extractTypeSignatures,
+  prismaTypescriptOptimization,
+  showMonorepoInternalDependencyGraph,
+  showTscDeepAnalyzeAndHotSpot,
+  showTscDiagnostics,
+  tsBenchCli,
 } from "./register";
 
 // Create an MCP server
@@ -17,14 +17,14 @@ const server = new McpServer({
 });
 
 // Register tools
-registerToolTsBenchCli(server);
-registerToolShowTscDiagnostics(server);
-registerToolShowTscDeepAnalyzeAndHotSpot(server);
-registerToolExtractTypeSignatures(server);
-registerToolShowMonorepoInternalDependencyGraph(server);
+tsBenchCli(server);
+showTscDiagnostics(server);
+showTscDeepAnalyzeAndHotSpot(server);
+extractTypeSignatures(server);
+showMonorepoInternalDependencyGraph(server);
 
 // register prompts
-registerPromptPrismaTypescriptOptimization(server);
+prismaTypescriptOptimization(server);
 
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();

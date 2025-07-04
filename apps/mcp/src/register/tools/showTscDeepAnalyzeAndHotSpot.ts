@@ -11,7 +11,7 @@ const DEFAULT_FORCE_MILLIS = 150; // DEFAULT: 500
 const MAX_OLD_SPACE_SIZE = 16384; // 16GB, adjust as needed (bigger and bad ts files, more memory needed)
 const TEMP_TRACE_FILES_DIR = "tmp-trace";
 
-export const registerToolShowTscDeepAnalyzeAndHotSpot = (server: McpServer) => {
+export const showTscDeepAnalyzeAndHotSpot = (server: McpServer) => {
   server.registerTool(
     MCP_TOOL_NAME__SHOW_TSC_DEEP_ANALYZE_AND_HOT_SPOT,
     {

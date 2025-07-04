@@ -8,9 +8,7 @@ export const MCP_TOOL_NAME__SHOW_MONOREPO_INTERNAL_DEPENDENCY_GRAPH =
 /**
  * Extracts type signatures for ts and tsx files in a specified directory and provides a very useful summary for analysis.
  */
-export const registerToolShowMonorepoInternalDependencyGraph = (
-  server: McpServer,
-) => {
+export const showMonorepoInternalDependencyGraph = (server: McpServer) => {
   server.registerTool(
     MCP_TOOL_NAME__SHOW_MONOREPO_INTERNAL_DEPENDENCY_GRAPH,
     {

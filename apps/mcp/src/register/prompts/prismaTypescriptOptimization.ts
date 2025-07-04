@@ -1,9 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { prismaTypescriptOptimizationPrompt } from "../prompts";
+import { prismaTypescriptOptimizationPrompt } from "./texts";
 
-export const registerPromptPrismaTypescriptOptimization = (
-  server: McpServer,
-) => {
+export const prismaTypescriptOptimization = (server: McpServer) => {
   server.registerPrompt(
     "prisma-typescript-optimization",
     {
