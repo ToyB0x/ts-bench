@@ -7,6 +7,8 @@ import tablemark from "tablemark";
 import { version } from "../../../../package.json";
 import { printSimpleTable } from "./printSimpleTable";
 
+const dbClient = db;
+
 type ReportContent = {
   title: string; // "## :zap: Tsc benchmark";
   text: string | null; // null content will be filtered out
@@ -63,7 +65,7 @@ export const generateReportMarkdown = async (
   enableAiReport = true,
   reportLanguageCode: keyof typeof REPORT_LANGUAGE_CODE_MAP = "en",
 ) => {
-  const recentScans = await db.query.scanTbl.findMany({
+  const recentScans = await dbClient.query.scanTbl.findMany({
     limit: 2,
     orderBy: (scan, { desc }) => desc(scan.commitDate),
     with: {
@@ -556,7 +558,7 @@ const updateDatabaseWithAIComments = async (
     | undefined,
 ): Promise<void> => {
   if (!aiResponse) return;
-  await db
+  await dbClient
     .update(scanTbl)
     .set({
       aiCommentImpact: aiResponse.impact,

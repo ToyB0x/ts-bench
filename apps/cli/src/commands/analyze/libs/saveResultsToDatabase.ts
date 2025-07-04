@@ -3,6 +3,8 @@ import { simpleGit } from "simple-git";
 import { version } from "../../../../package.json";
 import type { TscResult } from "./tscAndAnalyze";
 
+const dbClient = db;
+
 export const saveResultsToDatabase = async (
   results: TscResult[],
   cpus: string[],
@@ -46,7 +48,7 @@ export const saveResultsToDatabase = async (
     cpus: cpus.join(", "),
   };
 
-  await db.transaction(async (tx) => {
+  await dbClient.transaction(async (tx) => {
     const scan = await tx
       .insert(scanTbl)
       .values(insertionScan)
