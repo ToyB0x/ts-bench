@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "24.0.10",
+    "@types/node": "24.0.15",
     "tsup": "8.5.0",
     "typescript": "5.8.3",
     "vitest": "3.2.4"
@@ -22,8 +22,8 @@
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.15.0",
+    "@modelcontextprotocol/sdk": "1.15.1",
     "repomix": "1.1.0",
-    "zod": "3.25.74"
+    "zod": "3.25.76"
   }
 }
