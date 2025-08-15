@@ -95,103 +95,153 @@ sequenceDiagram
 
 ## 実装コード（実際に動作確認済み）
 
-### 1. SQLiteサービス（新規作成）
+### 1. データベースクライアント（新規作成）
 ```typescript
-// app/services/sqlite.service.ts
+// app/clients/db.ts
 import type { Database } from "sql.js";
 import initSqlJs from "sql.js";
-
-export class SQLiteService {
-  private static instance: SQLiteService | null = null;
-  private db: Database | null = null;
-  private initPromise: Promise<void> | null = null;
-
-  public static getInstance(): SQLiteService {
-    if (!SQLiteService.instance) {
-      SQLiteService.instance = new SQLiteService();
-    }
-    return SQLiteService.instance;
-  }
-
-  public async initialize(): Promise<void> {
-    if (this.db) return;
-    if (this.initPromise) return this.initPromise;
-    
-    this.initPromise = this.initializeInternal();
-    return this.initPromise;
-  }
-
-  private async initializeInternal(): Promise<void> {
-    const SQL = await initSqlJs({
-      locateFile: (file) =>
-        `https://cdn.jsdelivr.net/npm/sql.js@1.13.0/dist/${file}`,
-        // 1.13で正常に動作しない場合は安定バージョンを使用
-        // 参考: https://github.com/sql-js/sql.js/issues/605
-        // locateFile: (file) =>
-        //     `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${file}`,
-    });
-
-    const response = await fetch("/report.db");
-    const buffer = await response.arrayBuffer();
-    const data = new Uint8Array(buffer);
-    this.db = new SQL.Database(data);
-  }
-
-  public async query<T>(sql: string, params?: any[]): Promise<T[]> {
-    await this.initialize();
-    if (!this.db) throw new Error("Database not initialized");
-
-    const stmt = this.db.prepare(sql);
-    if (params) stmt.bind(params);
-
-    const results: T[] = [];
-    while (stmt.step()) {
-      results.push(stmt.getAsObject() as T);
-    }
-    stmt.free();
-    return results;
-  }
-
-  public async exec(sql: string): Promise<any[]> {
-    await this.initialize();
-    if (!this.db) throw new Error("Database not initialized");
-    return this.db.exec(sql);
-  }
-}
-
-export const sqliteService = SQLiteService.getInstance();
-```
-**Drizzle ORMとの統合**（ORMでTypeScriptの型システムを有効活用）:
-```typescript
-// 型安全性を高めたい場合は、Drizzle ORMを追加可能
 import { drizzle } from "drizzle-orm/sql-js";
-const db = drizzle(sqldb);
+import type { DrizzleConfig } from "drizzle-orm";
+import * as schema from "@ts-bench/db/schema";
+
+let dbInstance: ReturnType<typeof drizzle> | null = null;
+let initPromise: Promise<ReturnType<typeof drizzle>> | null = null;
+
+/**
+ * WASMベースのDrizzle ORMクライアントを初期化
+ * Git Dashパターンを参考に、sql.jsとDrizzleを統合
+ */
+export const getDb = async () => {
+  if (dbInstance) return dbInstance;
+  if (initPromise) return initPromise;
+
+  initPromise = initializeDb();
+  return initPromise;
+};
+
+const initializeDb = async () => {
+  // sql.js WASMの初期化（CDN経由）
+  const SQL = await initSqlJs({
+    locateFile: (file) =>
+      `https://cdn.jsdelivr.net/npm/sql.js@1.13.0/dist/${file}`,
+      // 1.13で正常に動作しない場合は安定バージョンを使用
+      // 参考: https://github.com/sql-js/sql.js/issues/605
+      // locateFile: (file) =>
+      //     `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${file}`,
+  });
+
+  // データベースファイルの取得
+  const response = await fetch("/report.db");
+  if (!response.ok) {
+    throw new Error(`Failed to fetch database: ${response.statusText}`);
+  }
+  
+  const buffer = await response.arrayBuffer();
+  const data = new Uint8Array(buffer);
+  const sqldb = new SQL.Database(data);
+
+  // Drizzle ORMクライアントの作成（スキーマ付き）
+  const config: DrizzleConfig<typeof schema> = { 
+    schema,
+    logger: true, // 開発時のデバッグ用
+  };
+  
+  dbInstance = drizzle(sqldb, config);
+  return dbInstance;
+};
+
+// エクスポート用のヘルパー
+export { schema };
 ```
 
 ### 2. Client Loader実装（既存ファイル修正）
 ```typescript
 // app/routes/graph.tsx
-import { sqliteService } from "~/services/sqlite.service";
+import { getDb, schema } from "~/clients/db";
+import { desc, eq, and, gte, sql } from "drizzle-orm";
+
+const { scanTbl, resultTbl } = schema;
 
 // Server-side loader削除
 // export async function loader() { ... } 
 
-// Client-side loader追加
+// Client-side loader追加（Drizzle ORMを活用）
 export async function clientLoader() {
-  await sqliteService.initialize();
+  const db = await getDb();
   
-  const packagesResult = await sqliteService.query<{ package: string }>(
-    "SELECT DISTINCT package FROM result ORDER BY package"
-  );
+  // Drizzleで型安全なクエリを実行
+  // パッケージ一覧の取得
+  const packages = await db
+    .selectDistinct({ 
+      package: resultTbl.package 
+    })
+    .from(resultTbl)
+    .orderBy(resultTbl.package);
 
-  const scansResult = await sqliteService.query<any>(
-    `SELECT s.*, r.* FROM scan s 
-     LEFT JOIN result r ON s.id = r.scan_id 
-     ORDER BY s.commit_data ASC`
-  );
+  // スキャンと結果の結合クエリ
+  const scansWithResults = await db
+    .select({
+      // スキャン情報
+      scanId: scanTbl.id,
+      version: scanTbl.version,
+      repository: scanTbl.repository,
+      commitHash: scanTbl.commitHash,
+      commitMessage: scanTbl.commitMessage,
+      commitDate: scanTbl.commitDate,
+      cpus: scanTbl.cpus,
+      // AI分析結果
+      aiCommentImpact: scanTbl.aiCommentImpact,
+      aiCommentReason: scanTbl.aiCommentReason,
+      aiCommentSuggestion: scanTbl.aiCommentSuggestion,
+      // 結果情報
+      resultId: resultTbl.id,
+      package: resultTbl.package,
+      isSuccess: resultTbl.isSuccess,
+      isCached: resultTbl.isCached,
+      // パフォーマンスメトリクス
+      totalTime: resultTbl.totalTime,
+      checkTime: resultTbl.checkTime,
+      instantiations: resultTbl.instantiations,
+      memoryUsed: resultTbl.memoryUsed,
+      files: resultTbl.files,
+      types: resultTbl.types,
+    })
+    .from(scanTbl)
+    .leftJoin(resultTbl, eq(scanTbl.id, resultTbl.scanId))
+    .orderBy(scanTbl.commitDate);
 
-  // データ整形処理...
-  return { packages: packagesResult, scansWithResults };
+  // 最新スキャンの取得（条件付きクエリの例）
+  const latestScan = await db
+    .select()
+    .from(scanTbl)
+    .orderBy(desc(scanTbl.commitDate))
+    .limit(1);
+
+  // パフォーマンス問題のある結果を抽出（閾値ベースのフィルタリング）
+  const performanceIssues = await db
+    .select({
+      package: resultTbl.package,
+      totalTime: resultTbl.totalTime,
+      instantiations: resultTbl.instantiations,
+      commitHash: scanTbl.commitHash,
+      commitDate: scanTbl.commitDate,
+    })
+    .from(resultTbl)
+    .innerJoin(scanTbl, eq(resultTbl.scanId, scanTbl.id))
+    .where(
+      and(
+        gte(resultTbl.totalTime, 5), // 5秒以上かかる場合
+        gte(resultTbl.instantiations, 1000000) // 100万以上のインスタンス化
+      )
+    )
+    .orderBy(desc(resultTbl.totalTime));
+
+  return { 
+    packages, 
+    scansWithResults,
+    latestScan: latestScan[0],
+    performanceIssues,
+  };
 }
 
 clientLoader.hydrate = true;
@@ -209,11 +259,153 @@ export default {
 // package.json
 {
   "dependencies": {
-    "sql.js": "^1.13.0"
+    "sql.js": "^1.13.0",
+    "drizzle-orm": "^0.38.2"
   },
   "scripts": {
     "build": "cp report.db public/ && react-router build"
   }
+}
+```
+
+## 高度なDrizzle ORMパターン
+
+### 3. 集計クエリとグループ化（新規ルート例）
+```typescript
+// app/routes/analytics.tsx
+import { getDb, schema } from "~/clients/db";
+import { sql, avg, max, min, count, desc, eq } from "drizzle-orm";
+
+export async function clientLoader() {
+  const db = await getDb();
+  const { scanTbl, resultTbl } = schema;
+
+  // パッケージごとのパフォーマンス統計
+  const packageStats = await db
+    .select({
+      package: resultTbl.package,
+      avgTotalTime: avg(resultTbl.totalTime),
+      maxTotalTime: max(resultTbl.totalTime),
+      minTotalTime: min(resultTbl.totalTime),
+      avgInstantiations: avg(resultTbl.instantiations),
+      scanCount: count(resultTbl.id),
+    })
+    .from(resultTbl)
+    .groupBy(resultTbl.package)
+    .orderBy(desc(avg(resultTbl.totalTime)));
+
+  // 時系列でのパフォーマンス推移
+  const performanceTrend = await db
+    .select({
+      date: sql<string>`date(${scanTbl.commitDate} / 1000, 'unixepoch')`,
+      avgCheckTime: avg(resultTbl.checkTime),
+      avgTotalTime: avg(resultTbl.totalTime),
+      maxInstantiations: max(resultTbl.instantiations),
+    })
+    .from(resultTbl)
+    .innerJoin(scanTbl, eq(resultTbl.scanId, scanTbl.id))
+    .groupBy(sql`date(${scanTbl.commitDate} / 1000, 'unixepoch')`)
+    .orderBy(sql`date(${scanTbl.commitDate} / 1000, 'unixepoch')`);
+
+  return { packageStats, performanceTrend };
+}
+```
+
+### 4. 複雑な条件分岐とサブクエリ
+```typescript
+// app/routes/hotspots.tsx
+import { getDb, schema } from "~/clients/db";
+import { and, or, gt, lt, inArray, notInArray, sql, desc, eq, avg } from "drizzle-orm";
+
+export async function clientLoader({ request }: { request: Request }) {
+  const db = await getDb();
+  const { scanTbl, resultTbl } = schema;
+  
+  const url = new URL(request.url);
+  const threshold = Number(url.searchParams.get("threshold") || 1000000);
+
+  // ホットスポットの検出（複雑な条件）
+  const hotspots = await db
+    .select({
+      package: resultTbl.package,
+      commitHash: scanTbl.commitHash,
+      analyzeHotSpot: resultTbl.analyzeHotSpot,
+      analyzeHotSpotMs: resultTbl.analyzeHotSpotMs,
+      instantiations: resultTbl.instantiations,
+      severity: sql<string>`
+        CASE 
+          WHEN ${resultTbl.instantiations} > 5000000 THEN 'critical'
+          WHEN ${resultTbl.instantiations} > 2000000 THEN 'high'
+          WHEN ${resultTbl.instantiations} > 1000000 THEN 'medium'
+          ELSE 'low'
+        END
+      `,
+    })
+    .from(resultTbl)
+    .innerJoin(scanTbl, eq(resultTbl.scanId, scanTbl.id))
+    .where(
+      or(
+        gt(resultTbl.instantiations, threshold),
+        and(
+          gt(resultTbl.analyzeHotSpot, 10),
+          gt(resultTbl.analyzeHotSpotMs, 500)
+        )
+      )
+    )
+    .orderBy(desc(resultTbl.instantiations));
+
+  // サブクエリを使った相対パフォーマンス分析
+  const avgInstantiations = db
+    .select({ avg: avg(resultTbl.instantiations) })
+    .from(resultTbl);
+
+  const aboveAveragePackages = await db
+    .select({
+      package: resultTbl.package,
+      instantiations: resultTbl.instantiations,
+      deviation: sql`${resultTbl.instantiations} - (${avgInstantiations})`,
+    })
+    .from(resultTbl)
+    .where(gt(resultTbl.instantiations, avgInstantiations))
+    .orderBy(desc(sql`${resultTbl.instantiations} - (${avgInstantiations})`));
+
+  return { hotspots, aboveAveragePackages };
+}
+```
+
+### 5. リレーションを活用した効率的なデータ取得
+```typescript
+// app/clients/db.ts の拡張
+import { relations, desc, eq } from "drizzle-orm";
+
+// リレーション定義を追加（packages/db/src/schema/relations.tsから）
+const scanRelations = relations(scanTbl, ({ many }) => ({
+  results: many(resultTbl),
+}));
+
+const resultRelations = relations(resultTbl, ({ one }) => ({
+  scan: one(scanTbl, {
+    fields: [resultTbl.scanId],
+    references: [scanTbl.id],
+  }),
+}));
+
+// リレーションを使ったクエリ
+export async function getLatestScanWithResults() {
+  const db = await getDb();
+  
+  // with句を使った効率的なデータ取得
+  const latestScanWithResults = await db.query.scanTbl.findFirst({
+    orderBy: [desc(scanTbl.commitDate)],
+    with: {
+      results: {
+        where: eq(resultTbl.isSuccess, true),
+        orderBy: [resultTbl.package],
+      },
+    },
+  });
+
+  return latestScanWithResults;
 }
 ```
 
@@ -236,22 +428,25 @@ export default {
 
 ## 実装の利点
 
-### なぜこのアプローチが優れているか
-1. **コード変更量が最小**: 新規1ファイル、既存4ファイル修正のみ
-2. **ビルド設定不要**: CDN利用でWASM関連の複雑な設定が不要
-3. **即座に動作**: 型定義や最適化を後回しにして、まず動く実装を優先
-4. **段階的改善可能**: 基本実装後、必要に応じて型定義やキャッシュを追加可能
+### なぜDrizzle ORMを積極活用するアプローチが優れているか
+1. **型安全性の向上**: Drizzle ORMによりSQLクエリが完全に型安全になり、実行時エラーを防止
+2. **コードの可読性**: SQLビルダーパターンでクエリが読みやすく、メンテナンスが容易
+3. **スキーマ駆動開発**: `@ts-bench/db`パッケージのスキーマ定義を再利用し、一貫性を保証
+4. **パフォーマンス最適化**: Drizzleの効率的なクエリビルダーとリレーション機能で最適なSQLを生成
+5. **段階的移行**: 既存のSQLiteServiceから段階的にDrizzle ORMへ移行可能
+6. **Git Dashパターン適用**: 実績のあるアーキテクチャパターンを採用し、信頼性を確保
 
 ## 実装チェックリスト
 
-### Step 1: 依存関係追加（1分）
+### Step 1: 依存関係追加（2分）
 ```bash
 cd apps/web
-pnpm add sql.js
+pnpm add sql.js drizzle-orm
 ```
 
-### Step 2: SQLiteService作成（5分）
-- [ ] `app/services/sqlite.service.ts` を上記コードで作成
+### Step 2: データベースクライアント作成（5分）
+- [ ] `app/clients/db.ts` を上記コードで作成（Drizzle ORM統合）
+- [ ] スキーマのインポートパスを確認
 
 ### Step 3: React Router設定（1分）
 - [ ] `react-router.config.ts` に `ssr: false` 追加
@@ -259,35 +454,47 @@ pnpm add sql.js
 ### Step 4: データベース配置（1分）
 - [ ] `report.db` を `public/` にコピー
 
-### Step 5: Client Loader実装（10分）
+### Step 5: Client Loader実装（15分）
 - [ ] `app/routes/graph.tsx` の loader を clientLoader に変更
-- [ ] データ取得をSQLiteServiceに置き換え
+- [ ] Drizzle ORMクエリビルダーでデータ取得を実装
+- [ ] 型安全なクエリ結果の処理
 
-### Step 6: 動作確認（2分）
+### Step 6: 追加ルートの実装（任意・10分）
+- [ ] `app/routes/analytics.tsx` - 集計データ表示
+- [ ] `app/routes/hotspots.tsx` - パフォーマンス問題の検出
+
+### Step 7: 動作確認（3分）
 ```bash
 pnpm dev
 # http://localhost:3000/graph にアクセス
+# 開発者ツールでDrizzleのクエリログを確認
 ```
 
 ## まとめ
 
-### 必要な変更
-- **新規ファイル**: 1個（SQLiteService）
-- **修正ファイル**: 4個（設定2個、ルート2個）
-- **削除コード**: サーバーサイドloader
-- **追加コード**: clientLoaderとSQLiteService呼び出し
+### Drizzle ORM統合による変更内容
+- **新規ファイル**: 1個（`app/clients/db.ts` - Drizzle ORM統合クライアント）
+- **修正ファイル**: 
+  - `package.json` - drizzle-orm依存追加
+  - `react-router.config.ts` - SSR無効化
+  - 各ルートファイル - clientLoaderにDrizzleクエリ実装
+- **追加された価値**:
+  - ✅ 型安全なデータベースアクセス
+  - ✅ IntelliSenseによる開発効率向上
+  - ✅ SQLインジェクション防止
+  - ✅ 複雑なクエリの可読性向上
 
-### 不要なもの
-- ❌ 複雑なビルド設定
-- ❌ WASMファイルのローカル配置
-- ❌ エラーハンドリングコンポーネント
-- ❌ キャッシュ実装
-- ❌ 型定義ファイル
-- ❌ テストコード（初期段階では）
+### Drizzle ORMの主要機能活用
+- **クエリビルダー**: `.select()`, `.from()`, `.where()`, `.orderBy()`
+- **結合操作**: `.innerJoin()`, `.leftJoin()`
+- **集計関数**: `avg()`, `max()`, `min()`, `count()`
+- **条件演算子**: `eq()`, `gt()`, `gte()`, `and()`, `or()`
+- **SQLテンプレート**: `sql``タグでカスタムSQL埋め込み
+- **リレーション**: `relations()`で関連データの効率的取得
 
 ### 実装時間
-**合計: 約20分** で完全移行可能
+**合計: 約30-40分** でDrizzle ORM統合のWASM+SPA移行完了
 
 ---
 
-この設計により、SSGからWASM+SPAへの移行を最小限の変更で実現でき、将来的な拡張も容易になります。
+この設計により、Git Dashのアーキテクチャパターンを参考に、Drizzle ORMを積極活用したモダンで型安全なWASM+SPA構成を実現します。既存の`@ts-bench/db`パッケージのスキーマ定義を最大限活用し、保守性と拡張性の高いアーキテクチャを構築できます。
