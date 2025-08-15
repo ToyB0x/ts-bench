@@ -1,5 +1,11 @@
 # @ts-bench/web
 
+## 0.0.19
+
+### Patch Changes
+
+- 811f708: feat: add ai page route
+
 ## 0.0.18
 
 ### Patch Changes

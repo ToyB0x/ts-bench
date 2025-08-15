@@ -1,5 +1,13 @@
 # @ts-bench/cli
 
+## 0.0.36
+
+### Patch Changes
+
+- 1db5907: feat: add support for multiple report languages in markdown generation
+- d16663d: feat: add tool to analyze TypeScript performance in monorepos
+- 611befa: feat: add language option for report generation and update runBench to support multiple languages
+
 ## 0.0.35
 
 ### Patch Changes
