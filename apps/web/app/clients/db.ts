@@ -1,7 +1,7 @@
-import type { DrizzleConfig } from "drizzle-orm";
+import type { DrizzleConfig } from "@ts-bench/db";
+import { resultTbl, scanTbl } from "@ts-bench/db";
 import { drizzle } from "drizzle-orm/sql-js";
 import initSqlJs from "sql.js";
-import { resultTbl, scanTbl } from "@ts-bench/db";
 
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 let initPromise: Promise<ReturnType<typeof drizzle>> | null = null;

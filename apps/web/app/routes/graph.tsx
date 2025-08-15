@@ -1,9 +1,8 @@
-import { and, desc, eq, gte } from "drizzle-orm";
+import { and, desc, eq, gte, resultTbl, scanTbl } from "@ts-bench/db";
 import { Link } from "react-router";
 import { getDb } from "~/clients/db";
 import { ChartAreaInteractive } from "~/components/parts/chart-area";
 import { ChartAreaInteractiveExample } from "~/components/parts/chart-area-example";
-import { resultTbl, scanTbl } from "@ts-bench/db";
 import type { Route } from "./+types/graph";
 
 // Type definitions
