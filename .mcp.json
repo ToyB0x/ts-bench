@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "ts-bench": {
+      "command": "node",
+      "args": ["apps/mcp/dist/index.js"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "React-Router-Docs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://gitmcp.io/remix-run/react-router"
+      ]
+    }
+  }
+}

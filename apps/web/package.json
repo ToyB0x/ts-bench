@@ -47,7 +47,6 @@
     "http-server": "14.1.1"
   },
   "author": "ToyB0x",
-  "license": "MIT",
   "homepage": "https://github.com/ToyB0x/ts-bench",
   "bugs": {
     "url": "https://github.com/ToyB0x/ts-bench/issues"
