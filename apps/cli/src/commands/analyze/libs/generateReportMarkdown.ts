@@ -51,7 +51,7 @@ type ReportContent = {
 // const nested10 = makeNestedCopy<typeof nested9>(nested9);
 // console.log(nested10);
 
-const REPORT_LANGUAGE_CODE_MAP = {
+export const REPORT_LANGUAGE_CODE_MAP = {
   en: "english",
   ja: "japanese",
 } as const;

@@ -65,8 +65,8 @@ export default function Page() {
             </p>
           </Link>
 
-          <a
-            href="https://app.devin.ai/wiki/3-shake/securify-portal"
+          <Link
+            to="ai"
             className="group relative p-8 border border-gray-800 hover:border-gray-700 transition-colors duration-200"
           >
             <div className="flex items-start justify-between mb-6">
@@ -105,7 +105,7 @@ export default function Page() {
             <p className="text-gray-400 text-sm leading-relaxed">
               AI analysis and MCP integration for next-gen performance tuning.
             </p>
-          </a>
+          </Link>
         </div>
 
         <div className="border-t border-gray-800 pt-8">

@@ -34,3 +34,6 @@ yarn-error.log*
 
 # TSC output
 trace
+
+# local files
+.local

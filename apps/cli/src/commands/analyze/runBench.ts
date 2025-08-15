@@ -3,14 +3,22 @@ import { PromisePool } from "@supercharge/promise-pool";
 import {
   generateReportMarkdown,
   listPackages,
+  type REPORT_LANGUAGE_CODE_MAP,
   saveResultsToDatabase,
   tscAndAnalyze,
 } from "./libs";
 
-export const runBench = async (
+type RunBenchOptions = {
+  enableShowTable: boolean;
+  reportLanguageCode?: keyof typeof REPORT_LANGUAGE_CODE_MAP;
+  cachedPackages?: string[];
+};
+
+export const runBench = async ({
   enableShowTable = true,
-  cachedPackages: string[] = [],
-): Promise<void> => {
+  cachedPackages = [],
+  reportLanguageCode = "en",
+}: RunBenchOptions): Promise<void> => {
   // Step 1: List packages in the git repository
   const packages = await listPackages();
 
@@ -39,6 +47,14 @@ export const runBench = async (
   await saveResultsToDatabase(results, cpuModelAndSpeeds).catch(console.error);
 
   // Step 5: Show results
-  if (enableShowTable)
-    await generateReportMarkdown(cpuModelAndSpeeds, maxConcurrency, totalCPUs);
+  if (enableShowTable) {
+    const enabledAiAnalytics = true;
+    await generateReportMarkdown(
+      cpuModelAndSpeeds,
+      maxConcurrency,
+      totalCPUs,
+      enabledAiAnalytics,
+      reportLanguageCode,
+    );
+  }
 };

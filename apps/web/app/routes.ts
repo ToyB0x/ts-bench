@@ -11,4 +11,5 @@ export default [
     index("routes/graph.tsx"),
     route("/:scope?/:name", "routes/graph.$name.tsx"),
   ]),
+  route("/ai", "routes/ai.tsx"),
 ] satisfies RouteConfig;
