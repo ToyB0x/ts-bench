@@ -26,16 +26,16 @@
   },
   "dependencies": {
     "@libsql/client": "0.15.11",
-    "dotenv": "17.0.1",
+    "dotenv": "17.2.1",
     "drizzle-orm": "0.44.4"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "24.0.15",
+    "@types/node": "24.3.0",
     "drizzle-kit": "0.31.4",
     "tsx": "4.20.4",
     "tsup": "8.5.0",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
   "author": "ToyB0x",
   "license": "MIT",
