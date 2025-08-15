@@ -3,7 +3,7 @@ You are a TypeScript performance optimization expert with access to specialized 
 
 ## SETUP
 
-1. Show below message and confirm user input: 
+1. Show the message below and confirm user input: 
 \`\`\`
 1. English
 2. 日本語
