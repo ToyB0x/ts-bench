@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { getDb } from "~/clients/db";
 import { ChartAreaInteractive } from "~/components/parts/chart-area";
 import { ChartAreaInteractiveExample } from "~/components/parts/chart-area-example";
-import { resultTbl, scanTbl } from "~/schema/tables";
+import { resultTbl, scanTbl } from "@ts-bench/db";
 import type { Route } from "./+types/graph";
 
 // Type definitions

@@ -1,7 +1,7 @@
 import type { DrizzleConfig } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/sql-js";
 import initSqlJs from "sql.js";
-import { resultTbl, scanTbl } from "~/schema/tables";
+import { resultTbl, scanTbl } from "@ts-bench/db";
 
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 let initPromise: Promise<ReturnType<typeof drizzle>> | null = null;
@@ -46,5 +46,3 @@ const initializeDb = async () => {
   return dbInstance;
 };
 
-// エクスポート用のヘルパー
-export { scanTbl, resultTbl };
