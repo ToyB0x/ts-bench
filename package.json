@@ -12,6 +12,7 @@
     "lint:fix": "biome check . --write",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
+    "check": "pnpm lint && pnpm typecheck && pnpm build && pnpm test",
     "ci:publish": "pnpm publish --recursive --access=public"
   },
   "devDependencies": {

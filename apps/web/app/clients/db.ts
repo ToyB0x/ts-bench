@@ -45,4 +45,3 @@ const initializeDb = async () => {
   dbInstance = drizzle(sqldb, config);
   return dbInstance;
 };
-

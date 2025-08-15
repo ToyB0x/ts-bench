@@ -162,7 +162,12 @@ export async function clientLoader() {
         });
       }
 
-      if (row.resultId && row.package !== null && row.isSuccess !== null && row.isCached !== null) {
+      if (
+        row.resultId &&
+        row.package !== null &&
+        row.isSuccess !== null &&
+        row.isCached !== null
+      ) {
         const scan = scansMap.get(row.scanId);
         if (scan) {
           scan.results.push({
