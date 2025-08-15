@@ -7,8 +7,10 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+/* biome-ignore lint/suspicious/noUnknownAtRules: Tailwind CSS custom variant */
 @custom-variant dark (&:is(.dark *));
 
+/* biome-ignore lint/suspicious/noUnknownAtRules: Tailwind CSS theme directive */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -125,9 +127,11 @@ body {
 
 @layer base {
   * {
+    /* biome-ignore lint/suspicious/noUnknownAtRules: Tailwind CSS apply directive */
     @apply border-border outline-ring/50;
   }
   body {
+    /* biome-ignore lint/suspicious/noUnknownAtRules: Tailwind CSS apply directive */
     @apply bg-background text-foreground;
   }
 }

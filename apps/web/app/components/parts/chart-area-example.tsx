@@ -186,7 +186,7 @@ export function ChartAreaInteractiveExample() {
         >
           <AreaChart data={filteredData}>
             <defs>
-              {/** biome-ignore lint/nursery/useUniqueElementIds: shadcn example */}
+              {/** biome-ignore lint/correctness/useUniqueElementIds: shadcn example */}
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"

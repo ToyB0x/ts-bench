@@ -4,7 +4,7 @@ export const parseValueAndUnit = (
   const match = valueStringMayHaveUnit.match(/^([0-9.]+)([a-zA-Z%]*)$/);
   if (!match)
     throw Error(
-      "Value string does not match expected format: " + valueStringMayHaveUnit,
+      `Value string does not match expected format: ${valueStringMayHaveUnit}`,
     );
 
   const valueString = match[1];

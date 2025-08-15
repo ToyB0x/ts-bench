@@ -137,6 +137,7 @@ export default function Page() {
 
         <div className="space-y-16">
           {/* MCP Setup Section */}
+          {/* biome-ignore lint/correctness/useUniqueElementIds: static page section */}
           <section id="mcp-setup">
             <h2 className="text-2xl font-bold mb-6">
               MCP Setup for Claude Code
@@ -222,6 +223,7 @@ export default function Page() {
           </section>
 
           {/* Diagnostic Report Analysis Section */}
+          {/* biome-ignore lint/correctness/useUniqueElementIds: static page section */}
           <section id="historical-analysis">
             <h2 className="text-2xl font-bold mb-6">
               Historical Data Analysis
@@ -281,6 +283,7 @@ export default function Page() {
           </section>
 
           {/* Gemini API Configuration Section */}
+          {/* biome-ignore lint/correctness/useUniqueElementIds: static page section */}
           <section id="ci-integration">
             <h2 className="text-2xl font-bold mb-6">
               Performance analysis / suggestions in CI by Gemini
