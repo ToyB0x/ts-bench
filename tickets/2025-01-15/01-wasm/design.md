@@ -125,6 +125,10 @@ export class SQLiteService {
     const SQL = await initSqlJs({
       locateFile: (file) =>
         `https://cdn.jsdelivr.net/npm/sql.js@1.13.0/dist/${file}`,
+        // 1.13で正常に動作しない場合は安定バージョンを使用
+        // 参考: https://github.com/sql-js/sql.js/issues/605
+        // locateFile: (file) =>
+        //     `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${file}`,
     });
 
     const response = await fetch("/report.db");
@@ -147,9 +151,21 @@ export class SQLiteService {
     stmt.free();
     return results;
   }
+
+  public async exec(sql: string): Promise<any[]> {
+    await this.initialize();
+    if (!this.db) throw new Error("Database not initialized");
+    return this.db.exec(sql);
+  }
 }
 
 export const sqliteService = SQLiteService.getInstance();
+```
+**Drizzle ORMとの統合**（ORMでTypeScriptの型システムを有効活用）:
+```typescript
+// 型安全性を高めたい場合は、Drizzle ORMを追加可能
+import { drizzle } from "drizzle-orm/sql-js";
+const db = drizzle(sqldb);
 ```
 
 ### 2. Client Loader実装（既存ファイル修正）
