@@ -1,4 +1,3 @@
-import type { resultTbl, scanTbl } from "@ts-bench/db";
 import * as React from "react";
 import { Area, AreaChart, XAxis } from "recharts";
 import {
@@ -23,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import type { resultTbl, scanTbl } from "~/schema/browser-schema";
 
 type ChartAreaInteractiveProps = {
   data: Array<
