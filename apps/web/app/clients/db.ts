@@ -1,6 +1,7 @@
+import type { DrizzleConfig } from "@ts-bench/db";
+import { resultTbl, scanTbl } from "@ts-bench/db";
 import { drizzle } from "drizzle-orm/sql-js";
 import initSqlJs from "sql.js";
-import { resultTbl, scanTbl } from "~/schema/browser-schema";
 
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 let initPromise: Promise<ReturnType<typeof drizzle>> | null = null;
@@ -36,10 +37,11 @@ const initializeDb = async () => {
 
   // Drizzle ORMクライアントの作成（スキーマ付き）
   const schema = { scanTbl, resultTbl };
-
-  dbInstance = drizzle(sqldb, {
+  const config: DrizzleConfig<typeof schema> = {
     schema,
     logger: true, // 開発時のデバッグ用
-  });
+  };
+
+  dbInstance = drizzle(sqldb, config);
   return dbInstance;
 };

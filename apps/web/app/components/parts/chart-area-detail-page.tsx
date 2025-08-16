@@ -1,3 +1,4 @@
+import type { resultTbl, scanTbl } from "@ts-bench/db";
 import { Area, AreaChart, XAxis } from "recharts";
 import {
   Card,
@@ -14,7 +15,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "~/components/ui/chart";
-import type { resultTbl, scanTbl } from "~/schema/browser-schema";
 
 type Props = {
   columnKey: string; // resultTbl column key

@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { db, eq, getTableColumns, resultTbl, scanTbl } from "@ts-bench/db";
 import { ChartAreaInteractiveDetailPage } from "~/components/parts/chart-area-detail-page";
-import { fetchPackageResults } from "~/utils/db-browser";
 import type { Route } from "./+types/graph.$name";
 
 // biome-ignore lint/correctness/noEmptyPattern: example code
@@ -12,39 +10,43 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Page() {
-  const params = useParams();
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Awaited<
-    ReturnType<typeof fetchPackageResults>
-  > | null>(null);
+export async function loader({ params }: Route.LoaderArgs) {
+  const packageFullName = params.scope
+    ? `${params.scope}/${params.name}`
+    : params.name;
 
-  useEffect(() => {
-    async function fetchData() {
-      const packageFullName = params["scope"]
-        ? `${params["scope"]}/${params["name"]}`
-        : params["name"];
+  const packageResults = await db
+    .select()
+    .from(resultTbl)
+    .where(eq(resultTbl.package, packageFullName))
+    .innerJoin(scanTbl, eq(resultTbl.scanId, scanTbl.id))
+    .orderBy(scanTbl.commitDate)
+    .limit(300);
 
-      if (!packageFullName) return;
+  // this line can't be outside of the loader function (explicitly use it in node.js)
+  const resultTblKeys = Object.keys(getTableColumns(resultTbl));
+  const resultTblKeysForGraph = resultTblKeys.filter(
+    (key) =>
+      // Exclude keys that are not relevant for the graph
+      !["id", "scanId", "package", "isSuccess", "isCached", "error"].includes(
+        key,
+      ),
+  );
 
-      try {
-        const result = await fetchPackageResults(packageFullName);
-        setData(result);
-      } catch (error) {
-        console.error("Failed to fetch package results:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  return {
+    packageFullName,
+    resultTblKeysForGraph,
+    results:
+      // extract result
+      packageResults.map((r) => ({
+        ...r.result,
+        ...r.scan, // result id is overwritten by scan id
+      })),
+  };
+}
 
-    fetchData();
-  }, [params["scope"], params["name"]]);
-
-  if (loading || !data) {
-    return <div className="p-6">Loading...</div>;
-  }
-
-  const { results, packageFullName, resultTblKeysForGraph } = data;
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const { results, packageFullName, resultTblKeysForGraph } = loaderData;
 
   return (
     <>
@@ -57,8 +59,7 @@ export default function Page() {
           return (
             <ChartAreaInteractiveDetailPage
               key={key}
-              // biome-ignore lint/suspicious/noExplicitAny: Type compatibility with chart component
-              data={results as any}
+              data={results}
               columnKey={key}
             />
           );
