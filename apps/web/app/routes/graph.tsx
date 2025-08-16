@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, resultTbl, scanTbl } from "@ts-bench/db";
+import { and, desc, eq, gte, resultTbl, scanTbl } from "@ts-bench/db/browser";
 import { Link } from "react-router";
 import { getDb } from "~/clients/db";
 import { ChartAreaInteractive } from "~/components/parts/chart-area";

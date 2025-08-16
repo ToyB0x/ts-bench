@@ -8,6 +8,10 @@
     ".": {
       "types": "./src/client.ts",
       "default": "./dist/client.js"
+    },
+    "./browser": {
+      "types": "./src/browser.ts",
+      "default": "./src/browser.ts"
     }
   },
   "main": "dist/client.js",

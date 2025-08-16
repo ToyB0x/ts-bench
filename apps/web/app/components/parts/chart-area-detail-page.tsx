@@ -1,4 +1,4 @@
-import type { resultTbl, scanTbl } from "@ts-bench/db";
+import type { resultTbl, scanTbl } from "@ts-bench/db/browser";
 import { Area, AreaChart, XAxis } from "recharts";
 import {
   Card,

@@ -1,4 +1,5 @@
-import { db, eq, getTableColumns, resultTbl, scanTbl } from "@ts-bench/db";
+import { eq, getTableColumns, resultTbl, scanTbl } from "@ts-bench/db/browser";
+import { getDb } from "~/clients/db";
 import { ChartAreaInteractiveDetailPage } from "~/components/parts/chart-area-detail-page";
 import type { Route } from "./+types/graph.$name";
 
@@ -10,10 +11,12 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const packageFullName = params.scope
     ? `${params.scope}/${params.name}`
     : params.name;
+
+  const db = await getDb();
 
   const packageResults = await db
     .select()

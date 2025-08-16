@@ -1,5 +1,5 @@
-import type { DrizzleConfig } from "@ts-bench/db";
-import { resultTbl, scanTbl } from "@ts-bench/db";
+import type { DrizzleConfig } from "@ts-bench/db/browser";
+import { resultTbl, scanTbl } from "@ts-bench/db/browser";
 import { drizzle } from "drizzle-orm/sql-js";
 import initSqlJs from "sql.js";
 
