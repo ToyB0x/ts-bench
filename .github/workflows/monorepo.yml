@@ -63,11 +63,6 @@ jobs:
         env:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
-      - name: Pre-Render test site (check command with seed)
-        run: pnpm build:prerender:with-seed
-        env:
-          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
-
       - name: Type check
         run: pnpm typecheck
         env:
@@ -180,11 +175,9 @@ jobs:
           name: ${{ env.UPLOAD_ARTIFACT_NAME }}
           path: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
-      - name: Pre-Render report site
+      - name: Copy generated DB to SPA dir
         if: github.ref == 'refs/heads/main' # Only upload on main branch
-        run: pnpm build:prerender
-        env:
-          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
+        run: cp ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }} apps/web/public/report.db
 
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
