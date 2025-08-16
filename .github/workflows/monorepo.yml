@@ -126,6 +126,11 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
+      - name: Build check
+        run: pnpm build
+        env:
+          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
+
       - name: Generate Remix Types via Type check (run typegen command)
         run: pnpm typecheck
         env:
@@ -174,10 +179,8 @@ jobs:
         if: github.ref == 'refs/heads/main' # Only upload on main branch
         run: cp ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }} apps/web/public/report.db
 
-      - name: Build check
-        run: pnpm build
-        env:
-          DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
+      - name: Re-Build web app with db file
+        run: pnpm build --filter=@ts-bench/web
 
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
