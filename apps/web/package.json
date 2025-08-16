@@ -43,7 +43,7 @@
   },
   "NOTE: 本パッケージの目的はNPX経由で利用するユーザ向けにビルド環境を提供することなので、ほぼ全ての依存パッケージはdependencies側に記載する必要がある(そうしないと実行時にパッケージ不足でエラーになる)": "",
   "devDependencies": {
-    "@types/sql.js": "^1.4.9",
+    "@types/sql.js": "1.4.9",
     "http-server": "14.1.1"
   },
   "author": "ToyB0x",
