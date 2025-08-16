@@ -180,7 +180,8 @@ jobs:
         run: cp ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }} apps/web/public/report.db
 
       - name: Re-Build web app with db file
-        run: pnpm build --filter=@ts-bench/web
+        run: pnpm build
+        working-directory: apps/web
 
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
