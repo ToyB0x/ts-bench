@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@commander-js/extra-typings": "14.0.0",
-    "@google/genai": "1.14.0",
+    "@google/genai": "1.15.0",
     "@supercharge/promise-pool": "3.2.0",
     "@ts-bench/db": "workspace:*",
     "@typescript/analyze-trace": "0.10.1",

@@ -24,8 +24,8 @@ importers:
         specifier: 14.0.0
         version: 14.0.0(commander@14.0.0)
       '@google/genai':
-        specifier: 1.14.0
-        version: 1.14.0(@modelcontextprotocol/sdk@1.17.3)
+        specifier: 1.15.0
+        version: 1.15.0(@modelcontextprotocol/sdk@1.17.3)
       '@supercharge/promise-pool':
         specifier: 3.2.0
         version: 3.2.0
@@ -140,8 +140,8 @@ importers:
         specifier: 5.1.29
         version: 5.1.29
       lucide-react:
-        specifier: 0.539.0
-        version: 0.539.0(react@19.1.1)
+        specifier: 0.540.0
+        version: 0.540.0(react@19.1.1)
       react:
         specifier: 19.1.1
         version: 19.1.1
@@ -795,8 +795,8 @@ packages:
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
 
-  '@google/genai@1.14.0':
-    resolution: {integrity: sha512-jirYprAAJU1svjwSDVCzyVq+FrJpJd5CSxR/g2Ga/gZ0ZYZpcWjMS75KJl9y71K1mDN+tcx6s21CzCbB2R840g==}
+  '@google/genai@1.15.0':
+    resolution: {integrity: sha512-4CSW+hRTESWl3xVtde7pkQ3E+dDFhDq+m4ztmccRctZfx1gKy3v0M9STIMGk6Nq0s6O2uKMXupOZQ1JGorXVwQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       '@modelcontextprotocol/sdk': ^1.11.0
@@ -2827,8 +2827,8 @@ packages:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
 
-  lucide-react@0.539.0:
-    resolution: {integrity: sha512-VVISr+VF2krO91FeuCrm1rSOLACQUYVy7NQkzrOty52Y8TlTPcXcMdQFj9bYzBgXbWCiywlwSZ3Z8u6a+6bMlg==}
+  lucide-react@0.540.0:
+    resolution: {integrity: sha512-armkCAqQvO62EIX4Hq7hqX/q11WSZu0Jd23cnnqx0/49yIxGXyL/zyZfBxNN9YDx0ensPTb4L+DjTh3yQXUxtQ==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -4747,7 +4747,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.9': {}
 
-  '@google/genai@1.14.0(@modelcontextprotocol/sdk@1.17.3)':
+  '@google/genai@1.15.0(@modelcontextprotocol/sdk@1.17.3)':
     dependencies:
       google-auth-library: 9.15.1
       ws: 8.18.2
@@ -6793,7 +6793,7 @@ snapshots:
 
   lru-cache@7.18.3: {}
 
-  lucide-react@0.539.0(react@19.1.1):
+  lucide-react@0.540.0(react@19.1.1):
     dependencies:
       react: 19.1.1
 
