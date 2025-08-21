@@ -1,6 +1,6 @@
-import { exec } from "child_process";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
 import { fromPromise } from "neverthrow";
-import { promisify } from "util";
 
 const execPromisified = promisify(exec);
 

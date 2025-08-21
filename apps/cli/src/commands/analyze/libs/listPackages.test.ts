@@ -15,6 +15,11 @@ describe("listPackages", () => {
         relativePathFromRoot: "apps/cli",
       },
       {
+        absolutePath: `${rootDir}/packages/core`,
+        name: "@ts-bench/core",
+        relativePathFromRoot: "packages/core",
+      },
+      {
         absolutePath: `${rootDir}/packages/db`,
         name: "@ts-bench/db",
         relativePathFromRoot: "packages/db",

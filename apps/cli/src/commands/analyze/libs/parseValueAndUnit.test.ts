@@ -56,6 +56,7 @@ describe("parseValueAndUnit", () => {
     // Valid cases without units
     { input: "42", expected: { value: 42, unit: null } },
     { input: "0", expected: { value: 0, unit: null } },
+    // biome-ignore lint/suspicious/noApproximativeNumericConstant: numeric constant is valid
     { input: "3.14159", expected: { value: 3.14159, unit: null } },
     { input: "0.001", expected: { value: 0.001, unit: null } },
     { input: "1000", expected: { value: 1000, unit: null } },

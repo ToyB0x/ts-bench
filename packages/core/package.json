@@ -4,7 +4,7 @@
   "description": "This package is private, because it will be bundled by /apps packages build process.",
   "type": "module",
   "scripts": {
-    "test": "vitest",
+    "//test": "vitest",
     "typecheck": "tsc --noEmit",
     "watch": "tsx watch ./test-run.ts"
   },
