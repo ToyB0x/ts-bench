@@ -9,9 +9,10 @@ export const workflowCheckPerformance = async () => {
     // TODO: add generate config step (dont pass config directly)
     packageManager: "pnpm",
     cwd: ".",
+    tscOptions: "--extendedDiagnostics",
   }).match(
-    (value) => console.info(value),
-    (error) => console.error("Error in stepTsc:", error),
+    (v) => console.info(v),
+    (e) => console.error(`Error type: ${e.type}`, e.error),
   );
 
   // console.error("reading tsc results...");
