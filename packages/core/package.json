@@ -1,0 +1,26 @@
+{
+  "name": "@ts-bench/core",
+  "private": true,
+  "description": "This package is private, because it will be bundled by /apps packages build process.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "watch": "tsx watch ./test-run.ts"
+  },
+  "dependencies": {
+    "neverthrow": "8.2.0"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "24.3.0",
+    "vitest": "3.2.4",
+    "typescript": "5.9.2",
+    "tsx": "4.20.4"
+  },
+  "author": "ToyB0x",
+  "homepage": "https://github.com/ToyB0x/ts-bench",
+  "bugs": {
+    "url": "https://github.com/ToyB0x/ts-bench/issues"
+  }
+}
