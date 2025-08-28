@@ -16,7 +16,7 @@
     "@types/node": "24.3.0",
     "vitest": "3.2.4",
     "typescript": "5.9.2",
-    "tsx": "4.20.4"
+    "tsx": "4.20.5"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",

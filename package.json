@@ -16,7 +16,7 @@
     "ci:publish": "pnpm publish --recursive --access=public"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.0",
+    "@biomejs/biome": "2.2.2",
     "@changesets/cli": "2.29.6",
     "turbo": "2.5.6"
   },
