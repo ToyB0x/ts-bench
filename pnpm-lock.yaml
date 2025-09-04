@@ -24,8 +24,8 @@ importers:
         specifier: 14.0.0
         version: 14.0.0(commander@14.0.0)
       '@google/genai':
-        specifier: 1.16.0
-        version: 1.16.0(@modelcontextprotocol/sdk@1.17.4)
+        specifier: 1.17.0
+        version: 1.17.0(@modelcontextprotocol/sdk@1.17.4)
       '@supercharge/promise-pool':
         specifier: 3.2.0
         version: 3.2.0
@@ -817,8 +817,8 @@ packages:
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
 
-  '@google/genai@1.16.0':
-    resolution: {integrity: sha512-hdTYu39QgDFxv+FB6BK2zi4UIJGWhx2iPc0pHQ0C5Q/RCi+m+4gsryIzTGO+riqWcUA8/WGYp6hpqckdOBNysw==}
+  '@google/genai@1.17.0':
+    resolution: {integrity: sha512-r/OZWN9D8WvYrte3bcKPoLODrZ+2TjfxHm5OOyVHUbdFYIp1C4yJaXX4+sCS8I/+CbN9PxLjU5zm1cgmS7qz+A==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       '@modelcontextprotocol/sdk': ^1.11.4
@@ -4781,7 +4781,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.9': {}
 
-  '@google/genai@1.16.0(@modelcontextprotocol/sdk@1.17.4)':
+  '@google/genai@1.17.0(@modelcontextprotocol/sdk@1.17.4)':
     dependencies:
       google-auth-library: 9.15.1
       ws: 8.18.2
