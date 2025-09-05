@@ -16,17 +16,17 @@
     "ci:publish": "pnpm publish --recursive --access=public"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.2.3",
     "@changesets/cli": "2.29.6",
     "turbo": "2.5.6"
   },
   "engines": {
     "node": "24.7.0"
   },
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.15.1",
   "volta": {
     "node": "24.7.0",
-    "pnpm": "10.15.0"
+    "pnpm": "10.15.1"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",
