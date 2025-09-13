@@ -25,14 +25,14 @@
     "@supercharge/promise-pool": "3.2.0",
     "@ts-bench/db": "workspace:*",
     "@typescript/analyze-trace": "0.10.1",
-    "commander": "14.0.0",
+    "commander": "14.0.1",
     "simple-git": "3.28.0",
     "tablemark": "3.1.0",
     "valibot": "1.1.0"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "24.3.0",
+    "@types/node": "24.3.3",
     "vitest": "3.2.4",
     "tsup": "8.5.0",
     "typescript": "5.9.2"
