@@ -21,12 +21,12 @@
     "turbo": "2.5.6"
   },
   "engines": {
-    "node": "24.7.0"
+    "node": "24.8.0"
   },
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.17.0",
   "volta": {
-    "node": "24.7.0",
-    "pnpm": "10.15.0"
+    "node": "24.8.0",
+    "pnpm": "10.17.0"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",

@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@commander-js/extra-typings": "14.0.0",
-    "@google/genai": "1.16.0",
+    "@google/genai": "1.20.0",
     "@supercharge/promise-pool": "3.2.0",
     "@ts-bench/db": "workspace:*",
     "@typescript/analyze-trace": "0.10.1",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "24.3.0",
+    "@types/node": "24.5.2",
     "vitest": "3.2.4",
     "tsup": "8.5.0",
     "typescript": "5.9.2"
