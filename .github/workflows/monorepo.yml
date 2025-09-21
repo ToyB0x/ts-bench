@@ -39,7 +39,6 @@ jobs:
       - name: Setup & Restore Node cache
         uses: actions/setup-node@v5
         with:
-          cache: 'pnpm'
           node-version-file: 'package.json'
 
       - name: Install all packages
@@ -110,7 +109,6 @@ jobs:
       - name: Setup & Restore Node cache
         uses: actions/setup-node@v5
         with:
-          cache: 'pnpm'
           node-version-file: 'package.json'
 
       - name: Install all packages
