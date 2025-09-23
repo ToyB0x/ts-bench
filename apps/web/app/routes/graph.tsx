@@ -217,7 +217,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <div className="mt-4 p-6 grid grid-cols-2 gap-5">
+      <div className="mt-4 p-6 grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* 全パッケージの指標の合計を表示 */}
         <ChartAreaInteractive
           data={scansWithResults.map((scan) => {
