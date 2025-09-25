@@ -23,6 +23,6 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.18.1",
     "repomix": "1.6.0",
-    "zod": "3.25.76"
+    "zod": "4.1.11"
   }
 }
