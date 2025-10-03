@@ -31,11 +31,11 @@
     "valibot": "1.1.0"
   },
   "devDependencies": {
-    "@tsconfig/strictest": "2.0.5",
+    "@tsconfig/strictest": "2.0.6",
     "@types/node": "24.5.2",
     "vitest": "3.2.4",
     "tsup": "8.5.0",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",
