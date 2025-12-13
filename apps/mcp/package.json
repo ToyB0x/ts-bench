@@ -13,7 +13,7 @@
     "@types/node": "24.5.2",
     "tsup": "8.5.1",
     "typescript": "5.9.3",
-    "vitest": "3.2.4"
+    "vitest": "4.0.15"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",

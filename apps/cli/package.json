@@ -33,7 +33,7 @@
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
     "@types/node": "24.5.2",
-    "vitest": "3.2.4",
+    "vitest": "4.0.15",
     "tsup": "8.5.1",
     "typescript": "5.9.3"
   },
