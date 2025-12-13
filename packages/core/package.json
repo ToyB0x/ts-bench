@@ -12,11 +12,11 @@
     "neverthrow": "8.2.0"
   },
   "devDependencies": {
-    "@tsconfig/strictest": "2.0.5",
+    "@tsconfig/strictest": "2.0.8",
     "@types/node": "24.5.2",
     "vitest": "3.2.4",
-    "typescript": "5.9.2",
-    "tsx": "4.20.5"
+    "typescript": "5.9.3",
+    "tsx": "4.20.6"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",

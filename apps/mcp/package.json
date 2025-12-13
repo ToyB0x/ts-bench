@@ -9,10 +9,10 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tsconfig/strictest": "2.0.5",
+    "@tsconfig/strictest": "2.0.8",
     "@types/node": "24.5.2",
-    "tsup": "8.5.0",
-    "typescript": "5.9.2",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
     "vitest": "3.2.4"
   },
   "author": "ToyB0x",
@@ -21,8 +21,8 @@
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.18.1",
-    "repomix": "1.6.0",
+    "@modelcontextprotocol/sdk": "1.18.2",
+    "repomix": "1.6.1",
     "zod": "3.25.76"
   }
 }
