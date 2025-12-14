@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "24.10.3",
+    "@types/node": "24.10.4",
     "drizzle-kit": "0.31.8",
     "tsx": "4.21.0",
     "tsup": "8.5.1",
