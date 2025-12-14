@@ -137,7 +137,6 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             }}
           >
             <defs>
-              {/* biome-ignore lint/correctness/useUniqueElementIds: chart gradients */}
               <linearGradient id="fillTotalTime" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
@@ -150,7 +149,6 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              {/* biome-ignore lint/correctness/useUniqueElementIds: chart gradients */}
               <linearGradient
                 id="fillTypeAndInstantiations"
                 x1="0"
