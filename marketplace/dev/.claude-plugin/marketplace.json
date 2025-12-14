@@ -1,0 +1,13 @@
+{
+  "name": "dev-marketplace",
+  "owner": {
+    "name": "ToyB0x"
+  },
+  "plugins": [
+    {
+      "name": "ts-bench",
+      "source": "./ts-bench",
+      "description": "ts-bench helper plugin"
+    }
+  ]
+}

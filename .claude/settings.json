@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "ts-bench@ts-bench": true
+  }
+}
