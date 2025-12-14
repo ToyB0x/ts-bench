@@ -13,10 +13,10 @@
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "24.5.2",
+    "@types/node": "24.10.3",
     "vitest": "4.0.15",
     "typescript": "5.9.3",
-    "tsx": "4.20.6"
+    "tsx": "4.21.0"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",

@@ -31,13 +31,13 @@
   "dependencies": {
     "@libsql/client": "0.15.15",
     "dotenv": "17.2.3",
-    "drizzle-orm": "0.44.7"
+    "drizzle-orm": "0.45.1"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "24.5.2",
+    "@types/node": "24.10.3",
     "drizzle-kit": "0.31.8",
-    "tsx": "4.20.6",
+    "tsx": "4.21.0",
     "tsup": "8.5.1",
     "typescript": "5.9.3"
   },
