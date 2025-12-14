@@ -2,8 +2,7 @@ import { writeFileSync } from "node:fs";
 import { GoogleGenAI } from "@google/genai";
 import { db, eq, type resultTbl, scanTbl } from "@ts-bench/db";
 import { simpleGit } from "simple-git";
-import type { TablemarkOptions } from "tablemark";
-import tablemark from "tablemark";
+import { type TablemarkOptions, tablemark } from "tablemark";
 import { version } from "../../../../package.json";
 import { printSimpleTable } from "./printSimpleTable";
 
