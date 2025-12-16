@@ -13,7 +13,7 @@
     "@types/node": "24.10.4",
     "tsup": "8.5.1",
     "typescript": "5.9.3",
-    "vitest": "4.0.15"
+    "vitest": "4.0.16"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.24.3",
-    "repomix": "1.10.1",
+    "repomix": "1.10.2",
     "zod": "4.1.13"
   }
 }
