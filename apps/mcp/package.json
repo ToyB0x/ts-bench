@@ -21,8 +21,8 @@
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.24.3",
+    "@modelcontextprotocol/sdk": "1.25.1",
     "repomix": "1.10.2",
-    "zod": "4.1.13"
+    "zod": "4.2.1"
   }
 }
