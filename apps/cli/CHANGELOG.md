@@ -1,5 +1,11 @@
 # @ts-bench/cli
 
+## 0.0.37
+
+### Patch Changes
+
+- 6f62939: chore(deps): update some dependencies
+
 ## 0.0.36
 
 ### Patch Changes
