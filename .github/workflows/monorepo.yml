@@ -74,7 +74,7 @@ jobs:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_TEST }}
 
       - name: Download previous main branch report
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v12
         with:
           branch: main
           workflow: monorepo.yml
@@ -136,7 +136,7 @@ jobs:
           DB_FILE_NAME: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
 
       - name: Download previous main branch report
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v12
         with:
           branch: main
           workflow: monorepo.yml
