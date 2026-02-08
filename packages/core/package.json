@@ -13,8 +13,8 @@
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "24.10.4",
-    "vitest": "4.0.16",
+    "@types/node": "24.10.12",
+    "vitest": "4.0.18",
     "typescript": "5.9.3",
     "tsx": "4.21.0"
   },

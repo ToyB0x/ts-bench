@@ -10,10 +10,10 @@
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "24.10.4",
+    "@types/node": "24.10.12",
     "tsup": "8.5.1",
     "typescript": "5.9.3",
-    "vitest": "4.0.16"
+    "vitest": "4.0.18"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",
@@ -21,7 +21,7 @@
     "url": "https://github.com/ToyB0x/ts-bench/issues"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.25.1",
+    "@modelcontextprotocol/sdk": "1.25.3",
     "repomix": "1.10.2",
     "zod": "4.2.1"
   }
