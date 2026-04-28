@@ -185,7 +185,7 @@ jobs:
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
         name: Upload static web files as artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: apps/web/build/client
 
