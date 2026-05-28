@@ -17,7 +17,7 @@
     "@tsconfig/strictest": "2.0.8",
     "@types/node": "24.10.4",
     "vitest": "4.0.16",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",

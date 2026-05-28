@@ -39,7 +39,7 @@
     "drizzle-kit": "0.31.8",
     "tsx": "4.21.0",
     "tsup": "8.5.1",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   },
   "author": "ToyB0x",
   "homepage": "https://github.com/ToyB0x/ts-bench",

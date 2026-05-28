@@ -12,7 +12,7 @@
     "@tsconfig/strictest": "2.0.8",
     "@types/node": "24.10.4",
     "tsup": "8.5.1",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
     "vitest": "4.0.16"
   },
   "author": "ToyB0x",
