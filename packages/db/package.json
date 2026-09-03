@@ -30,14 +30,14 @@
   },
   "dependencies": {
     "@libsql/client": "0.15.15",
-    "dotenv": "17.2.3",
-    "drizzle-orm": "0.45.1"
+    "dotenv": "17.2.4",
+    "drizzle-orm": "0.45.2"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "24.10.4",
-    "drizzle-kit": "0.31.8",
-    "tsx": "4.21.0",
+    "@types/node": "24.10.15",
+    "drizzle-kit": "0.31.10",
+    "tsx": "4.21.1",
     "tsup": "8.5.1",
     "typescript": "5.9.3"
   },
