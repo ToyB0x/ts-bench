@@ -11,6 +11,6 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Remove old artifacts
-        uses: c-hive/gha-remove-artifacts@v1
+        uses: c-hive/gha-remove-artifacts@v1.8.0
         with:
           age: '0 seconds' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js

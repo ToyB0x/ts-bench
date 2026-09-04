@@ -31,13 +31,13 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6.1.0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v4.4.0
 
       - name: Setup & Restore Node cache
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6.5.0
         with:
           cache: 'pnpm'
           node-version-file: 'package.json'
@@ -46,7 +46,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Restore turbo cache
-        uses: actions/cache@v5
+        uses: actions/cache@v5.1.0
         with:
           path: .turbo/cache
           key:
@@ -94,7 +94,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Check out
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6.1.0
         with:
           fetch-depth: ${{ inputs.analyze-size != '' && inputs.analyze-size || 2 }} # 変更差分の原因分析のため、最低2のfetch-depthが必要
 
@@ -105,10 +105,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v4.4.0
 
       - name: Setup & Restore Node cache
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6.5.0
         with:
           node-version-file: 'package.json'
 
@@ -116,7 +116,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Restore turbo cache
-        uses: actions/cache@v5
+        uses: actions/cache@v5.1.0
         with:
           path: .turbo/cache
           key:
@@ -169,7 +169,7 @@ jobs:
 
       - name: Upload report artifact
         if: github.ref == 'refs/heads/main' # Only upload on main branch
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: ${{ env.UPLOAD_ARTIFACT_NAME }}
           path: ${{ github.workspace }}/${{ env.DB_FILE_NAME_REPORT }}
@@ -185,7 +185,7 @@ jobs:
       - id: deployment
         if: github.ref == 'refs/heads/main' # Only upload on main branch
         name: Upload static web files as artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v4.0.0
         with:
           path: apps/web/build/client
 
@@ -201,4 +201,4 @@ jobs:
     needs: analyze
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4.0.5
