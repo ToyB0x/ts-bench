@@ -21,19 +21,19 @@
   },
   "dependencies": {
     "@commander-js/extra-typings": "14.0.0",
-    "@google/genai": "1.34.0",
-    "@supercharge/promise-pool": "3.2.0",
+    "@google/genai": "1.52.0",
+    "@supercharge/promise-pool": "3.3.0",
     "@ts-bench/db": "workspace:*",
-    "@typescript/analyze-trace": "0.10.1",
+    "@typescript/analyze-trace": "0.11.1",
     "commander": "14.0.2",
-    "simple-git": "3.30.0",
+    "simple-git": "3.36.0",
     "tablemark": "4.1.0",
-    "valibot": "1.2.0"
+    "valibot": "1.5.0"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "24.10.4",
-    "vitest": "4.0.16",
+    "@types/node": "24.13.4",
+    "vitest": "4.1.11",
     "tsup": "8.5.1",
     "typescript": "5.9.3"
   },
